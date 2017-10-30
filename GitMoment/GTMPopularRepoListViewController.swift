@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 class GTMPopularRepoListViewController: GTMBaseViewController {
     
@@ -16,6 +17,7 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
     var tableView : UITableView = UITableView()
     
     var repos = [GTMRepository]()
+    var page : Int!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +30,22 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.contentView)
         }
+        
+        let refreshHeader = MJRefreshNormalHeader(refreshingBlock: {
+            [weak self] in
+            self?.fetchPopulerRepos(language: self?.language, page: 1)
+        })
+        refreshHeader?.lastUpdatedTimeLabel.isHidden = true
+        self.tableView.mj_header = refreshHeader
+        
+        self.tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingBlock: { 
+            [weak self] in
+            self?.fetchPopulerRepos(language: self?.language, page: (self?.page)! + 1)
+        })
+        
         self.language = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
         
-        self.fetchPopulerRepos(language: self.language)
+        self.fetchPopulerRepos(language: self.language, page: 1)
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,16 +58,17 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
         let chosenLanguage = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
         if self.language != chosenLanguage {
             self.language = chosenLanguage
-            self.fetchPopulerRepos(language: self.language)
+            self.fetchPopulerRepos(language: self.language, page: 1)
         }
     }
     
-    func fetchPopulerRepos(language: String?) {
+    func fetchPopulerRepos(language: String?, page: Int) {
         let languageString = language ?? ""
         self.showLoadingIndicator(toView: tableView)
-        GTMAPIManager.sharedInstance.fetchPopularRepos(language: languageString) { (result) in
+        GTMAPIManager.sharedInstance.fetchPopularRepos(language: languageString, page: page) { (result) in
             self.dismissLoadingIndicator()
-            
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_footer.endRefreshing()
             guard result.error == nil else {
                 let error  = result.error! as! GTMAPIManagerError
                 switch error {
@@ -65,12 +81,21 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
                 return
             }
             
-            self.repos = result.value!
-            if self.repos.count == 0 {
-                self.showNocontentViewWith(title: "No items")
+            let fetchedRepos = result.value!.0
+            self.page = result.value!.1
+            if self.page == 1 {
+                if fetchedRepos.count == 0 {
+                    self.showNocontentViewWith(title: "No items")
+                } else {
+                    self.repos = fetchedRepos
+                }
             } else {
-                self.tableView.reloadData()
+                if fetchedRepos.count < 30 {
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+                self.repos.append(contentsOf: fetchedRepos)
             }
+            self.tableView.reloadData()
             
         }
     }
@@ -110,6 +135,17 @@ extension GTMPopularRepoListViewController : UITableViewDelegate {
         let repo = self.repos[indexPath.row]
         let repoDetailController = GTMRepoDetailViewController(repo: repo)
         self.navigationController?.pushViewController(repoDetailController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let languageLabel = UILabel(fontSize: 14)
+        languageLabel.text = "  Languge: " + (self.language ?? "All languages")
+        languageLabel.backgroundColor = UIColor(hex: "#f5f5f5")
+        return languageLabel
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
 }
 

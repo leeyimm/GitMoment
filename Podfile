@@ -15,4 +15,5 @@ target 'GitMoment' do
     pod 'MBProgressHUD'
     pod 'Ono'
     pod 'MJRefresh'
+    pod 'YYCache'
 end

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 class GTMTrendingRepoListController: GTMBaseViewController{
     var language: String?
@@ -34,6 +35,12 @@ class GTMTrendingRepoListController: GTMBaseViewController{
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        let refreshHeader = MJRefreshNormalHeader(refreshingBlock: {
+            [weak self] in
+            self?.fetchRepoTrending(checkCache: false)
+        })
+        refreshHeader?.lastUpdatedTimeLabel.isHidden = true
+        self.tableView.mj_header = refreshHeader
         
         self.contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
@@ -58,7 +65,7 @@ class GTMTrendingRepoListController: GTMBaseViewController{
         
         self.periodSegmentControl.selectedSegmentIndex = 0 //default daily
         self.language = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
-        self.fetchRepoTrending(language: self.language, since: GTMConstantValue.periods[self.periodSegmentControl.selectedSegmentIndex])
+        self.fetchRepoTrending(checkCache: false)
 
         // Do any additional setup after loading the view.
     }
@@ -73,16 +80,17 @@ class GTMTrendingRepoListController: GTMBaseViewController{
         let chosenLanguage = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
         if self.language != chosenLanguage {
             self.language = chosenLanguage
-            self.fetchRepoTrending(language: self.language, since: GTMConstantValue.periods[self.periodSegmentControl.selectedSegmentIndex])
+            self.fetchRepoTrending(checkCache: true)
         }
     }
     
-    func fetchRepoTrending(language: String?, since : String) {
-        let languageString = language ?? ""
+    func fetchRepoTrending(checkCache: Bool) {
+        let languageString = self.language ?? ""
+        let since = GTMConstantValue.periods[self.periodSegmentControl.selectedSegmentIndex]
         self.showLoadingIndicator(toView: tableView)
-        GTMAPIManager.sharedInstance.fetchTrendingRepos(language: languageString, since: since.lowercased()) { (result) in
+        GTMAPIManager.sharedInstance.fetchTrendingRepos(checkCache: checkCache, language: languageString, since: since.lowercased()) { (result) in
             self.dismissLoadingIndicator()
-            
+            self.tableView.mj_header.endRefreshing()
             guard result.error == nil else {
                 let error  = result.error! as! GTMAPIManagerError
                 switch error {
@@ -107,11 +115,11 @@ class GTMTrendingRepoListController: GTMBaseViewController{
     
     func periodSegmentChange(sender: UISegmentedControl) {
         
-        fetchRepoTrending(language: self.language, since: GTMConstantValue.periods[self.periodSegmentControl.selectedSegmentIndex])
+        fetchRepoTrending(checkCache: true)
     }
     
     override func refreshAction() {
-        fetchRepoTrending(language: self.language, since: GTMConstantValue.periods[self.periodSegmentControl.selectedSegmentIndex])
+        fetchRepoTrending(checkCache: false)
     }
     
     
@@ -152,6 +160,17 @@ extension GTMTrendingRepoListController : UITableViewDelegate {
         let repo = self.repos[indexPath.row]
         let repoDetailController = GTMRepoDetailViewController(repo: repo)
         self.navigationController?.pushViewController(repoDetailController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let languageLabel = UILabel(fontSize: 14)
+        languageLabel.text = "  Languge: " + (self.language ?? "All languages")
+        languageLabel.backgroundColor = UIColor(hex: "#f5f5f5")
+        return languageLabel
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
 }
 

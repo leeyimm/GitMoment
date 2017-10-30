@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import ObjectMapper
 import Locksmith
+import YYCache
 
 enum GTMAPIManagerError: Error {
     case network(error: Error)
@@ -33,8 +34,14 @@ enum GTMAPIManagerError: Error {
 class GTMAPIManager {
     static let sharedInstance = GTMAPIManager()
     
+    var trendingCache = YYMemoryCache()
+    
     var isLoadingOAuthToken: Bool = false
     var OAuthTokenCompletionHandler:((Error?) -> Void)?
+    init() {
+        trendingCache.ageLimit = 10 * 60
+    }
+    
     var OAuthToken: String? {
         set {
             guard let newValue = newValue else {
@@ -184,8 +191,13 @@ class GTMAPIManager {
         completionHandler(languageList)
     }
     
-    func fetchTrendingRepos(language: String, since: String, completionHandler: @escaping (Result<[GTMRepository]>) -> Void) {
+    func fetchTrendingRepos(checkCache: Bool, language: String, since: String, completionHandler: @escaping (Result<[GTMRepository]>) -> Void) {
         let params = ["language": language, "since": since]
+        let cacheKey = language + since
+        if checkCache, let repos = self.trendingCache.object(forKey: cacheKey) as? [GTMRepository] {
+            completionHandler(.success(repos))
+            return
+        }
         Alamofire.request(GTMAPIRouter.getTrendingRepos(params)).responseJSON { (response) in
             guard response.result.error == nil else {
                 print(response.result.error!)
@@ -198,14 +210,16 @@ class GTMAPIManager {
                 return
             }
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
+            self.trendingCache.setObject(repos, forKey: cacheKey)
             completionHandler(.success(repos))
         }
     }
     
-    func fetchPopularRepos(language: String, completionHandler: @escaping (Result<[GTMRepository]>) -> Void) {
+    func fetchPopularRepos(language: String, page: Int, completionHandler: @escaping (Result<([GTMRepository], Int)>) -> Void) {
         var params = [String: Any] ()
         params["order"] = "desc"
         params["sort"] = "stars"
+        params["page"] = "\(page)"
         params["q"] = "language:".appending(language)
         
         Alamofire.request(GTMAPIRouter.getPopularRepos(params)).responseJSON { (response) in
@@ -221,7 +235,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray:jsonArray)
-            completionHandler(.success(repos))
+            completionHandler(.success(repos, page))
         }
     }
     

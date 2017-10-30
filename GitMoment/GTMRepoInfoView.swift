@@ -77,7 +77,7 @@ class GTMRepoReadMeView : UIView {
     var readmeIcon = UIImageView(image: UIImage(octiconsID: .book, iconColor: UIColor.black, size: CGSize(width: 20, height: 20)))
     var readmeLabel = UILabel(boldFontSize: 14)
     
-    var webView = WKWebView()
+    var webView = UIWebView()
     var viewReadMeButton = UIButton(title: "View all of README.md", boldFontSize: 14)
     
     init() {

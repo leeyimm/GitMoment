@@ -11,7 +11,7 @@ import Alamofire
 
 enum GTMAPIRouter: URLRequestConvertible {
     static let gitAwardsBaseURLString = "http://git-awards.com/api/v0/"
-    static let gitTrendingBaseURLString = "http://trending.leichunfeng.com/v2/trending"
+    static let gitTrendingBaseURLString = "http://trending.codehub-app.com/v2/trending"
     static let gitHubAPIBaseURLString = "https://api.github.com/"
     
     case getLanguagesList()

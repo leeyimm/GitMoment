@@ -16,7 +16,7 @@ class GTMRepoDetailViewController: UIViewController {
     var threeButtonView : GTMThreeButtonView!
     var repoInfoView : GTMRepoInfoView!
     var readmeView : GTMRepoReadMeView!
-    static let HTMLHeader = "<style type=\"text/css\">body { font-family: \"Helvetica Neue\", Helvetica, \"Segoe UI\", Arial, freesans, sans-serif;}</style> <meta name=\"viewport\" content=\"initial-scale=0.7\" />"
+    static let HTMLHeader = "<style type=\"text/css\">body { font-family: \"Helvetica Neue\", Helvetica, \"Segoe UI\", Arial, freesans, sans-serif;}</style>"
     
     init(repo: GTMRepository) {
         super.init(nibName: nil, bundle: nil)
