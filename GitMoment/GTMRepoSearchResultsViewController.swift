@@ -7,18 +7,15 @@
 //
 
 import UIKit
+import MJRefresh
 
-class GTMRepoSearchResultsViewController: UIViewController {
+class GTMRepoSearchResultsViewController: GTMPagedListViewController {
     
     let tableViewCellIdentifier = "repoCell"
-    var contentView = UIView()
-    
-    var tableView : UITableView = UITableView()
     
     var repos = [GTMRepository]()
     var searchString : String!
     var sort : String?
-    var pageNo = 0
     
     init(searchString: String, sort: String?) {
         super.init(nibName: nil, bundle: nil)
@@ -33,11 +30,6 @@ class GTMRepoSearchResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = []
-        
-        self.view.addSubview(self.tableView)
-        
-        self.view.addSubview(self.tableView)
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -45,6 +37,17 @@ class GTMRepoSearchResultsViewController: UIViewController {
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchRepoSearchResults(pageNo: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchRepoSearchResults(pageNo: (self?.page)! + 1)
+        }
+        
+        self.fetchRepoSearchResults(pageNo: 1)
 
         // Do any additional setup after loading the view.
     }
@@ -56,18 +59,23 @@ class GTMRepoSearchResultsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchRepoSearchResults(searchString: self.searchString, sort: self.sort, pageNo: 1)
     }
     
-    func fetchRepoSearchResults(searchString: String, sort: String?, pageNo: Int) {
-        GTMAPIManager.sharedInstance.searchRepos(searchString: searchString, sort: sort) { (result) in
+    func fetchRepoSearchResults(pageNo: Int) {
+        self.showLoadingIndicator(toView: tableView)
+        GTMAPIManager.sharedInstance.searchRepos(searchString: self.searchString, sort: self.sort, page: pageNo) { (result) in
+            self.dismissLoadingIndicator()
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_footer.endRefreshing()
             guard result.error == nil else {
+                let error  = result.error! as! GTMAPIManagerError
+                self.processError(error: error)
                 return
             }
-            if let repos = result.value {
-                self.repos = repos
-                self.tableView.reloadData()
-            }
+            
+            self.processData(list: &self.repos, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+            self.tableView.reloadData()
+
         }
     }
     

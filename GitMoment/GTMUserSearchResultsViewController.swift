@@ -7,18 +7,15 @@
 //
 
 import UIKit
+import MJRefresh
 
-class GTMUserSearchResultsViewController: UIViewController {
+class GTMUserSearchResultsViewController: GTMPagedListViewController {
     
     let tableViewCellIdentifier = "userCell"
-    var contentView = UIView()
-    
-    var tableView : UITableView = UITableView()
     
     var users = [GTMUser]()
     var searchString : String!
     var sort : String?
-    var pageNo = 0
     
     init(searchString: String, sort: String?) {
         super.init(nibName: nil, bundle: nil)
@@ -33,11 +30,6 @@ class GTMUserSearchResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = []
-        
-        self.view.addSubview(self.tableView)
-        
-        self.view.addSubview(self.tableView)
         self.tableView.register(GTMUserRankingCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -45,13 +37,24 @@ class GTMUserSearchResultsViewController: UIViewController {
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
+        
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchSearchUserResult(pageNo: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchSearchUserResult(pageNo: (self?.page)! + 1)
+        }
 
+        self.fetchSearchUserResult(pageNo: 1)
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchSearchUserResult(searchString: self.searchString, sort: self.sort, pageNo: 1)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,15 +62,20 @@ class GTMUserSearchResultsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func fetchSearchUserResult(searchString: String, sort: String?, pageNo: Int) {
-        GTMAPIManager.sharedInstance.searchUsers(searchString: searchString, sort: sort) { (result) in
+    func fetchSearchUserResult(pageNo: Int) {
+        self.showLoadingIndicator(toView: tableView)
+        GTMAPIManager.sharedInstance.searchUsers(searchString: self.searchString, sort: self.sort, page: pageNo) { (result) in
+            self.dismissLoadingIndicator()
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_footer.endRefreshing()
             guard result.error == nil else {
+                let error  = result.error! as! GTMAPIManagerError
+                self.processError(error: error)
                 return
             }
-            if let users = result.value {
-                self.users = users
-                self.tableView.reloadData()
-            }
+            
+            self.processData(list: &self.users, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+            self.tableView.reloadData()
         }
     }
     

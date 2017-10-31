@@ -9,20 +9,16 @@
 import UIKit
 import MJRefresh
 
-class GTMPopularRepoListViewController: GTMBaseViewController {
+class GTMPopularRepoListViewController: GTMPagedListViewController {
     
     var language: String!
     let tableViewCellIdentifier = "trendingRepoCell"
-    
-    var tableView : UITableView = UITableView()
-    
     var repos = [GTMRepository]()
-    var page : Int!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.contentView.addSubview(self.tableView)
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
@@ -31,17 +27,15 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
             make.edges.equalTo(self.contentView)
         }
         
-        let refreshHeader = MJRefreshNormalHeader(refreshingBlock: {
+        self.tableView.mj_header.refreshingBlock = {
             [weak self] in
             self?.fetchPopulerRepos(language: self?.language, page: 1)
-        })
-        refreshHeader?.lastUpdatedTimeLabel.isHidden = true
-        self.tableView.mj_header = refreshHeader
+        }
         
-        self.tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingBlock: { 
+        self.tableView.mj_footer.refreshingBlock = {
             [weak self] in
             self?.fetchPopulerRepos(language: self?.language, page: (self?.page)! + 1)
-        })
+        }
         
         self.language = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
         
@@ -71,30 +65,12 @@ class GTMPopularRepoListViewController: GTMBaseViewController {
             self.tableView.mj_footer.endRefreshing()
             guard result.error == nil else {
                 let error  = result.error! as! GTMAPIManagerError
-                switch error {
-                case .network:
-                    self.showNetworkErrorViewWith(title: "Network Error")
-                default:
-                    break
-                }
-                self.showToast(text: error.descripiton)
+                self.processError(error: error)
                 return
             }
             
-            let fetchedRepos = result.value!.0
-            self.page = result.value!.1
-            if self.page == 1 {
-                if fetchedRepos.count == 0 {
-                    self.showNocontentViewWith(title: "No items")
-                } else {
-                    self.repos = fetchedRepos
-                }
-            } else {
-                if fetchedRepos.count < 30 {
-                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
-                }
-                self.repos.append(contentsOf: fetchedRepos)
-            }
+            self.processData(list: &self.repos, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+
             self.tableView.reloadData()
             
         }

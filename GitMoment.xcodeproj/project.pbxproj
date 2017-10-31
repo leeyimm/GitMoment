@@ -46,6 +46,7 @@
 		B29123971F6B5905008F3AEA /* GTMConstantValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29123961F6B5905008F3AEA /* GTMConstantValue.swift */; };
 		B29123991F6B6229008F3AEA /* GTMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29123981F6B6229008F3AEA /* GTMRepository.swift */; };
 		B291239B1F6B6A4E008F3AEA /* GTMUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B291239A1F6B6A4E008F3AEA /* GTMUser.swift */; };
+		B292AE5A1FA7F40F001940A5 /* GTMPagedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B292AE591FA7F40F001940A5 /* GTMPagedListViewController.swift */; };
 		B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29C8E3C1F6E209800CC84C8 /* GTMLanguageChosenController.swift */; };
 		B2AF00771FA6858F00D319EA /* GTMBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */; };
 		B2CE1DDD1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CE1DDC1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift */; };
@@ -110,6 +111,7 @@
 		B29123961F6B5905008F3AEA /* GTMConstantValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMConstantValue.swift; sourceTree = "<group>"; };
 		B29123981F6B6229008F3AEA /* GTMRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepository.swift; sourceTree = "<group>"; };
 		B291239A1F6B6A4E008F3AEA /* GTMUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMUser.swift; sourceTree = "<group>"; };
+		B292AE591FA7F40F001940A5 /* GTMPagedListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMPagedListViewController.swift; sourceTree = "<group>"; };
 		B29C8E3C1F6E209800CC84C8 /* GTMLanguageChosenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMLanguageChosenController.swift; sourceTree = "<group>"; };
 		B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMBaseViewController.swift; sourceTree = "<group>"; };
 		B2CE1DDC1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMPopularRepoListViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				B250D4DA1F3CEC5C005CD076 /* AppDelegate.swift */,
 				B250D4F51F3CEF14005CD076 /* GTMTabBarViewController.swift */,
 				B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */,
+				B292AE591FA7F40F001940A5 /* GTMPagedListViewController.swift */,
 				B250D4F71F3CEF9E005CD076 /* GTMNavigationController.swift */,
 				B29C8E3C1F6E209800CC84C8 /* GTMLanguageChosenController.swift */,
 				B27F7E521F7355540046E239 /* GTMReposListViewController.swift */,
@@ -411,6 +414,7 @@
 				B245B74C1FA0F97E00C103E2 /* GTMUserDetailViewController.swift in Sources */,
 				B250D4FA1F3D025D005CD076 /* GTMTrendingRepoListController.swift in Sources */,
 				B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */,
+				B292AE5A1FA7F40F001940A5 /* GTMPagedListViewController.swift in Sources */,
 				B23229721F785C49000CE9C7 /* GTMUserRankingCell.swift in Sources */,
 				B26069DC1FA53CF200EC6936 /* GTMRepoInfoView.swift in Sources */,
 				B202582D1FA0395A00C0CDCA /* GTMUserInfoCell.swift in Sources */,

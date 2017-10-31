@@ -93,13 +93,7 @@ class GTMTrendingRepoListController: GTMBaseViewController{
             self.tableView.mj_header.endRefreshing()
             guard result.error == nil else {
                 let error  = result.error! as! GTMAPIManagerError
-                switch error {
-                case .network:
-                    self.showNetworkErrorViewWith(title: "Network Error")
-                default:
-                    break
-                }
-                self.showToast(text: error.descripiton)
+                self.processError(error: error)
                 return
             }
             

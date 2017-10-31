@@ -7,52 +7,60 @@
 //
 
 import UIKit
+import MJRefresh
 
-class GTMUserRankingListController: UIViewController, GTMLocationChosenDelegate {
+class GTMUserRankingListController: GTMPagedListViewController, GTMLocationChosenDelegate {
     
     var chosenLanguage : String?
-    var chosenLocation : GTMConstantValue.GTMLocationType = .GTMLocationWorld { willSet(newValue) {
-        self.fetchUserRanking(language: self.chosenLanguage, location: newValue)
+    var chosenLocation : GTMConstantValue.GTMLocationType = .GTMLocationWorld { didSet(newValue) {
+        self.fetchUserRanking(page: 1)
         }
     }
     
     let tableViewCellIdentifier = "userRankingCell"
-    var contentView = UIView()
-    
-    var tableView : UITableView = UITableView()
     
     var users = [GTMUserRankingInfo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.edgesForExtendedLayout = []
         self.navigationItem.title = "Popular"
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Language", style: .plain, target: self, action: #selector(changeLanguage))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Location", style: .plain, target: self, action: #selector(changeLocation))
         
-        self.view.addSubview(self.contentView)
-        
-        self.contentView.addSubview(self.tableView)
         self.tableView.register(GTMUserRankingCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.contentView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
-        
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.contentView)
         }
+        
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchUserRanking(page: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchUserRanking(page: (self?.page)! + 1)
+        }
+        
+        self.chosenLanguage = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
+        
+        self.fetchUserRanking(page: 1)
 
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchUserRanking(language: self.chosenLanguage, location: self.chosenLocation)
+        let chosenLanguage = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
+        if self.chosenLanguage != chosenLanguage {
+            self.chosenLanguage = chosenLanguage
+            self.fetchUserRanking(page: 1)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,25 +82,21 @@ class GTMUserRankingListController: UIViewController, GTMLocationChosenDelegate 
         self.present(locationSettingController, animated: true, completion: nil)
     }
     
-    func fetchUserRanking(language: String?, location : GTMConstantValue.GTMLocationType) {
-        GTMAPIManager.sharedInstance.fetchPopularUsers(language: language, location: location) { (result) in
+    func fetchUserRanking(page: Int) {
+        self.showLoadingIndicator(toView: tableView)
+        GTMAPIManager.sharedInstance.fetchPopularUsers(language: self.chosenLanguage, location: self.chosenLocation, page: page) { (result) in
+            self.dismissLoadingIndicator()
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_footer.endRefreshing()
             guard result.error == nil else {
+                let error  = result.error! as! GTMAPIManagerError
+                self.processError(error: error)
                 return
             }
-            if let users = result.value {
-                self.users = users
-                self.tableView.reloadData()
-                if users.count > 0 {
-                    self.navigationItem.leftBarButtonItem?.title = self.chosenLocation.description()
-                } else {
-                    self.navigationItem.leftBarButtonItem?.title = "Location"
-                }
-            }
             
-            self.users = result.value!
+            self.processData(list: &self.users, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.rankingPerpageCount)
             self.tableView.reloadData()
         }
-
     }
     
 
@@ -137,6 +141,17 @@ extension GTMUserRankingListController : UITableViewDelegate {
         let userRankingInfo = self.users[indexPath.row]
         let userDetailViewController = GTMUserDetailViewController(username: userRankingInfo.login!)
         self.navigationController?.pushViewController(userDetailViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let languageAndLocationLabel = UILabel(fontSize: 14)
+        languageAndLocationLabel.text = "  Location: " + self.chosenLocation.description() + " Languge: " + (self.chosenLanguage ?? "All languages")
+        languageAndLocationLabel.backgroundColor = UIColor(hex: "#f5f5f5")
+        return languageAndLocationLabel
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
     }
 }
 

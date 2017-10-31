@@ -239,8 +239,9 @@ class GTMAPIManager {
         }
     }
     
-    func fetchPopularUsers(language: String?, location: GTMConstantValue.GTMLocationType, completionHandler: @escaping (Result<[GTMUserRankingInfo]>) -> Void) {
+    func fetchPopularUsers(language: String?, location: GTMConstantValue.GTMLocationType, page: Int, completionHandler: @escaping (Result<([GTMUserRankingInfo], Int)>) -> Void) {
         var params = [String: Any] ()
+        params["page"] = "\(page)"
         if let language = language {
             params["language"] = language
         }
@@ -269,7 +270,7 @@ class GTMAPIManager {
             }
             
             let users : [GTMUserRankingInfo] = Array(JSONArray:jsonArray)
-            completionHandler(.success(users))
+            completionHandler(.success(users, page))
         }
     }
     
@@ -291,7 +292,7 @@ class GTMAPIManager {
         }
     }
     
-    func searchUsers(searchString: String, sort: String?, completionHandler: @escaping (Result<[GTMUser]>) -> Void) {
+    func searchUsers(searchString: String, sort: String?, page: Int, completionHandler: @escaping (Result<([GTMUser], Int)>) -> Void) {
         var params = [String: Any] ()
         params["q"] = searchString
         if let sort = sort {
@@ -311,11 +312,11 @@ class GTMAPIManager {
             }
             
             let users : [GTMUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users))
+            completionHandler(.success(users, page))
         }
     }
     
-    func searchRepos(searchString: String, sort: String?, completionHandler: @escaping (Result<[GTMRepository]>) -> Void) {
+    func searchRepos(searchString: String, sort: String?, page: Int, completionHandler: @escaping (Result<([GTMRepository], Int)>) -> Void) {
         var params = [String: Any] ()
         params["q"] = searchString
         if let sort = sort {
@@ -335,11 +336,11 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos))
+            completionHandler(.success(repos, page))
         }
     }
     
-    func fetchFollowUsers(type: GTMRepoInterestedUserType, username: String?, completionHandler: @escaping (Result<[GTMGithubUser]>) -> Void) {
+    func fetchFollowUsers(type: GTMRepoInterestedUserType, username: String?, page: Int, completionHandler: @escaping (Result<([GTMGithubUser], Int)>) -> Void) {
         var URLRequest : URLRequestConvertible
         switch type {
         case .follower:
@@ -362,11 +363,11 @@ class GTMAPIManager {
             }
             
             let users : [GTMGithubUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users))
+            completionHandler(.success(users, page))
         }
     }
     
-    func fetchRepoInterestedUsers(type: GTMRepoInterestedUserType, ownername: String, reponame: String, completionHandler: @escaping (Result<[GTMGithubUser]>) -> Void) {
+    func fetchRepoInterestedUsers(type: GTMRepoInterestedUserType, ownername: String, reponame: String, page: Int, completionHandler: @escaping (Result<([GTMGithubUser], Int)>) -> Void) {
         var URLRequest : URLRequestConvertible
         switch type {
         case .starred:
@@ -389,11 +390,11 @@ class GTMAPIManager {
             }
             
             let users : [GTMGithubUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users))
+            completionHandler(.success(users, page))
         }
     }
     
-    func fetchUserRepos(type: GTMUserReposType, username: String?, completionHandler: @escaping (Result<[GTMRepository]>) ->Void ) {
+    func fetchUserRepos(type: GTMUserReposType, username: String?, page: Int, completionHandler: @escaping (Result<([GTMRepository], Int)>) ->Void ) {
         var urlRequest : URLRequestConvertible!
         switch type {
         case .userRepos:
@@ -418,11 +419,11 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos))
+            completionHandler(.success(repos, page))
         }
     }
     
-    func fetchRepoForks(ownername: String, reponame: String, completionHandler: @escaping (Result<[GTMRepository]>) ->Void ) {
+    func fetchRepoForks(ownername: String, reponame: String, page: Int, completionHandler: @escaping (Result<([GTMRepository], Int)>) ->Void ) {
         Alamofire.request(GTMAPIRouter.getRepoForks(ownername, reponame)).responseJSON { (response) in
             guard response.result.error == nil else {
                 print(response.result.error!)
@@ -436,7 +437,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos))
+            completionHandler(.success(repos, page))
         }
     }
     

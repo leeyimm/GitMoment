@@ -16,10 +16,9 @@ enum GTMUserReposType {
     case forkedRepos
 }
 
-class GTMUserReposListController: UIViewController {
+class GTMUserReposListController: GTMPagedListViewController {
     
     var repoCellIdentifier = "repoCell"
-    var tableView = UITableView()
     var username : String?
     var language : String?
     var type : GTMUserReposType!
@@ -48,18 +47,27 @@ class GTMUserReposListController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
         self.navigationItem.title = self.username ?? "Repos"
         
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: repoCellIdentifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.view.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
+        
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchUserRepos(pageNo: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchUserRepos(pageNo: (self?.page)! + 1)
+        }
 
+        self.fetchUserRepos(pageNo: 1)
         // Do any additional setup after loading the view.
     }
 
@@ -70,23 +78,24 @@ class GTMUserReposListController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchUserRepos(pageNo: 1)
+        
     }
     
     func fetchUserRepos(pageNo: Int) {
+        self.showLoadingIndicator(toView: tableView)
         switch self.type! {
         case .forkedRepos:
-            GTMAPIManager.sharedInstance.fetchRepoForks(ownername: self.repoOwnerName, reponame: self.repoName) { (result) in
+            GTMAPIManager.sharedInstance.fetchRepoForks(ownername: self.repoOwnerName, reponame: self.repoName, page: pageNo) { (result) in
                 self.processResult(result: result)
             }
         default:
             if let lang = language, let user = username {
                 let qString = "language:\(lang) user:\(user)"
-                GTMAPIManager.sharedInstance.searchRepos(searchString: qString, sort: "stars") { (result) in
+                GTMAPIManager.sharedInstance.searchRepos(searchString: qString, sort: "stars", page: pageNo) { (result) in
                     self.processResult(result: result)
                 }
             } else {
-                GTMAPIManager.sharedInstance.fetchUserRepos(type: self.type, username: username) { (result) in
+                GTMAPIManager.sharedInstance.fetchUserRepos(type: self.type, username: username, page: pageNo) { (result) in
                    self.processResult(result: result)
                 }
             }
@@ -94,14 +103,18 @@ class GTMUserReposListController: UIViewController {
         
     }
     
-    func processResult(result: Result<[GTMRepository]>) {
+    func processResult(result: Result<([GTMRepository], Int)>) {
+        self.dismissLoadingIndicator()
+        self.tableView.mj_header.endRefreshing()
+        self.tableView.mj_footer.endRefreshing()
         guard result.error == nil else {
+            let error  = result.error! as! GTMAPIManagerError
+            self.processError(error: error)
             return
         }
-        if let repos = result.value {
-            self.repos = repos
-            self.tableView.reloadData()
-        }
+        
+        self.processData(list: &self.repos, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+        self.tableView.reloadData()
     }
     
 

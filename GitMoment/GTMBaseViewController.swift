@@ -24,6 +24,8 @@ class GTMErrorView : UIView {
     init(type: GTMErrorViewType) {
         super.init(frame: CGRect.zero)
         self.type = type
+        self.refreshButton = UIButton(type: .system)
+        self.refreshButton.setTitle("refresh", for: .normal)
         switch type {
         case .networkError:
             self.errorImageView = UIImageView(image: UIImage(named: "no_network_icon"))
@@ -33,8 +35,7 @@ class GTMErrorView : UIView {
             self.errorLabel.text = "No Content"
             self.refreshButton.isHidden = true
         }
-        self.refreshButton = UIButton(type: .system)
-        self.refreshButton.setTitle("refresh", for: .normal)
+        
         //self.refreshButton.backgroundColor = UIColor(hex: "#cccccc")
         self.addSubview(self.errorImageView)
         self.addSubview(self.errorLabel)
@@ -139,6 +140,16 @@ class GTMBaseViewController: UIViewController {
     
     func showToast(text: String) {
         self.view.makeToast(text, duration: 1.0, position: .center)
+    }
+    
+    func processError(error: GTMAPIManagerError) {
+        switch error {
+        case .network:
+            self.showNetworkErrorViewWith(title: "Network Error")
+        default:
+            break
+        }
+        self.showToast(text: error.descripiton)
     }
 
     /*

@@ -256,4 +256,6 @@ class GTMConstantValue {
     }
     
     static let userChosenLanguageKey = "userChosenLanguage"
+    static let rankingPerpageCount = 25
+    static let githubPerpageCount = 30
 }

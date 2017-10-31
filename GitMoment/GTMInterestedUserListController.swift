@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 enum GTMRepoInterestedUserType {
     case starred
@@ -16,10 +17,9 @@ enum GTMRepoInterestedUserType {
 }
 
 
-class GTMInterestedUserListController: UIViewController {
+class GTMInterestedUserListController: GTMPagedListViewController{
     
     var interestedUserCellIdentifier = "interestedUserCell"
-    var tableView = UITableView()
     var interestedType : GTMRepoInterestedUserType!
     var username : String?
     var repoOwnerName : String!
@@ -46,7 +46,6 @@ class GTMInterestedUserListController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
         
         switch self.interestedType! {
         case .follower:
@@ -62,43 +61,56 @@ class GTMInterestedUserListController: UIViewController {
         self.tableView.register(GTMFollowUserCell.self, forCellReuseIdentifier: interestedUserCellIdentifier)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.view.addSubview(tableView)
         
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
-
+        
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchInterestedUsers(pageNo: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchInterestedUsers(pageNo: (self?.page)! + 1)
+        }
+        
+        self.fetchInterestedUsers(pageNo: 1)
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.fetchFollowUsers(pageNo: 1)
+        
     }
     
-    func fetchFollowUsers(pageNo: Int) {
+    func fetchInterestedUsers(pageNo: Int) {
+        self.showLoadingIndicator(toView: tableView)
         switch self.interestedType! {
         case .following, .follower:
-            GTMAPIManager.sharedInstance.fetchFollowUsers(type: self.interestedType, username: username) { (result) in
-                guard result.error == nil else {
-                    return
-                }
-                if let users = result.value {
-                    self.users = users
-                    self.tableView.reloadData()
-                }
+            GTMAPIManager.sharedInstance.fetchFollowUsers(type: self.interestedType, username: username, page: pageNo) { (result) in
+                self.processResult(result: result)
             }
         case .starred, .watching:
-            GTMAPIManager.sharedInstance.fetchRepoInterestedUsers(type: self.interestedType, ownername: repoOwnerName, reponame: repoName) { (result) in
-                guard result.error == nil else {
-                    return
-                }
-                if let users = result.value {
-                    self.users = users
-                    self.tableView.reloadData()
-                }
+            GTMAPIManager.sharedInstance.fetchRepoInterestedUsers(type: self.interestedType, ownername: repoOwnerName, reponame: repoName, page: pageNo) { (result) in
+                self.processResult(result: result)
             }
         }
+    }
+    
+    func processResult(result: Result<([GTMGithubUser], Int)>) {
+        self.dismissLoadingIndicator()
+        self.tableView.mj_header.endRefreshing()
+        self.tableView.mj_footer.endRefreshing()
+        guard result.error == nil else {
+            let error  = result.error! as! GTMAPIManagerError
+            self.processError(error: error)
+            return
+        }
+        
+        self.processData(list: &self.users, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
