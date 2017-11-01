@@ -9,13 +9,21 @@
 import UIKit
 import MJRefresh
 
-class GTMPopularRepoListViewController: GTMPagedListViewController {
+class GTMPopularRepoListViewController: GTMRefreshableListViewController {
     
     var language: String!
     let tableViewCellIdentifier = "trendingRepoCell"
     var repos = [GTMRepository]()
 
 
+    init() {
+        super.init(pageEnabled: true)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -42,7 +42,7 @@ class GTMUserDetailViewController: UIViewController {
             make.edges.equalTo(self.view)
         }
         
-        self.userInfoTableView.register(GTMUserInfoCell.self, forCellReuseIdentifier: userInfoCellIdentifier)
+        self.userInfoTableView.register(GTMInfoCell.self, forCellReuseIdentifier: userInfoCellIdentifier)
         self.userInfoTableView.register(GTMLanguageReposCell.self, forCellReuseIdentifier: userLanguageReposCellIdentifier)
         self.userInfoTableView.dataSource = self
         self.userInfoTableView.delegate = self
@@ -176,39 +176,39 @@ extension GTMUserDetailViewController : UITableViewDataSource {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: userInfoCellIdentifier, for: indexPath) as! GTMUserInfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: userInfoCellIdentifier, for: indexPath) as! GTMInfoCell
         if let user = self.user {
             switch (indexPath.section, indexPath.row) {
             case (0, 0):
                 if user.isOrganization {
-                    cell.setCellType(type: .repos, user: user)
+                    cell.setCellType(type: .repos, title: nil)
                 } else {
-                    cell.setCellType(type: .company, user: user)
+                    cell.setCellType(type: .company, title: user.company)
                 }
                 cell.setSeparatedLine(type: .upper, indent: 0)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 1):
-                cell.setCellType(type: .location, user: user)
+                cell.setCellType(type: .location, title: user.location)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 2):
-                cell.setCellType(type: .email, user: user)
+                cell.setCellType(type: .email, title: user.email)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 3):
-                cell.setCellType(type: .link, user: user)
+                cell.setCellType(type: .link, title: user.url)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 4):
-                cell.setCellType(type: .events, user: user)
+                cell.setCellType(type: .events, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 0)
                 
             case (1, 0):
-                cell.setCellType(type: .starred, user: user)
+                cell.setCellType(type: .starred, title: nil)
                 cell.setSeparatedLine(type: .upper, indent: 0)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (1, 1):
-                cell.setCellType(type: .wacthing, user: user)
+                cell.setCellType(type: .wacthing, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (1, 2):
-                cell.setCellType(type: .events, user: user)
+                cell.setCellType(type: .events, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 0)
             default:
                 break
@@ -250,9 +250,9 @@ extension GTMUserDetailViewController : UITableViewDelegate {
             let reposListController = GTMUserReposListController(type: .userRepos, username: username, language: language)
             self.navigationController?.pushViewController(reposListController, animated: true)
         }
-        if cell is GTMUserInfoCell {
+        if cell is GTMInfoCell {
             var reposListController : GTMUserReposListController!
-            switch (cell as! GTMUserInfoCell).type! {
+            switch (cell as! GTMInfoCell).type! {
             case .repos:
                 reposListController = GTMUserReposListController(type: .userRepos, username: username, language: nil)
             case .starred:

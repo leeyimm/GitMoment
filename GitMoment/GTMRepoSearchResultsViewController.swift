@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-class GTMRepoSearchResultsViewController: GTMPagedListViewController {
+class GTMRepoSearchResultsViewController: GTMRefreshableListViewController {
     
     let tableViewCellIdentifier = "repoCell"
     
@@ -18,7 +18,7 @@ class GTMRepoSearchResultsViewController: GTMPagedListViewController {
     var sort : String?
     
     init(searchString: String, sort: String?) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.searchString = searchString
         self.sort = sort
     }

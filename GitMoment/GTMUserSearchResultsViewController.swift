@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-class GTMUserSearchResultsViewController: GTMPagedListViewController {
+class GTMUserSearchResultsViewController: GTMRefreshableListViewController {
     
     let tableViewCellIdentifier = "userCell"
     
@@ -18,7 +18,7 @@ class GTMUserSearchResultsViewController: GTMPagedListViewController {
     var sort : String?
     
     init(searchString: String, sort: String?) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.searchString = searchString
         self.sort = sort
     }

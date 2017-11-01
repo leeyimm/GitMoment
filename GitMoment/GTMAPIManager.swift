@@ -461,14 +461,33 @@ class GTMAPIManager {
         }
     }
     
-    func fetchReadMe(ownername: String, reponame: String, branch: String, completionHandler: @escaping(Result<String>) -> Void) {
-        Alamofire.request(GTMAPIRouter.getReadMe(ownername, reponame, branch)).responseString { (response) in
+    func fetchFileContent(path: String, branch: String, completionHandler: @escaping(Result<String>) -> Void) {
+        Alamofire.request(GTMAPIRouter.getFileContent(path, branch)).responseString { (response) in
             guard response.result.error == nil else {
                 print(response.result.error!)
                 completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))
                 return
             }
             completionHandler(.success(response.result.value!))
+        }
+    }
+    
+    func fetchContents(path: String, branch: String, completionHandler: @escaping (Result<[GTMFileInfo]>) -> Void) {
+        Alamofire.request(GTMAPIRouter.getContents(path, branch)).responseJSON { (response) in
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))
+                return
+            }
+            
+            guard let jsonArray = response.result.value as? [[String: Any]] else {
+                print("didn't get popular users object as JSON from API")
+                completionHandler(.failure(GTMAPIManagerError.objectSerialization(reason: "Didn't get JSON array")))
+                return
+            }
+            
+            let files : [GTMFileInfo] = Array(JSONArray: jsonArray)
+            completionHandler(.success(files))
         }
     }
     

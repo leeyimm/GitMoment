@@ -17,7 +17,7 @@ enum GTMRepoInterestedUserType {
 }
 
 
-class GTMInterestedUserListController: GTMPagedListViewController{
+class GTMInterestedUserListController: GTMRefreshableListViewController{
     
     var interestedUserCellIdentifier = "interestedUserCell"
     var interestedType : GTMRepoInterestedUserType!
@@ -28,13 +28,13 @@ class GTMInterestedUserListController: GTMPagedListViewController{
     var users : [GTMGithubUser] = []
     
     init(type: GTMRepoInterestedUserType, username: String?) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.interestedType = type
         self.username = username
     }
     
     init(type: GTMRepoInterestedUserType, ownername: String, reponame: String) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.interestedType = type
         self.repoOwnerName = ownername
         self.repoName = reponame

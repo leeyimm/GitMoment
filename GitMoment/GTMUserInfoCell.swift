@@ -1,5 +1,5 @@
 //
-//  GTMUserInfoCell.swift
+//  GTMInfoCell.swift
 //  GitMoment
 //
 //  Created by liying on 24/10/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum GTMUserInfoCellType {
+enum GTMInfoCellType {
     case company
     case location
     case email
@@ -18,11 +18,18 @@ enum GTMUserInfoCellType {
     case events
     case notification
     case repos
+    
+    case owner
+    case readme
+    case code
+    case contributer
+    case issue
+    case pr
 }
 
-class GTMUserInfoCell: GTMTableViewCell {
+class GTMInfoCell: GTMTableViewCell {
 
-    var type : GTMUserInfoCellType!
+    var type : GTMInfoCellType!
     var iconImageView = UIImageView()
     var label = UILabel(fontSize: 24)
     var iconSize = CGSize(width: 25, height: 25)
@@ -55,21 +62,21 @@ class GTMUserInfoCell: GTMTableViewCell {
         }
     }
     
-    func setCellType(type: GTMUserInfoCellType, user: GTMGithubUser) {
+    func setCellType(type: GTMInfoCellType, title: String?) {
         self.type = type
         switch type {
         case .company:
             iconImageView.image = UIImage(octiconsID: .organization, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
-            label.text = user.company ?? "Not set"
+            label.text = title ?? "Not set"
         case .email:
             iconImageView.image = UIImage(octiconsID: .mail, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
-            label.text = user.email ?? "Not set"
+            label.text = title ?? "Not set"
         case .location:
             iconImageView.image = UIImage(octiconsID: .location, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
-            label.text = user.location ?? "Not set"
+            label.text = title ?? "Not set"
         case .link:
             iconImageView.image = UIImage(octiconsID: .link, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
-            label.text = user.htmlUrl ?? "Not set"
+            label.text = title ?? "Not set"
         case .starred:
             iconImageView.image = UIImage(octiconsID: .star, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
             label.text = "Starred Repos"
@@ -85,6 +92,25 @@ class GTMUserInfoCell: GTMTableViewCell {
         case .repos:
             iconImageView.image = UIImage(octiconsID: .repo, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
             label.text = "Repos"
+            
+        case .owner:
+            iconImageView.image = UIImage(octiconsID: .person, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Owner"
+        case .readme:
+            iconImageView.image = UIImage(octiconsID: .book, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Readme"
+        case .code:
+            iconImageView.image = UIImage(octiconsID: .fileCode, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Source Code"
+        case .contributer:
+            iconImageView.image = UIImage(octiconsID: .organization, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Contributers"
+        case .issue:
+            iconImageView.image = UIImage(octiconsID: .issueOpened, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Issues"
+        case .pr:
+            iconImageView.image = UIImage(octiconsID: .gitPullRequest, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
+            label.text = "Pull Requests"
         }
     }
 

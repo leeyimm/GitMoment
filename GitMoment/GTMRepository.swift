@@ -78,3 +78,64 @@ class GTMRepository : Mappable {
         source          <- map["source"]
     }
 }
+
+enum GTMFileType : String{
+    case dir
+    case file
+    case symlink
+    case submodule
+    case invalid
+}
+
+class GTMFileInfo : Mappable {
+    var type : String?
+    var target : String?
+    var submoduleGitUrl : String?
+    var name : String?
+    var path : String?
+    var sha : String?
+    var url : String?
+    var gitUrl : String?
+    var htmlUrl : String?
+    var downloadUrl : String?
+    
+    //TODO : change to more elegant way
+    var fileType : GTMFileType {
+        get {
+            if let typeString = self.type {
+                if typeString == "dir" {
+                    return .dir
+                }
+                if typeString == "file" {
+                    return .file
+                }
+                if typeString == "symlink" {
+                    return .symlink
+                }
+                if typeString == "submodule" {
+                    return .submodule
+                }
+                return .invalid
+            } else {
+                return .invalid
+            }
+        }
+    }
+
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        type                <- map["type"]
+        target              <- map["target"]
+        submoduleGitUrl     <- map["submodule_git_url"]
+        name                <- map["name"]
+        path                <- map["path"]
+        sha                 <- map["sha"]
+        url                 <- map["url"]
+        gitUrl              <- map["git_url"]
+        htmlUrl             <- map["html_url"]
+        downloadUrl         <- map["download_url"]
+    }
+}

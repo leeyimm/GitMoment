@@ -16,7 +16,7 @@ enum GTMUserReposType {
     case forkedRepos
 }
 
-class GTMUserReposListController: GTMPagedListViewController {
+class GTMUserReposListController: GTMRefreshableListViewController {
     
     var repoCellIdentifier = "repoCell"
     var username : String?
@@ -28,14 +28,14 @@ class GTMUserReposListController: GTMPagedListViewController {
     var repos : [GTMRepository] = []
     
     init(type: GTMUserReposType, username: String?, language: String?) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.username = username
         self.language = language
         self.type = type
     }
     
     init(type: GTMUserReposType, ownername: String, reponame: String) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(pageEnabled: true)
         self.repoOwnerName = ownername
         self.repoName = reponame
         self.type = type

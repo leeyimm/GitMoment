@@ -1,5 +1,5 @@
 //
-//  GTMPagedListViewController.swift
+//  GTMRefreshableListViewController.swift
 //  GitMoment
 //
 //  Created by liying on 30/10/2017.
@@ -9,22 +9,29 @@
 import UIKit
 import MJRefresh
 
-class GTMPagedListViewController: GTMBaseViewController {
+class GTMRefreshableListViewController: GTMBaseViewController {
     
     var tableView : UITableView = UITableView()
     var page : Int!
+    
+    init(pageEnabled: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        let refreshHeader = MJRefreshNormalHeader()
+        refreshHeader.lastUpdatedTimeLabel.isHidden = true
+        self.tableView.mj_header = refreshHeader
+        if pageEnabled {
+            self.tableView.mj_footer = MJRefreshAutoNormalFooter()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.contentView.addSubview(self.tableView)
-        
-        let refreshHeader = MJRefreshNormalHeader()
-        refreshHeader.lastUpdatedTimeLabel.isHidden = true
-        self.tableView.mj_header = refreshHeader
-        
-        self.tableView.mj_footer = MJRefreshAutoNormalFooter()
-
         // Do any additional setup after loading the view.
     }
 

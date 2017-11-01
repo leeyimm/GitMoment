@@ -108,7 +108,7 @@ class GTMTrendingRepoListController: GTMBaseViewController{
     }
     
     func periodSegmentChange(sender: UISegmentedControl) {
-        
+        self.tableView.contentOffset = CGPoint(x: 0, y: 0)
         fetchRepoTrending(checkCache: true)
     }
     

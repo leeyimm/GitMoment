@@ -45,9 +45,10 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getRepoWatchers(String, String)
     case getRepoForks(String, String)
     
-    //readme
-    case getReadMe(String, String, String) //ownername, reponame, branch
+    //fileContent
+    case getFileContent(String, String) //path, branch
     
+    case getContents(String, String) //path , branch
     
     func asURLRequest() throws -> URLRequest {
         var method: HTTPMethod {
@@ -124,9 +125,10 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/subscribers")
             case .getRepoForks(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/forks")
-            case .getReadMe(let ownername, let reponame, _):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/readme")
-            
+            case .getFileContent(let path, _):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
+            case .getContents(let path, _):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
         }
         
             let url = URL(string: urlString)!
@@ -150,7 +152,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                 return params
             case .searchUser(let params):
                 return params
-            case .getReadMe( _, _, let branch):
+            case .getFileContent(_, let branch), .getContents(_, let branch):
                 params["ref"] = "refs/heads/" + branch
                 return params
             default:
@@ -164,7 +166,7 @@ enum GTMAPIRouter: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         
         switch self {
-        case .getReadMe:
+        case .getFileContent:
             urlRequest.setValue("application/vnd.github.v3.html", forHTTPHeaderField: "Accept")
         default:
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")

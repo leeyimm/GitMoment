@@ -47,7 +47,7 @@ class GTMAccountViewController: UIViewController {
         
         self.contentView.isHidden = true
         
-        self.userInfoTableView.register(GTMUserInfoCell.self, forCellReuseIdentifier: userInfoCellIdentifier)
+        self.userInfoTableView.register(GTMInfoCell.self, forCellReuseIdentifier: userInfoCellIdentifier)
         self.userInfoTableView.dataSource = self
         self.userInfoTableView.delegate = self
         self.userInfoTableView.separatorStyle = .none
@@ -159,35 +159,35 @@ extension GTMAccountViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: userInfoCellIdentifier, for: indexPath) as! GTMUserInfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: userInfoCellIdentifier, for: indexPath) as! GTMInfoCell
         if let user = self.user {
             switch (indexPath.section, indexPath.row) {
             case (0, 0):
-                cell.setCellType(type: .company, user: user)
+                cell.setCellType(type: .company, title: user.company)
                 cell.setSeparatedLine(type: .upper, indent: 0)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 1):
-                cell.setCellType(type: .location, user: user)
+                cell.setCellType(type: .location, title: user.location)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 2):
-                cell.setCellType(type: .email, user: user)
+                cell.setCellType(type: .email, title: user.email)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 3):
-                cell.setCellType(type: .link, user: user)
+                cell.setCellType(type: .link, title: user.url)
                 cell.setSeparatedLine(type: .lower, indent: 0)
                 
             case (1, 0):
-                cell.setCellType(type: .starred, user: user)
+                cell.setCellType(type: .starred, title: nil)
                 cell.setSeparatedLine(type: .upper, indent: 0)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (1, 1):
-                cell.setCellType(type: .wacthing, user: user)
+                cell.setCellType(type: .wacthing, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (1, 2):
-                cell.setCellType(type: .events, user: user)
+                cell.setCellType(type: .events, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (1, 3):
-                cell.setCellType(type: .notification, user: user)
+                cell.setCellType(type: .notification, title: nil)
                 cell.setSeparatedLine(type: .lower, indent: 0)
             default:
                 break
@@ -217,9 +217,9 @@ extension GTMAccountViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        if cell is GTMUserInfoCell {
+        if cell is GTMInfoCell {
             var reposListController : GTMUserReposListController!
-            switch (cell as! GTMUserInfoCell).type! {
+            switch (cell as! GTMInfoCell).type! {
             case .repos:
                 reposListController = GTMUserReposListController(type: .userRepos, username: nil, language: nil)
             case .starred:

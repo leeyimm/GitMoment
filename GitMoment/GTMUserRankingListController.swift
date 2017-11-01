@@ -9,7 +9,7 @@
 import UIKit
 import MJRefresh
 
-class GTMUserRankingListController: GTMPagedListViewController, GTMLocationChosenDelegate {
+class GTMUserRankingListController: GTMRefreshableListViewController, GTMLocationChosenDelegate {
     
     var chosenLanguage : String?
     var chosenLocation : GTMConstantValue.GTMLocationType = .GTMLocationWorld { didSet(newValue) {
@@ -20,6 +20,14 @@ class GTMUserRankingListController: GTMPagedListViewController, GTMLocationChose
     let tableViewCellIdentifier = "userRankingCell"
     
     var users = [GTMUserRankingInfo]()
+    
+    init() {
+        super.init(pageEnabled: true)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

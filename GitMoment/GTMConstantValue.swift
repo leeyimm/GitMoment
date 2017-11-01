@@ -258,4 +258,10 @@ class GTMConstantValue {
     static let userChosenLanguageKey = "userChosenLanguage"
     static let rankingPerpageCount = 25
     static let githubPerpageCount = 30
+    
+    static let GithubHTMLTemplateString = "<html><head><meta charset='utf-8'>" +
+    "<meta name=\"viewport\" content=\"initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width\">" +
+    "<link crossorigin=\"anonymous\" href=\"mobile-github.css\" media=\"all\" rel=\"stylesheet\"/>" +
+    "<script type=\"text/javascript\" src=\"main.js\"></script>" +
+    "<title>%@</title></head><body onload=\"onLoaded()\">%@</body></html>" 
 }

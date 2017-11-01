@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Ono
 
 
 class GTMRepoDetailViewController: UIViewController {
@@ -15,8 +14,11 @@ class GTMRepoDetailViewController: UIViewController {
     var scrollView = UIScrollView()
     var threeButtonView : GTMThreeButtonView!
     var repoInfoView : GTMRepoInfoView!
-    var readmeView : GTMRepoReadMeView!
-    static let HTMLHeader = "<style type=\"text/css\">body { font-family: \"Helvetica Neue\", Helvetica, \"Segoe UI\", Arial, freesans, sans-serif;}</style>"
+    //var readmeView : GTMRepoReadMeView!
+    
+    var infoTableView = UITableView()
+    var infoCellHeight = 45.0
+    var infoCellIdentifier = "repoInfoCell"
     
     init(repo: GTMRepository) {
         super.init(nibName: nil, bundle: nil)
@@ -57,13 +59,17 @@ class GTMRepoDetailViewController: UIViewController {
             make.width.equalTo(self.scrollView)
         }
         
-        self.readmeView = GTMRepoReadMeView()
-        self.scrollView.addSubview(self.readmeView)
-        self.readmeView.snp.makeConstraints { (make) in
+        self.scrollView.addSubview(self.infoTableView)
+        self.infoTableView.register(GTMInfoCell.self, forCellReuseIdentifier: infoCellIdentifier)
+        self.infoTableView.dataSource = self
+        self.infoTableView.delegate = self
+        
+        self.infoTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.scrollView)
             make.left.equalTo(self.scrollView)
             make.top.equalTo(self.repoInfoView.snp.bottom).offset(8)
-            make.bottom.equalTo(self.scrollView)
+            make.height.equalTo(45 * 6)
+            make.bottom.equalTo(self.scrollView).offset(-15)
         }
         
         // Do any additional setup after loading the view.
@@ -71,14 +77,7 @@ class GTMRepoDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        GTMAPIManager.sharedInstance.fetchReadMe(ownername: (repo.owner?.login!)!, reponame: repo.name!, branch: repo.defaultBranch!) { (result) in
-            guard result.error == nil else {
-                return
-            }
-            
-            let readmeHTML = self.extractReadmeHTMLFrom(readmeHTML: result.value!)
-            self.readmeView.webView.loadHTMLString(readmeHTML, baseURL: nil)
-        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,28 +85,6 @@ class GTMRepoDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func extractReadmeHTMLFrom(readmeHTML: String) -> String {
-        var resultHTML = GTMRepoDetailViewController.HTMLHeader
-        
-        if let document = try? ONOXMLDocument(string: readmeHTML, encoding: String.Encoding.utf8.rawValue) {
-            let XPath = "//article/*"
-            document.enumerateElements(withXPath: XPath, using: { (element, idx, stop) in
-                if idx < 3 {
-                    resultHTML = resultHTML.appending((element?.description)!)
-                }
-            })
-            if resultHTML == GTMRepoDetailViewController.HTMLHeader {
-                let CSS = "div#readme"
-                document.enumerateElements(withCSS: CSS, using: { (element, idx, stop) in
-                    if idx < 3 {
-                        resultHTML = resultHTML.appending((element?.description)!)
-                    }
-                })
-            }
-        }
-        
-        return resultHTML
-    }
     
     
 
@@ -136,6 +113,73 @@ extension GTMRepoDetailViewController : GTMThreeButtonViewDelegate {
     func rightButtonTapped() {
         let forksListController = GTMUserReposListController(type: .forkedRepos, ownername: (self.repo.owner?.login!)!, reponame: self.repo.name!)
         self.navigationController?.pushViewController(forksListController, animated: true)
+    }
+}
+
+extension GTMRepoDetailViewController : UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: infoCellIdentifier, for: indexPath) as! GTMInfoCell
+            switch (indexPath.row) {
+            case (0):
+                cell.setCellType(type: .owner, title: self.repo.owner?.login)
+                cell.setSeparatedLine(type: .upper, indent: 0)
+                cell.setSeparatedLine(type: .lower, indent: 15)
+            case (1):
+                cell.setCellType(type: .readme, title: nil)
+                cell.setSeparatedLine(type: .lower, indent: 15)
+            case (2):
+                cell.setCellType(type: .code, title: nil)
+                cell.setSeparatedLine(type: .lower, indent: 15)
+            case (3):
+                cell.setCellType(type: .contributer, title: nil)
+                cell.setSeparatedLine(type: .lower, indent: 15)
+            case (4):
+                cell.setCellType(type: .issue, title: nil)
+                cell.setSeparatedLine(type: .lower, indent: 15)
+            case (5):
+                cell.setCellType(type: .pr, title: nil)
+                cell.setSeparatedLine(type: .lower, indent: 0)
+            default:
+                break
+        }
+        return cell
+    }
+}
+
+extension GTMRepoDetailViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if cell is GTMInfoCell {
+            var nextViewController : UIViewController!
+            switch (cell as! GTMInfoCell).type! {
+            case .owner:
+                nextViewController = GTMUserDetailViewController(username: (self.repo.owner?.login)!)
+            case .readme:
+                let reamePath = "repos/" + (self.repo.owner?.login!)! + "/" + self.repo.name! + "/readme"
+                nextViewController = GTMFileContentViewController(filePath: reamePath, branch: self.repo.defaultBranch!)
+            case .code:
+                let rootPath = "repos/" + (self.repo.owner?.login!)! + "/" + self.repo.name! + "/contents"
+                nextViewController = GTMFileListViewController(filePath: rootPath, branch: self.repo.defaultBranch!)
+            default:
+                break
+            }
+            if nextViewController != nil {
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }
+        }
     }
 }
 
