@@ -102,11 +102,11 @@ class GTMLoginViewController: UIViewController, SFSafariViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func loginButtonTapped() {
+    @objc func loginButtonTapped() {
         
     }
     
-    func oauthLoginButtonTapped() {
+    @objc func oauthLoginButtonTapped() {
         guard let authURL = GTMAPIManager.sharedInstance.URLToStartOAuth2Login() else {
             let error = GTMAPIManagerError.authCouldNot(reason:
                 "Could not obtain an OAuth token")

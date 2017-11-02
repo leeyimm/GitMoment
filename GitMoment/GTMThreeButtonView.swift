@@ -87,7 +87,7 @@ class GTMThreeButtonView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func buttonTapped(sender: UIButton) {
+    @objc func buttonTapped(sender: UIButton) {
         switch sender {
         case self.leftButton:
             self.delegate?.leftButtonTapped()

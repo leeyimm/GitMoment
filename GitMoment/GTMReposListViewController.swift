@@ -71,7 +71,7 @@ class GTMReposListViewController: UIViewController{
         
     }
     
-    func changeLanguage() {
+    @objc func changeLanguage() {
         let chosenlanguage = UserDefaults.standard.value(forKey: GTMConstantValue.userChosenLanguageKey) as? String
         let changeLanguageViewController = GTMLanguageChosenController(chosenLanguage: chosenlanguage)
         self.navigationController?.pushViewController(changeLanguageViewController, animated: true)

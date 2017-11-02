@@ -76,7 +76,7 @@ public extension UIImage {
         paragraphStyle.alignment = .center
         paragraphStyle.lineBreakMode = .byWordWrapping
 
-        textContent.draw(in: textRect, withAttributes: [NSFontAttributeName : font, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: iconColor])
+        textContent.draw(in: textRect, withAttributes: [NSAttributedStringKey.font : font, NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.foregroundColor: iconColor])
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

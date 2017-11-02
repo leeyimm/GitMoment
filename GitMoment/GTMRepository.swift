@@ -37,7 +37,7 @@ class GTMRepository : Mappable {
         get {
             if let desc = description {
                 let descString = (desc as NSString)
-                let width = descString.boundingRect(with: CGSize(width:2000, height :20), options: [], attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil).width
+                let width = descString.boundingRect(with: CGSize(width:2000, height :20), options: [], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)], context: nil).width
                 if width > UIScreen.main.bounds.width - 20 {
                     return GTMRepoCell.height + 10
                 } else {
@@ -80,15 +80,15 @@ class GTMRepository : Mappable {
 }
 
 enum GTMFileType : String{
-    case dir
-    case file
-    case symlink
-    case submodule
-    case invalid
+    case dir = "dir"
+    case file = "file"
+    case symlink = "symlink"
+    case submodule = "submodule"
+    case invalid = ""
 }
 
 class GTMFileInfo : Mappable {
-    var type : String?
+    var type : GTMFileType = .invalid
     var target : String?
     var submoduleGitUrl : String?
     var name : String?
@@ -98,29 +98,7 @@ class GTMFileInfo : Mappable {
     var gitUrl : String?
     var htmlUrl : String?
     var downloadUrl : String?
-    
-    //TODO : change to more elegant way
-    var fileType : GTMFileType {
-        get {
-            if let typeString = self.type {
-                if typeString == "dir" {
-                    return .dir
-                }
-                if typeString == "file" {
-                    return .file
-                }
-                if typeString == "symlink" {
-                    return .symlink
-                }
-                if typeString == "submodule" {
-                    return .submodule
-                }
-                return .invalid
-            } else {
-                return .invalid
-            }
-        }
-    }
+
 
     required init?(map: Map) {
         

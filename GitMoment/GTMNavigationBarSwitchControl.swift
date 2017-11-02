@@ -52,11 +52,11 @@ class GTMNavigationBarSwitchControl: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func leftButtonTapped() {
+    @objc func leftButtonTapped() {
         self.delegate?.leftSelected()
     }
     
-    func rightButtonTapped() {
+    @objc func rightButtonTapped() {
         self.delegate?.rightSelected()
     }
     

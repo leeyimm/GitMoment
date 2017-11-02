@@ -195,7 +195,7 @@ class GTMSearchRepoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func searchButtonTapped() {
+    @objc func searchButtonTapped() {
         var searchString = ""
         if let keyword = keywordTextField.text {
             searchString.append(keyword)

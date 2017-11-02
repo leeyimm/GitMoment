@@ -93,7 +93,7 @@ class GTMAccountViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func loginButtonTapped() {
+    @objc func loginButtonTapped() {
         weak var weakSelf = self
         let loginViewController = GTMLoginViewController() {
             weakSelf?.loginSuccess()
@@ -116,7 +116,7 @@ class GTMAccountViewController: UIViewController {
         }
     }
     
-    func logoutButtonTapped() {
+    @objc func logoutButtonTapped() {
         GTMAPIManager.sharedInstance.OAuthToken = nil
         self.contentView.isHidden = true
         self.loginButton.isHidden = false

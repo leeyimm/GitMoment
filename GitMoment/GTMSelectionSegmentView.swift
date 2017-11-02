@@ -83,7 +83,7 @@ class GTMSelectionSegmentView: UIView {
         
     }
     
-    func buttonAction(sender: UIButton) {
+    @objc func buttonAction(sender: UIButton) {
         if sender.isSelected {
             sender.isSelected = false
             sender.backgroundColor = UIColor.clear

@@ -39,7 +39,7 @@ class GTMFileInfoCell: GTMTableViewCell {
     func updateWithFile(info :GTMFileInfo) {
         self.fileInfo = info
         self.nameLabel.text = info.name
-        switch info.fileType {
+        switch info.type {
         case .file:
             self.iconImageView.image = UIImage(octiconsID: .fileText, iconColor: UIColor(hex: "#4183C4"), size: CGSize(width: 30, height: 30))
         case .dir:

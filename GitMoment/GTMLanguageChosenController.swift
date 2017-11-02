@@ -119,7 +119,7 @@ extension GTMLanguageChosenController : UITableViewDelegate {
         return self.languageIndexList
     }
     
-    private func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.languageIndexList[section]
     }
     

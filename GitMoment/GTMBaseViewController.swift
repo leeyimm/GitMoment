@@ -97,7 +97,7 @@ class GTMBaseViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func refreshAction() {
+    @objc func refreshAction() {
         
     }
     

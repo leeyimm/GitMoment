@@ -76,12 +76,12 @@ class GTMUserRankingListController: GTMRefreshableListViewController, GTMLocatio
         // Dispose of any resources that can be recreated.
     }
     
-    func changeLanguage() {
+    @objc func changeLanguage() {
         let changeLanguageViewController = GTMLanguageChosenController(chosenLanguage: self.chosenLanguage)
         self.navigationController?.pushViewController(changeLanguageViewController, animated: true)
     }
     
-    func changeLocation() {
+    @objc func changeLocation() {
         let locationSettingController = GTMLocationSettingController()
         locationSettingController.locationDelegate = self
         locationSettingController.modalPresentationStyle = .custom

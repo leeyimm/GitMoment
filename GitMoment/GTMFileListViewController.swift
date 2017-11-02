@@ -86,7 +86,7 @@ extension GTMFileListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let file = self.files[indexPath.row]
         var nextViewController : UIViewController?
-        switch file.fileType {
+        switch file.type {
         case .file:
             nextViewController = GTMFileContentViewController(filePath: self.filePath + "/" + file.name!, branch: self.branch)
         case .dir:

@@ -235,7 +235,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray:jsonArray)
-            completionHandler(.success(repos, page))
+            completionHandler(.success((repos, page)))
         }
     }
     
@@ -270,7 +270,7 @@ class GTMAPIManager {
             }
             
             let users : [GTMUserRankingInfo] = Array(JSONArray:jsonArray)
-            completionHandler(.success(users, page))
+            completionHandler(.success((users, page)))
         }
     }
     
@@ -312,7 +312,7 @@ class GTMAPIManager {
             }
             
             let users : [GTMUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users, page))
+            completionHandler(.success((users, page)))
         }
     }
     
@@ -336,7 +336,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos, page))
+            completionHandler(.success((repos, page)))
         }
     }
     
@@ -363,7 +363,7 @@ class GTMAPIManager {
             }
             
             let users : [GTMGithubUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users, page))
+            completionHandler(.success((users, page)))
         }
     }
     
@@ -390,7 +390,7 @@ class GTMAPIManager {
             }
             
             let users : [GTMGithubUser] = Array(JSONArray: jsonArray)
-            completionHandler(.success(users, page))
+            completionHandler(.success((users, page)))
         }
     }
     
@@ -419,7 +419,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos, page))
+            completionHandler(.success((repos, page)))
         }
     }
     
@@ -437,7 +437,7 @@ class GTMAPIManager {
             }
             
             let repos : [GTMRepository] = Array(JSONArray: jsonArray)
-            completionHandler(.success(repos, page))
+            completionHandler(.success((repos, page)))
         }
     }
     
@@ -455,7 +455,7 @@ class GTMAPIManager {
             }
             
             let issues : [GTMIssue] = Array(JSONArray: jsonArray)
-            completionHandler(.success(issues, page))
+            completionHandler(.success((issues, page)))
         }
     }
 

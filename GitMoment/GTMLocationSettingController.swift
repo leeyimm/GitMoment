@@ -95,7 +95,7 @@ class GTMLocationSettingController: UIViewController {
         }
     }
     
-    func segmentControlValueChange(sender : UISegmentedControl) {
+    @objc func segmentControlValueChange(sender : UISegmentedControl) {
         self.textField.resignFirstResponder()
         self.textField.text = nil
         switch sender.selectedSegmentIndex {
@@ -115,7 +115,7 @@ class GTMLocationSettingController: UIViewController {
         }
     }
     
-    func textFieldChanged(textField: UITextField) {
+    @objc func textFieldChanged(textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
             self.okButton.isEnabled = true
         } else {
@@ -123,7 +123,7 @@ class GTMLocationSettingController: UIViewController {
         }
     }
     
-    func buttonAction(button : UIButton) {
+    @objc func buttonAction(button : UIButton) {
         if button == self.okButton {
             switch self.segmentControl.selectedSegmentIndex {
             case 0:
