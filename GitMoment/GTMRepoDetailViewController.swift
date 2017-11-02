@@ -173,6 +173,8 @@ extension GTMRepoDetailViewController : UITableViewDelegate {
             case .code:
                 let rootPath = "repos/" + (self.repo.owner?.login!)! + "/" + self.repo.name! + "/contents"
                 nextViewController = GTMFileListViewController(filePath: rootPath, branch: self.repo.defaultBranch!)
+            case .issue:
+                nextViewController = GTMIssueListViewController(repo: self.repo)
             default:
                 break
             }

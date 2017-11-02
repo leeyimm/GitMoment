@@ -45,6 +45,10 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getRepoWatchers(String, String)
     case getRepoForks(String, String)
     
+    //issue
+    case getRepoIssues(String, String)
+    case getIssueComments(String, String, Int) //username, reponame, issueNumber
+    
     //fileContent
     case getFileContent(String, String) //path, branch
     
@@ -125,6 +129,10 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/subscribers")
             case .getRepoForks(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/forks")
+            case .getRepoIssues(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues")
+            case .getIssueComments(let ownername, let reponame, let issueNum):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues/\(issueNum)/comments")
             case .getFileContent(let path, _):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
             case .getContents(let path, _):

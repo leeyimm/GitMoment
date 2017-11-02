@@ -139,3 +139,76 @@ class GTMFileInfo : Mappable {
         downloadUrl         <- map["download_url"]
     }
 }
+
+class GTMIssue : Mappable {
+    var id : Int?
+    var url : String?
+    var repositoryUrl : String?
+    var labelsUrl : String?
+    var commentsUrl : String?
+    var eventsUrl : String?
+    var htmlUrl : String?
+    var number : Int?
+    var state : String?
+    var title : String?
+    var body : String?
+    var user : GTMUser?
+    var assignee : GTMUser?
+    var assignees : [GTMUser]?
+    var comments : Int?
+
+    var createdAt : String?
+    var updatedAt : String?
+    var closedAt : String?
+
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        id                     <- map["id"]
+        url                    <- map["url"]
+        repositoryUrl          <- map["repository_url"]
+        labelsUrl              <- map["labels_url"]
+        commentsUrl            <- map["comments_url"]
+        eventsUrl              <- map["events_url"]
+        htmlUrl                <- map["html_url"]
+        number                 <- map["number"]
+        state                  <- map["state"]
+        title                  <- map["title"]
+        body                   <- map["body"]
+        user                   <- map["user"]
+        assignee               <- map["assignee"]
+        assignees              <- map["assignees"]
+        comments               <- map["comments"]
+        createdAt              <- map["created_at"]
+        updatedAt              <- map["updated_at"]
+        closedAt               <- map["closed_at"]
+    }
+}
+
+class GTMComments : Mappable {
+    var id : Int?
+    var url : String?
+    var htmlUrl : String?
+    var body : String?
+    var user : GTMUser?
+    var createdAt : String?
+    var updatedAt : String?
+    
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        id                     <- map["id"]
+        url                    <- map["url"]
+        htmlUrl                <- map["html_url"]
+        body                   <- map["body"]
+        user                   <- map["user"]
+        createdAt              <- map["created_at"]
+        updatedAt              <- map["updated_at"]
+    }
+}
+
+
