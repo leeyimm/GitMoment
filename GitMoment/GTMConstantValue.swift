@@ -374,7 +374,8 @@ class GTMConstantValue {
     }
     
     static let htmlHead = """
-    <!DOCTYPE html><html><head><style>
+    <!DOCTYPE html><html><head>
+    <style>
     body{
     // html whitelist: https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/sanitization_filter.rb#L45-L49
     // lint compiled style with http://csslint.net/

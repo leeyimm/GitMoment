@@ -99,4 +99,10 @@ extension GTMIssueListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let issue = self.issues[indexPath.row]
+        let issueDetailController = GTMIssueDetailViewController(issue: issue)
+        self.navigationController?.pushViewController(issueDetailController, animated: true)
+    }
 }

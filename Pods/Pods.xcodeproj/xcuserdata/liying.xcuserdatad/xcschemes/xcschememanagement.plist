@@ -34,7 +34,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>MMMarkdown.xcscheme</key>
+		<key>MarkdownView-MarkdownView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MarkdownView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

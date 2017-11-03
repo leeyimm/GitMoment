@@ -8,21 +8,13 @@
 
 import UIKit
 import WebKit
-import MMMarkdown
+import MarkdownView
 
-protocol GTMSelfSizedCell {
-    func cellHeight() -> CGFloat
-}
-
-class GTMIssueHeaderCell : GTMTableViewCell, GTMSelfSizedCell {
+class GTMIssueHeaderCell : GTMTableViewCell {
     var stateLabel = UILabel(fontSize: 13)
     var titleLabel = UILabel(boldFontSize: 14, textColor: UIColor.black, backgroundColor: UIColor.clear)
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    func cellHeight() -> CGFloat {
-        return 60
     }
     
     override func setupUI() {
@@ -37,6 +29,7 @@ class GTMIssueHeaderCell : GTMTableViewCell, GTMSelfSizedCell {
         self.titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.stateLabel.snp.bottom).offset(10)
             make.left.equalTo(self.stateLabel)
+            make.bottom.equalTo(self.contentView).offset(-8)
         }
     }
     
@@ -50,7 +43,7 @@ class GTMIssueHeaderCell : GTMTableViewCell, GTMSelfSizedCell {
     }
 }
 
-class GTMCommentAuthorCell: GTMTableViewCell, GTMSelfSizedCell {
+class GTMCommentAuthorCell: GTMTableViewCell {
 
     var authorIcon = UIImageView()
     var authorNameLabel = UILabel(fontSize: 12, textColor: UIColor.black, backgroundColor: UIColor.clear)
@@ -64,10 +57,6 @@ class GTMCommentAuthorCell: GTMTableViewCell, GTMSelfSizedCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func cellHeight() -> CGFloat {
-        return 40
-    }
-    
     override func setupUI() {
         self.contentView.addSubview(self.authorIcon)
         self.contentView.addSubview(self.authorNameLabel)
@@ -77,6 +66,7 @@ class GTMCommentAuthorCell: GTMTableViewCell, GTMSelfSizedCell {
             make.left.equalTo(15)
             make.width.height.equalTo(25)
             make.centerY.equalTo(self.contentView)
+            make.bottom.equalTo(self.contentView).offset(-8)
         }
         
         self.authorNameLabel.snp.makeConstraints { (make) in
@@ -98,52 +88,51 @@ class GTMCommentAuthorCell: GTMTableViewCell, GTMSelfSizedCell {
 
 }
 
-class GTMHTMLContentCell : GTMTableViewCell, GTMSelfSizedCell {
-    var webView : WKWebView!
-    
+public typealias HTMLFinishLoadClosure = () -> ()
+
+class GTMHTMLContentCell : GTMTableViewCell {
+    var markdownView : MarkdownView!
+    var finishLoading : Bool
+    var didFinishLoadAction: HTMLFinishLoadClosure?
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        self.finishLoading = false
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        let webConfiguration = WKWebViewConfiguration()
-        self.webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        self.webView.navigationDelegate = self
+        self.markdownView = MarkdownView()
+        self.contentView.addSubview(self.markdownView)
+        self.markdownView.isScrollEnabled = false
+        self.markdownView.snp.makeConstraints { (make) in
+            make.top.left.right.equalTo(self.contentView)
+            make.height.equalTo(0)
+            make.bottom.equalTo(self.contentView)
+        }
+        self.markdownView.onRendered = { [weak self] (height) in
+            if let weak = self {
+                weak.finishLoading = true
+                print("onRendered height: \(height)")
+                var webFrame = weak.markdownView.frame
+                webFrame.size.height = height
+                weak.markdownView.snp.updateConstraints ({ (make) in
+                    make.height.equalTo(height)
+                })
+                weak.contentView.setNeedsUpdateConstraints()
+                if weak.didFinishLoadAction != nil {
+                    weak.didFinishLoadAction!()
+                    weak.didFinishLoadAction = nil
+                }
+//                weak.markdownView.webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (height, error) in
+//                    if let h = height as? String{
+//                        print("height is \(h)")
+//                    }
+//                })
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadContent(original: String) {
-        let htmlString = try? MMMarkdown.htmlString(withMarkdown: original, extensions: .gitHubFlavored)
-        var htmlPage : String!
-        if let body = htmlString {
-            htmlPage = GTMConstantValue.htmlHead + body + GTMConstantValue.htmlTail
-        } else {
-            htmlPage = GTMConstantValue.htmlHead + "no content" + GTMConstantValue.htmlTail
-        }
-        self.webView.loadHTMLString(htmlPage, baseURL: nil)
+    func loadContent(original: String?) {
+        self.markdownView.load(markdown: original)
     }
-    
-    func cellHeight() -> CGFloat {
-        return webView.frame.height
-    }
-}
-
-extension GTMHTMLContentCell: WKNavigationDelegate {
-    
-    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
-        webView.evaluateJavaScript("document.body.offsetHeight;") { (any, error) in
-            guard error == nil  else{
-                return
-            }
-            if let height = any as? CGFloat {
-                print(height)
-                var webFrame = webView.frame
-                webFrame.size.height = height
-                webView.frame = webFrame
-            }
-        }
-        //didLoadSuccessfully?()
-    }
-    
 }

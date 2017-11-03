@@ -21,6 +21,7 @@
 		B23229781F788650000CE9C7 /* GTMDialogPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23229771F788650000CE9C7 /* GTMDialogPresentationController.swift */; };
 		B23B6CE91FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */; };
 		B23B6CEB1FAA800700F2AE55 /* GTMIssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */; };
+		B23D00071FAC03C600FD5C40 /* GTMIssueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23D00061FAC03C600FD5C40 /* GTMIssueDetailViewController.swift */; };
 		B245B74A1FA0E59900C103E2 /* GTMTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */; };
 		B245B74C1FA0F97E00C103E2 /* GTMUserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245B74B1FA0F97E00C103E2 /* GTMUserDetailViewController.swift */; };
 		B245B74E1FA13D7600C103E2 /* GTMLanguageReposCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */; };
@@ -90,6 +91,7 @@
 		B23229771F788650000CE9C7 /* GTMDialogPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMDialogPresentationController.swift; sourceTree = "<group>"; };
 		B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueSummaryCell.swift; sourceTree = "<group>"; };
 		B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueListViewController.swift; sourceTree = "<group>"; };
+		B23D00061FAC03C600FD5C40 /* GTMIssueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueDetailViewController.swift; sourceTree = "<group>"; };
 		B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMTableViewCell.swift; sourceTree = "<group>"; };
 		B245B74B1FA0F97E00C103E2 /* GTMUserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMUserDetailViewController.swift; sourceTree = "<group>"; };
 		B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMLanguageReposCell.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				B295E5D21FA9333B00DD3884 /* GTMFileContentViewController.swift */,
 				B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */,
 				B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */,
+				B23D00061FAC03C600FD5C40 /* GTMIssueDetailViewController.swift */,
 				B250D5031F3D3CEC005CD076 /* GTMAPIRouter.swift */,
 				B29123941F6B4F8C008F3AEA /* GTMAPIManager.swift */,
 				B29123961F6B5905008F3AEA /* GTMConstantValue.swift */,
@@ -437,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23D00071FAC03C600FD5C40 /* GTMIssueDetailViewController.swift in Sources */,
 				B295E5DE1FA95ED600DD3884 /* GTMFileInfoCell.swift in Sources */,
 				B2AF00771FA6858F00D319EA /* GTMBaseViewController.swift in Sources */,
 				B23229741F7868B5000CE9C7 /* UIKitExtension.swift in Sources */,
