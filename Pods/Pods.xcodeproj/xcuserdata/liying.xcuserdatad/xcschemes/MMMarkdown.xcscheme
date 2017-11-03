@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3F6BF46037C7DD9794E688C31D231844"
-               BuildableName = "OcticonsSwift.framework"
-               BlueprintName = "OcticonsSwift"
+               BlueprintIdentifier = "E313CEB3EB21E6E79555A9B59898C1D6"
+               BuildableName = "MMMarkdown.framework"
+               BlueprintName = "MMMarkdown"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3F6BF46037C7DD9794E688C31D231844"
-            BuildableName = "OcticonsSwift.framework"
-            BlueprintName = "OcticonsSwift"
+            BlueprintIdentifier = "E313CEB3EB21E6E79555A9B59898C1D6"
+            BuildableName = "MMMarkdown.framework"
+            BlueprintName = "MMMarkdown"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -23,7 +23,7 @@ class GTMIssueListViewController: GTMRefreshableListViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(GTMIssueViewCell.self, forCellReuseIdentifier: issueCellIdentifier)
+        self.tableView.register(GTMIssueSummaryCell.self, forCellReuseIdentifier: issueCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -88,7 +88,7 @@ extension GTMIssueListViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: issueCellIdentifier, for: indexPath) as! GTMIssueViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: issueCellIdentifier, for: indexPath) as! GTMIssueSummaryCell
         let issue = self.issues[indexPath.row]
         cell.updateUIWith(issue: issue)
         return cell

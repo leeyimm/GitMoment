@@ -149,23 +149,14 @@ enum GTMAPIRouter: URLRequestConvertible {
             switch self {
             case .getLanguagesList:
                 params["sort"] = "popularity"
-                return params
-            case .getTrendingRepos(let params):
-                return params
-            case .getPopularRepos(let params):
-                return params
-            case .searchRepos(let params):
-                return params
-            case .getPopularUsers(let params):
-                return params
-            case .searchUser(let params):
-                return params
             case .getFileContent(_, let branch), .getContents(_, let branch):
                 params["ref"] = "refs/heads/" + branch
-                return params
+            case .getRepoIssues:
+                params["state"] = "all"
             default:
-                return params
+                break
             }
+            return params
             
         }()
         

@@ -5,6 +5,7 @@ PODS:
   - Locksmith (4.0.0)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.14.1)
+  - MMMarkdown (0.5.5)
   - ObjectMapper (3.0.0)
   - OcticonsSwift (0.1.2)
   - Ono (1.2.2)
@@ -20,6 +21,7 @@ DEPENDENCIES:
   - Locksmith (~> 4.0)
   - MBProgressHUD
   - MJRefresh
+  - MMMarkdown
   - ObjectMapper (~> 3.0)
   - OcticonsSwift
   - Ono
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
+  MMMarkdown: 1af97166ce0f6d6e0cb05695665492195d27c3f1
   ObjectMapper: 92230db59bf8f341a5c3a3cf0b9fbdde3cf0d87f
   OcticonsSwift: 64ad8ec6ddd09009c33b64c113bf6ab7b45ce2db
   Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
@@ -43,6 +46,6 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
 
-PODFILE CHECKSUM: 4acab0b98dcdad68d8aa92009336fb419e76b248
+PODFILE CHECKSUM: c817e2b587fa98a1dd0c2aed83542502c95f978f
 
 COCOAPODS: 1.1.1

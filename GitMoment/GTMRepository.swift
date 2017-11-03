@@ -79,15 +79,17 @@ class GTMRepository : Mappable {
     }
 }
 
-enum GTMFileType : String{
-    case dir = "dir"
-    case file = "file"
-    case symlink = "symlink"
-    case submodule = "submodule"
-    case invalid = ""
-}
 
 class GTMFileInfo : Mappable {
+    
+    enum GTMFileType : String{
+        case dir = "dir"
+        case file = "file"
+        case symlink = "symlink"
+        case submodule = "submodule"
+        case invalid = ""
+    }
+    
     var type : GTMFileType = .invalid
     var target : String?
     var submoduleGitUrl : String?
@@ -119,6 +121,11 @@ class GTMFileInfo : Mappable {
 }
 
 class GTMIssue : Mappable {
+    
+    enum GTMIssueState : String {
+        case open = "open"
+        case closed = "closed"
+    }
     var id : Int?
     var url : String?
     var repositoryUrl : String?
@@ -127,7 +134,7 @@ class GTMIssue : Mappable {
     var eventsUrl : String?
     var htmlUrl : String?
     var number : Int?
-    var state : String?
+    var state : GTMIssueState = .open
     var title : String?
     var body : String?
     var user : GTMUser?
@@ -138,6 +145,8 @@ class GTMIssue : Mappable {
     var createdAt : String?
     var updatedAt : String?
     var closedAt : String?
+    
+    var closeBy : GTMUser?
 
     required init?(map: Map) {
         
@@ -162,6 +171,7 @@ class GTMIssue : Mappable {
         createdAt              <- map["created_at"]
         updatedAt              <- map["updated_at"]
         closedAt               <- map["closed_at"]
+        closeBy                <- map["closed_by"]
     }
 }
 

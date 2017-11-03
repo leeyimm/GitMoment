@@ -1,5 +1,5 @@
 //
-//  GTMIssueViewCell.swift
+//  GTMIssueSummaryCell.swift
 //  GitMoment
 //
 //  Created by liying on 01/11/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GTMIssueViewCell: GTMTableViewCell {
+class GTMIssueSummaryCell: GTMTableViewCell {
     
     var numberLabel : UILabel = UILabel(boldFontSize: 15, textColor: UIColor(hex: "#0d47a1"), backgroundColor: UIColor.clear)
     var issueIcon = UIImageView()
@@ -75,6 +75,12 @@ class GTMIssueViewCell: GTMTableViewCell {
         self.titleLabel.text = issue.title
         self.creatorLabel.text = issue.user?.login
         self.createdLabel.text = issue.createdAt!
+        switch issue.state {
+        case .open:
+            self.issueIcon.image = UIImage(octiconsID: .issueOpened, iconColor: UIColor(hex: "#ef5350"), size: CGSize(width: 15, height: 15))
+        case .closed:
+            self.issueIcon.image = UIImage(octiconsID: .issueClosed, iconColor: UIColor(hex: "#4caf50"), size: CGSize(width: 15, height: 15))
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

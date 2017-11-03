@@ -19,7 +19,7 @@
 		B23229741F7868B5000CE9C7 /* UIKitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23229731F7868B5000CE9C7 /* UIKitExtension.swift */; };
 		B23229761F7884EA000CE9C7 /* GTMLocationSettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23229751F7884EA000CE9C7 /* GTMLocationSettingController.swift */; };
 		B23229781F788650000CE9C7 /* GTMDialogPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23229771F788650000CE9C7 /* GTMDialogPresentationController.swift */; };
-		B23B6CE91FAA6F7600F2AE55 /* GTMIssueViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23B6CE81FAA6F7600F2AE55 /* GTMIssueViewCell.swift */; };
+		B23B6CE91FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */; };
 		B23B6CEB1FAA800700F2AE55 /* GTMIssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */; };
 		B245B74A1FA0E59900C103E2 /* GTMTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */; };
 		B245B74C1FA0F97E00C103E2 /* GTMUserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B245B74B1FA0F97E00C103E2 /* GTMUserDetailViewController.swift */; };
@@ -87,7 +87,7 @@
 		B23229731F7868B5000CE9C7 /* UIKitExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtension.swift; sourceTree = "<group>"; };
 		B23229751F7884EA000CE9C7 /* GTMLocationSettingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMLocationSettingController.swift; sourceTree = "<group>"; };
 		B23229771F788650000CE9C7 /* GTMDialogPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMDialogPresentationController.swift; sourceTree = "<group>"; };
-		B23B6CE81FAA6F7600F2AE55 /* GTMIssueViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueViewCell.swift; sourceTree = "<group>"; };
+		B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueSummaryCell.swift; sourceTree = "<group>"; };
 		B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueListViewController.swift; sourceTree = "<group>"; };
 		B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMTableViewCell.swift; sourceTree = "<group>"; };
 		B245B74B1FA0F97E00C103E2 /* GTMUserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMUserDetailViewController.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 				B202582C1FA0395A00C0CDCA /* GTMUserInfoCell.swift */,
 				B295E5DD1FA95ED600DD3884 /* GTMFileInfoCell.swift */,
 				B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */,
-				B23B6CE81FAA6F7600F2AE55 /* GTMIssueViewCell.swift */,
+				B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */,
 				B26069DB1FA53CF200EC6936 /* GTMRepoInfoView.swift */,
 				B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */,
 				B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */,
@@ -322,7 +322,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = liying;
 				TargetAttributes = {
 					B250D4D61F3CEC5C005CD076 = {
@@ -469,7 +469,7 @@
 				B23229781F788650000CE9C7 /* GTMDialogPresentationController.swift in Sources */,
 				B250D4DB1F3CEC5C005CD076 /* AppDelegate.swift in Sources */,
 				B2CFFEFE1F9991650009F980 /* GTMSearchUserViewController.swift in Sources */,
-				B23B6CE91FAA6F7600F2AE55 /* GTMIssueViewCell.swift in Sources */,
+				B23B6CE91FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift in Sources */,
 				B2CE1DDF1F6CB8A3004997B7 /* GTMRepoCell.swift in Sources */,
 				B29123971F6B5905008F3AEA /* GTMConstantValue.swift in Sources */,
 				B245B74A1FA0E59900C103E2 /* GTMTableViewCell.swift in Sources */,
@@ -563,6 +563,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -613,6 +614,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
