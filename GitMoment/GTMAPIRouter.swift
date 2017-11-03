@@ -153,6 +153,16 @@ enum GTMAPIRouter: URLRequestConvertible {
                 params["ref"] = "refs/heads/" + branch
             case .getRepoIssues:
                 params["state"] = "all"
+            case .getTrendingRepos(let params):
+                return params
+            case .getPopularRepos(let params):
+                return params
+            case .searchRepos(let params):
+                return params
+            case .getPopularUsers(let params):
+                return params
+            case .searchUser(let params):
+                return params
             default:
                 break
             }
