@@ -10,14 +10,16 @@ import UIKit
 
 class GTMIssueDetailViewController: GTMRefreshableListViewController {
 
-    let issueHeaderCellIdentifier = "issueHeaderCell"
-    let authorInfoCellIdentifier = "authorCell"
-    let htmlContentCellIdentifier = "htmlContentCell"
-    
     let issue : GTMIssue
-    init(issue : GTMIssue) {
+    let repo : GTMRepository
+    var sectionModels = [GTMSectionModel]()
+    var comments = [GTMComment]()
+    init(repo: GTMRepository, issue : GTMIssue) {
+        self.repo = repo
         self.issue = issue
-        super.init(pageEnabled: false)
+        super.init(pageEnabled: true)
+        
+        sectionModels.append(GTMIssueSectionModel(issue: issue))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,17 +27,29 @@ class GTMIssueDetailViewController: GTMRefreshableListViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(GTMIssueHeaderCell.self, forCellReuseIdentifier: issueHeaderCellIdentifier)
-        self.tableView.register(GTMCommentAuthorCell.self, forCellReuseIdentifier: authorInfoCellIdentifier)
-        self.tableView.register(GTMHTMLContentCell.self, forCellReuseIdentifier: htmlContentCellIdentifier)
+        self.tableView.register(GTMIssueHeaderCell.self, forCellReuseIdentifier: GTMConstantValue.issueHeaderCellIdentifier)
+        self.tableView.register(GTMCommentAuthorCell.self, forCellReuseIdentifier: GTMConstantValue.authorInfoCellIdentifier)
+        self.tableView.register(GTMHTMLContentCell.self, forCellReuseIdentifier: GTMConstantValue.htmlContentCellIdentifier)
         self.tableView.dataSource = self
-        //self.tableView.delegate = self
-        self.tableView.estimatedRowHeight = 60
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.delegate = self
+        self.tableView.separatorStyle = .none
         
         self.tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.contentView)
         }
+        
+        self.tableView.mj_header.refreshingBlock = {
+            [weak self] in
+            self?.fetchIssueComments(page: 1)
+        }
+        
+        self.tableView.mj_footer.refreshingBlock = {
+            [weak self] in
+            self?.fetchIssueComments(page: (self?.page)! + 1)
+        }
+        
+        
+        self.fetchIssueComments(page: 1)
         // Do any additional setup after loading the view.
     }
 
@@ -44,46 +58,64 @@ class GTMIssueDetailViewController: GTMRefreshableListViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func fetchIssueComments(page: Int) {
+        self.showLoadingIndicator(toView: tableView)
+        GTMAPIManager.sharedInstance.fetchIssueComments(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!, issueNum:self.issue.number!,  page: page)  { (result) in
+            self.dismissLoadingIndicator()
+            self.tableView.mj_header.endRefreshing()
+            self.tableView.mj_footer.endRefreshing()
+            guard result.error == nil else {
+                let error  = result.error! as! GTMAPIManagerError
+                self.processError(error: error)
+                return
+            }
+            
+            let fetchedList = (result.value?.0)!
+            let currentPage = (result.value?.1)!
+            self.page = currentPage
+            if currentPage == 1 {
+                self.comments = fetchedList
+                if fetchedList.count < GTMConstantValue.githubPerpageCount {
+                    self.tableView.mj_footer.removeFromSuperview()
+                }
+            } else {
+                if fetchedList.count < GTMConstantValue.githubPerpageCount {
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+                self.comments.append(contentsOf: fetchedList)
+            }
+            
+            self.sectionModels.removeAll()
+            self.sectionModels.append(GTMIssueSectionModel(issue: self.issue))
+            for comment in self.comments {
+                let commentSectionModel = GTMCommentSectionModel(comment: comment)
+                self.sectionModels.append(commentSectionModel)
+            }
+            
+            self.tableView.reloadData()
+            
+        }
     }
-    */
 
 }
 
 extension GTMIssueDetailViewController : UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.sectionModels.count
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.sectionModels[section].numberOfRow()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: issueHeaderCellIdentifier, for: indexPath) as! GTMIssueHeaderCell
-            cell.updateUIWith(issue: self.issue)
-            return cell
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: authorInfoCellIdentifier, for: indexPath) as! GTMCommentAuthorCell
-            cell.updateUIWith(author: self.issue.user!, createTime: self.issue.createdAt!)
-            return cell
-        case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: htmlContentCellIdentifier, for: indexPath) as! GTMHTMLContentCell
-            if cell.finishLoading == false {
-                cell.loadContent(original: self.issue.body)
-                cell.didFinishLoadAction = { [weak self] in
-                    self?.tableView.reloadData()
-                }
-            }
-            return cell
-        default:
-            return UITableViewCell()
-        }
+        let cell = self.sectionModels[indexPath.section].cellForRow(at: indexPath, tableView: tableView)
+        return cell
     }
 }
 
+extension GTMIssueDetailViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.sectionModels[indexPath.section].heightForRow(at: indexPath.row)
+    }
+
+}

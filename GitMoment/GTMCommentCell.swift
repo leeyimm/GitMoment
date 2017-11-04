@@ -29,7 +29,6 @@ class GTMIssueHeaderCell : GTMTableViewCell {
         self.titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.stateLabel.snp.bottom).offset(10)
             make.left.equalTo(self.stateLabel)
-            make.bottom.equalTo(self.contentView).offset(-8)
         }
     }
     
@@ -66,7 +65,6 @@ class GTMCommentAuthorCell: GTMTableViewCell {
             make.left.equalTo(15)
             make.width.height.equalTo(25)
             make.centerY.equalTo(self.contentView)
-            make.bottom.equalTo(self.contentView).offset(-8)
         }
         
         self.authorNameLabel.snp.makeConstraints { (make) in
@@ -94,6 +92,7 @@ class GTMHTMLContentCell : GTMTableViewCell {
     var markdownView : MarkdownView!
     var finishLoading : Bool
     var didFinishLoadAction: HTMLFinishLoadClosure?
+    var sectionModel : GTMSectionModel?
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         self.finishLoading = false
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -103,18 +102,15 @@ class GTMHTMLContentCell : GTMTableViewCell {
         self.markdownView.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(self.contentView)
             make.height.equalTo(0)
-            make.bottom.equalTo(self.contentView)
         }
         self.markdownView.onRendered = { [weak self] (height) in
             if let weak = self {
                 weak.finishLoading = true
                 print("onRendered height: \(height)")
-                var webFrame = weak.markdownView.frame
-                webFrame.size.height = height
                 weak.markdownView.snp.updateConstraints ({ (make) in
-                    make.height.equalTo(height)
+                    make.height.equalTo(height + 15)
                 })
-                weak.contentView.setNeedsUpdateConstraints()
+                weak.sectionModel?.htmlContentHeight = height + 15
                 if weak.didFinishLoadAction != nil {
                     weak.didFinishLoadAction!()
                     weak.didFinishLoadAction = nil

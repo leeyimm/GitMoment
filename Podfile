@@ -16,5 +16,6 @@ target 'GitMoment' do
     pod 'Ono'
     pod 'MJRefresh'
     pod 'YYCache'
-    pod "MarkdownView"
+    pod 'MMMarkdown'
+    pod 'DTCoreText'
 end

@@ -1,11 +1,28 @@
 PODS:
   - Alamofire (4.5.1)
+  - DTCoreText (1.6.21):
+    - DTCoreText/Core (= 1.6.21)
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTCoreText/Core (1.6.21):
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTFoundation/Core (1.7.12)
+  - DTFoundation/DTAnimatedGIF (1.7.12)
+  - DTFoundation/DTHTMLParser (1.7.12):
+    - DTFoundation/Core
+  - DTFoundation/UIKit (1.7.12):
+    - DTFoundation/Core
   - Hue (3.0.0)
   - Kingfisher (4.1.1)
   - Locksmith (4.0.0)
-  - MarkdownView (1.0.3)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.14.1)
+  - MMMarkdown (0.5.5)
   - ObjectMapper (3.0.0)
   - OcticonsSwift (0.1.2)
   - Ono (1.2.2)
@@ -16,12 +33,13 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
+  - DTCoreText
   - Hue
   - Kingfisher (~> 4.0)
   - Locksmith (~> 4.0)
-  - MarkdownView
   - MBProgressHUD
   - MJRefresh
+  - MMMarkdown
   - ObjectMapper (~> 3.0)
   - OcticonsSwift
   - Ono
@@ -32,12 +50,14 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  DTCoreText: e5d688cffc9f6a61eddd1a4f94e2046851230de3
+  DTFoundation: 26a164ef510877387906fb92bff524a792db4bf8
   Hue: b8fe1e43eef13631331eebecb2198b68e2622f95
   Kingfisher: 6793a473357b5dbee42b0068ef203fe8325f259e
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
-  MarkdownView: 95619a575e13cffa334528696e405142048dd951
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 238e6a37e2dba12160ee3b79f6d2a2b26abcab42
+  MMMarkdown: 1af97166ce0f6d6e0cb05695665492195d27c3f1
   ObjectMapper: 92230db59bf8f341a5c3a3cf0b9fbdde3cf0d87f
   OcticonsSwift: 64ad8ec6ddd09009c33b64c113bf6ab7b45ce2db
   Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
@@ -46,6 +66,6 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
 
-PODFILE CHECKSUM: 5250d5c0e2ad7c6b6738c2d04e5748e7a106e7bb
+PODFILE CHECKSUM: 34c58db81ea97349c4dca84267d54d4dcceffddc
 
 COCOAPODS: 1.1.1

@@ -175,7 +175,7 @@ class GTMIssue : Mappable {
     }
 }
 
-class GTMComments : Mappable {
+class GTMComment : Mappable {
     var id : Int?
     var url : String?
     var htmlUrl : String?

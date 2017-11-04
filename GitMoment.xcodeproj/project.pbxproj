@@ -38,6 +38,7 @@
 		B250D5041F3D3CEC005CD076 /* GTMAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B250D5031F3D3CEC005CD076 /* GTMAPIRouter.swift */; };
 		B25383441FA4010E00B2AAB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B25383431FA4010E00B2AAB3 /* Assets.xcassets */; };
 		B25383461FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */; };
+		B256DE3C1FAD028B00972330 /* GTMIssueSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B256DE3B1FAD028B00972330 /* GTMIssueSectionModel.swift */; };
 		B26069D81FA50FAA00EC6936 /* GTMThreeButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26069D71FA50FAA00EC6936 /* GTMThreeButtonView.swift */; };
 		B26069DA1FA526DE00EC6936 /* GTMRepoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26069D91FA526DE00EC6936 /* GTMRepoDetailViewController.swift */; };
 		B26069DC1FA53CF200EC6936 /* GTMRepoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26069DB1FA53CF200EC6936 /* GTMRepoInfoView.swift */; };
@@ -112,6 +113,7 @@
 		B250D5031F3D3CEC005CD076 /* GTMAPIRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMAPIRouter.swift; sourceTree = "<group>"; };
 		B25383431FA4010E00B2AAB3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMNavigationBarSwitchControl.swift; sourceTree = "<group>"; };
+		B256DE3B1FAD028B00972330 /* GTMIssueSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMIssueSectionModel.swift; sourceTree = "<group>"; };
 		B26069D71FA50FAA00EC6936 /* GTMThreeButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMThreeButtonView.swift; sourceTree = "<group>"; };
 		B26069D91FA526DE00EC6936 /* GTMRepoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepoDetailViewController.swift; sourceTree = "<group>"; };
 		B26069DB1FA53CF200EC6936 /* GTMRepoInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepoInfoView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */,
 				B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */,
 				B262D2EC1FABF4220039DA3B /* GTMCommentCell.swift */,
+				B256DE3B1FAD028B00972330 /* GTMIssueSectionModel.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 				B23229721F785C49000CE9C7 /* GTMUserRankingCell.swift in Sources */,
 				B26069DC1FA53CF200EC6936 /* GTMRepoInfoView.swift in Sources */,
 				B202582D1FA0395A00C0CDCA /* GTMUserInfoCell.swift in Sources */,
+				B256DE3C1FAD028B00972330 /* GTMIssueSectionModel.swift in Sources */,
 				B26069D81FA50FAA00EC6936 /* GTMThreeButtonView.swift in Sources */,
 				B25383461FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift in Sources */,
 				B29123991F6B6229008F3AEA /* GTMRepository.swift in Sources */,

@@ -102,7 +102,7 @@ extension GTMIssueListViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let issue = self.issues[indexPath.row]
-        let issueDetailController = GTMIssueDetailViewController(issue: issue)
+        let issueDetailController = GTMIssueDetailViewController(repo: self.repo, issue: issue)
         self.navigationController?.pushViewController(issueDetailController, animated: true)
     }
 }
