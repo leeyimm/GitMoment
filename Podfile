@@ -18,4 +18,5 @@ target 'GitMoment' do
     pod 'YYCache'
     pod 'MMMarkdown'
     pod 'DTCoreText'
+    pod 'SwiftSoup'
 end

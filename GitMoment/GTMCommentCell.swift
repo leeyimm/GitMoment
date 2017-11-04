@@ -8,7 +8,6 @@
 
 import UIKit
 import WebKit
-import MarkdownView
 
 class GTMIssueHeaderCell : GTMTableViewCell {
     var stateLabel = UILabel(fontSize: 13)
@@ -86,49 +85,3 @@ class GTMCommentAuthorCell: GTMTableViewCell {
 
 }
 
-public typealias HTMLFinishLoadClosure = () -> ()
-
-class GTMHTMLContentCell : GTMTableViewCell {
-    var markdownView : MarkdownView!
-    var finishLoading : Bool
-    var didFinishLoadAction: HTMLFinishLoadClosure?
-    var sectionModel : GTMSectionModel?
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.finishLoading = false
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.markdownView = MarkdownView()
-        self.contentView.addSubview(self.markdownView)
-        self.markdownView.isScrollEnabled = false
-        self.markdownView.snp.makeConstraints { (make) in
-            make.top.left.right.equalTo(self.contentView)
-            make.height.equalTo(0)
-        }
-        self.markdownView.onRendered = { [weak self] (height) in
-            if let weak = self {
-                weak.finishLoading = true
-                print("onRendered height: \(height)")
-                weak.markdownView.snp.updateConstraints ({ (make) in
-                    make.height.equalTo(height + 15)
-                })
-                weak.sectionModel?.htmlContentHeight = height + 15
-                if weak.didFinishLoadAction != nil {
-                    weak.didFinishLoadAction!()
-                    weak.didFinishLoadAction = nil
-                }
-//                weak.markdownView.webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (height, error) in
-//                    if let h = height as? String{
-//                        print("height is \(h)")
-//                    }
-//                })
-            }
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func loadContent(original: String?) {
-        self.markdownView.load(markdown: original)
-    }
-}

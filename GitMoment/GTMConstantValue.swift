@@ -268,5 +268,5 @@ class GTMConstantValue {
     
     static let issueHeaderCellIdentifier = "issueHeaderCell"
     static let authorInfoCellIdentifier = "authorCell"
-    static let htmlContentCellIdentifier = "htmlContentCell"
+    static let attributedContentCellIdentifier = "attributedContentCell"
 }

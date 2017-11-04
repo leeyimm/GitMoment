@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DTCoreText
 
 class GTMIssueDetailViewController: GTMRefreshableListViewController {
 
@@ -29,7 +30,7 @@ class GTMIssueDetailViewController: GTMRefreshableListViewController {
         super.viewDidLoad()
         self.tableView.register(GTMIssueHeaderCell.self, forCellReuseIdentifier: GTMConstantValue.issueHeaderCellIdentifier)
         self.tableView.register(GTMCommentAuthorCell.self, forCellReuseIdentifier: GTMConstantValue.authorInfoCellIdentifier)
-        self.tableView.register(GTMHTMLContentCell.self, forCellReuseIdentifier: GTMConstantValue.htmlContentCellIdentifier)
+        self.tableView.register(DTAttributedTextCell.self, forCellReuseIdentifier: GTMConstantValue.attributedContentCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.separatorStyle = .none
