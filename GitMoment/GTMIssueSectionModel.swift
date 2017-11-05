@@ -17,6 +17,7 @@ protocol GTMSectionModel  {
     func numberOfRow() -> Int
     func heightForRow(at: Int) -> CGFloat
     var attributedContentCell: DTAttributedTextCell! { get set}
+    func nextViewController(forRow: Int) -> UIViewController?
 }
 
 class GTMBaseSectionModel:NSObject, GTMSectionModel {
@@ -102,6 +103,10 @@ class GTMBaseSectionModel:NSObject, GTMSectionModel {
         } catch {
             print("process html error")
         }
+    }
+    
+    func nextViewController(forRow: Int) -> UIViewController? {
+        return nil
     }
 }
 
@@ -191,13 +196,15 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
         case 1:
             return 50
         case 2:
+            return 40
+        case 3:
             return self.attributedContentCellHeight
         default:
             return 0
         }
     }
     override func numberOfRow() -> Int {
-        return 3
+        return 4
     }
     
     override func cellForRow(at: IndexPath, tableView: UITableView) -> UITableViewCell {
@@ -211,6 +218,11 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
             cell.updateUIWith(author: self.pullRequest.user!, createTime: self.pullRequest.createdAt!)
             return cell
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.baseCellIdentifier, for: at) as! GTMTableViewCell
+            cell.baseTitleLabel.text = "check updated files"
+            cell.setSeparatedLine(type: .upper, indent: 15)
+            return cell
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.attributedContentCellIdentifier, for: at) as! DTAttributedTextCell
             self.attributedContentCell = cell
             cell.selectionStyle = .none
@@ -223,6 +235,14 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
             return cell
         default:
             return UITableViewCell()
+        }
+    }
+    
+    override func nextViewController(forRow: Int) -> UIViewController? {
+        if forRow == 2 {
+            return UIViewController()
+        } else {
+            return nil
         }
     }
 }

@@ -17,6 +17,7 @@ class GTMTableViewCell: UITableViewCell {
     
     var upperSeparateLine = UIView()
     var lowerSeparateLine = UIView()
+    var baseTitleLabel = UILabel(fontSize: 13, textColor: UIColor.blue, backgroundColor: UIColor.clear)
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +36,11 @@ class GTMTableViewCell: UITableViewCell {
     }
     
     func setupUI() {
-        
+        self.contentView.addSubview(self.baseTitleLabel)
+        self.baseTitleLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.contentView)
+            make.left.equalTo(15)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

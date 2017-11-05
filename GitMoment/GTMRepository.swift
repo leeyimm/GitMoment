@@ -101,7 +101,6 @@ class GTMFileInfo : Mappable {
     var htmlUrl : String?
     var downloadUrl : String?
 
-
     required init?(map: Map) {
         
     }
@@ -224,6 +223,35 @@ class GTMPullRequest : GTMIssueBase {
         commitsUrl             <- map["commits_url"]
         commentsUrl            <- map["comments_url"]
         mergedAt               <- map["merged_at"]
+    }
+}
+
+class GTMUpdatedFileInfo : Mappable {
+    enum GTMModifiedFileStatus : String {
+        case added = "added"
+        case deleted = "deleted"
+        case modified = "modified"
+    }
+    var filename : String?
+    var status : GTMModifiedFileStatus!
+    var additions : Int!
+    var deletions: Int!
+    var changes: Int!
+    var contentsUrl : String?
+    var patch : String?
+    
+    required init?(map: Map) {
+        
+    }
+    
+    func mapping(map: Map) {
+        filename                <- map["filename"]
+        status                <- map["status"]
+        additions               <- map["additions"]
+        deletions               <- map["deletions"]
+        changes             <- map["changes"]
+        contentsUrl            <- map["contents_url"]
+        patch               <- map["patch"]
     }
 }
 

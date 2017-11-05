@@ -40,6 +40,7 @@ class GTMIssueDetailViewController: GTMRefreshableListViewController {
         self.tableView.register(GTMIssueHeaderCell.self, forCellReuseIdentifier: GTMConstantValue.issueHeaderCellIdentifier)
         self.tableView.register(GTMCommentAuthorCell.self, forCellReuseIdentifier: GTMConstantValue.authorInfoCellIdentifier)
         self.tableView.register(DTAttributedTextCell.self, forCellReuseIdentifier: GTMConstantValue.attributedContentCellIdentifier)
+        self.tableView.register(GTMTableViewCell.self, forCellReuseIdentifier: GTMConstantValue.baseCellIdentifier)
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.separatorStyle = .none
@@ -127,5 +128,11 @@ extension GTMIssueDetailViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.sectionModels[indexPath.section].heightForRow(at: indexPath.row)
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sectionModel = self.sectionModels[indexPath.section]
+        if let controller = sectionModel.nextViewController(forRow: indexPath.row) {
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
 }
