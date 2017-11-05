@@ -48,6 +48,7 @@ enum GTMAPIRouter: URLRequestConvertible {
     //issue
     case getRepoIssues(String, String)
     case getIssueComments(String, String, Int) //username, reponame, issueNumber
+    case getRepoPullRequests(String, String)
     
     //fileContent
     case getFileContent(String, String) //path, branch
@@ -131,6 +132,8 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/forks")
             case .getRepoIssues(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues")
+            case .getRepoPullRequests(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/pulls")
             case .getIssueComments(let ownername, let reponame, let issueNum):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues/\(issueNum)/comments")
             case .getFileContent(let path, _):
@@ -151,7 +154,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                 params["sort"] = "popularity"
             case .getFileContent(_, let branch), .getContents(_, let branch):
                 params["ref"] = "refs/heads/" + branch
-            case .getRepoIssues:
+            case .getRepoIssues, .getRepoPullRequests:
                 params["state"] = "all"
             case .getTrendingRepos(let params):
                 return params

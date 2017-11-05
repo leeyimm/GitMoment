@@ -40,11 +40,9 @@ class GTMRefreshableListViewController: GTMBaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func processData<T>(list : inout [T], fetchedResult: ([T], Int), expectedPageCount: Int) {
-        let fetchedList = fetchedResult.0
-        let currentPage = fetchedResult.1
-        self.page = currentPage
-        if currentPage == 1 {
+    func processData<T>(list : inout [T], fetchedList: [T], page: Int, expectedPageCount: Int) {
+        self.page = page
+        if page == 1 {
             if fetchedList.count == 0 {
                 self.showNocontentViewWith(title: "No items")
             } else {

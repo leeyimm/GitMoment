@@ -459,6 +459,24 @@ class GTMAPIManager {
         }
     }
     
+    func fetchRepoPullRequests(ownername: String, reponame: String, page: Int, completionHandler: @escaping (Result<([GTMPullRequest], Int)>) ->Void ) {
+        Alamofire.request(GTMAPIRouter.getRepoPullRequests(ownername, reponame)).responseJSON { (response) in
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))
+                return
+            }
+            guard let jsonArray = response.result.value as? [[String: Any]] else {
+                print("didn't get popular users object as JSON from API")
+                completionHandler(.failure(GTMAPIManagerError.objectSerialization(reason: "Didn't get JSON array")))
+                return
+            }
+            
+            let pullRequests : [GTMPullRequest] = Array(JSONArray: jsonArray)
+            completionHandler(.success((pullRequests, page)))
+        }
+    }
+    
     func fetchIssueComments(ownername: String, reponame: String, issueNum: Int, page: Int, completionHandler: @escaping (Result<([GTMComment], Int)>) ->Void ) {
         Alamofire.request(GTMAPIRouter.getIssueComments(ownername, reponame, issueNum)).responseJSON { (response) in
             guard response.result.error == nil else {

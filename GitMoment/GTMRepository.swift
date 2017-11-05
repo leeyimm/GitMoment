@@ -120,19 +120,13 @@ class GTMFileInfo : Mappable {
     }
 }
 
-class GTMIssue : Mappable {
-    
+class GTMIssueBase : Mappable {
     enum GTMIssueState : String {
         case open = "open"
         case closed = "closed"
     }
     var id : Int?
     var url : String?
-    var repositoryUrl : String?
-    var labelsUrl : String?
-    var commentsUrl : String?
-    var eventsUrl : String?
-    var htmlUrl : String?
     var number : Int?
     var state : GTMIssueState = .open
     var title : String?
@@ -140,13 +134,10 @@ class GTMIssue : Mappable {
     var user : GTMUser?
     var assignee : GTMUser?
     var assignees : [GTMUser]?
-    var comments : Int?
 
     var createdAt : String?
     var updatedAt : String?
     var closedAt : String?
-    
-    var closeBy : GTMUser?
 
     required init?(map: Map) {
         
@@ -155,11 +146,6 @@ class GTMIssue : Mappable {
     func mapping(map: Map) {
         id                     <- map["id"]
         url                    <- map["url"]
-        repositoryUrl          <- map["repository_url"]
-        labelsUrl              <- map["labels_url"]
-        commentsUrl            <- map["comments_url"]
-        eventsUrl              <- map["events_url"]
-        htmlUrl                <- map["html_url"]
         number                 <- map["number"]
         state                  <- map["state"]
         title                  <- map["title"]
@@ -167,10 +153,29 @@ class GTMIssue : Mappable {
         user                   <- map["user"]
         assignee               <- map["assignee"]
         assignees              <- map["assignees"]
-        comments               <- map["comments"]
         createdAt              <- map["created_at"]
         updatedAt              <- map["updated_at"]
         closedAt               <- map["closed_at"]
+    }
+}
+
+class GTMIssue: GTMIssueBase {
+    var closeBy : GTMUser?
+    var comments : Int?
+    var repositoryUrl : String?
+    var labelsUrl : String?
+    var commentsUrl : String?
+    var eventsUrl : String?
+    var htmlUrl : String?
+    
+    override func mapping(map: Map) {
+        super.mapping(map: map)
+        repositoryUrl          <- map["repository_url"]
+        labelsUrl              <- map["labels_url"]
+        commentsUrl            <- map["comments_url"]
+        eventsUrl              <- map["events_url"]
+        htmlUrl                <- map["html_url"]
+        comments               <- map["comments"]
         closeBy                <- map["closed_by"]
     }
 }
@@ -196,6 +201,29 @@ class GTMComment : Mappable {
         user                   <- map["user"]
         createdAt              <- map["created_at"]
         updatedAt              <- map["updated_at"]
+    }
+}
+
+class GTMPullRequest : GTMIssueBase {
+    var htmlUrl : String?
+    var diffUrl : String?
+    var patchUrl : String?
+    var issueUrl : String?
+    var commitsUrl : String?
+    var commentsUrl : String?
+    
+    var mergedAt : String?
+    
+    
+    override func mapping(map: Map) {
+        super.mapping(map: map)
+        htmlUrl                <- map["html_url"]
+        diffUrl                <- map["diff_url"]
+        patchUrl               <- map["patch_url"]
+        issueUrl               <- map["issue_url"]
+        commitsUrl             <- map["commits_url"]
+        commentsUrl            <- map["comments_url"]
+        mergedAt               <- map["merged_at"]
     }
 }
 

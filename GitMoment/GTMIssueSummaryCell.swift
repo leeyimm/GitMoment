@@ -70,7 +70,7 @@ class GTMIssueSummaryCell: GTMTableViewCell {
         }
     }
     
-    func updateUIWith(issue: GTMIssue) {
+    func updateUIWith(issue: GTMIssueBase) {
         self.numberLabel.text = "\(issue.number!)"
         self.titleLabel.text = issue.title
         self.creatorLabel.text = issue.user?.login

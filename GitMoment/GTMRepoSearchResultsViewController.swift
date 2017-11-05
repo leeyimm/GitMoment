@@ -73,7 +73,7 @@ class GTMRepoSearchResultsViewController: GTMRefreshableListViewController {
                 return
             }
             
-            self.processData(list: &self.repos, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
+            self.processData(list: &self.repos, fetchedList: result.value!.0, page: result.value!.1, expectedPageCount: GTMConstantValue.githubPerpageCount)
             self.tableView.reloadData()
 
         }

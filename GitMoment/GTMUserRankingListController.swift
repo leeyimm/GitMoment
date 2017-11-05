@@ -102,7 +102,7 @@ class GTMUserRankingListController: GTMRefreshableListViewController, GTMLocatio
                 return
             }
             
-            self.processData(list: &self.users, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.rankingPerpageCount)
+            self.processData(list: &self.users, fetchedList: result.value!.0, page: result.value!.1, expectedPageCount: GTMConstantValue.rankingPerpageCount)
             self.tableView.reloadData()
         }
     }

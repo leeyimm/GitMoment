@@ -61,16 +61,22 @@ class GTMBaseSectionModel:NSObject, GTMSectionModel {
                             self.updateAttributeForImage(downloadedImageURL: url!, image: image!)
                         }
                     })
-                default:
-                    KingfisherManager.shared.cache.retrieveImage(forKey: (url?.cacheKey)!, options: nil, completionHandler: { (image, _) in
-                        guard image != nil else {
-                            return
-                        }
-                        self.updateHtmlDocumentQueue.sync { [unowned self] in
-                            self.updateAttributeForImage(downloadedImageURL: url!, image: image!)
-                        }
-                    })
-                    break
+                case .memory:
+                    let image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: (url?.cacheKey)!)
+                    guard image != nil else {
+                        break
+                    }
+                    self.updateHtmlDocumentQueue.sync { [unowned self] in
+                        self.updateAttributeForImage(downloadedImageURL: url!, image: image!)
+                    }
+                case .disk:
+                    let image = KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: (url?.cacheKey)!)
+                    guard image != nil else {
+                        break
+                    }
+                    self.updateHtmlDocumentQueue.sync { [unowned self] in
+                        self.updateAttributeForImage(downloadedImageURL: url!, image: image!)
+                    }
                 }
 
             }
@@ -160,6 +166,57 @@ class GTMIssueSectionModel: GTMBaseSectionModel {
             cell.attributedTextContextView.shouldDrawImages = true
             cell.attributedTextContextView.delegate = self
             if let html = self.htmlString(fromBody: self.issue.body) {
+                cell.setHTMLString(html)
+                self.attributedContentCellHeight = self.attributedContentCell.requiredRowHeight(in: tableView)
+            }
+            return cell
+        default:
+            return UITableViewCell()
+        }
+    }
+}
+
+class GTMPullRequestSectionModel: GTMBaseSectionModel {
+    
+    var pullRequest: GTMPullRequest
+    init(pullRequest: GTMPullRequest) {
+        self.pullRequest = pullRequest
+        super.init()
+    }
+    
+    override func heightForRow(at: Int) -> CGFloat {
+        switch at {
+        case 0:
+            return 50
+        case 1:
+            return 50
+        case 2:
+            return self.attributedContentCellHeight
+        default:
+            return 0
+        }
+    }
+    override func numberOfRow() -> Int {
+        return 3
+    }
+    
+    override func cellForRow(at: IndexPath, tableView: UITableView) -> UITableViewCell {
+        switch at.row {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.issueHeaderCellIdentifier, for: at) as! GTMIssueHeaderCell
+            cell.updateUIWith(issue: self.pullRequest)
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.authorInfoCellIdentifier, for: at) as! GTMCommentAuthorCell
+            cell.updateUIWith(author: self.pullRequest.user!, createTime: self.pullRequest.createdAt!)
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.attributedContentCellIdentifier, for: at) as! DTAttributedTextCell
+            self.attributedContentCell = cell
+            cell.selectionStyle = .none
+            cell.attributedTextContextView.shouldDrawImages = true
+            cell.attributedTextContextView.delegate = self
+            if let html = self.htmlString(fromBody: self.pullRequest.body) {
                 cell.setHTMLString(html)
                 self.attributedContentCellHeight = self.attributedContentCell.requiredRowHeight(in: tableView)
             }

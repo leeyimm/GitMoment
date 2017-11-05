@@ -31,7 +31,7 @@ class GTMIssueHeaderCell : GTMTableViewCell {
         }
     }
     
-    func updateUIWith(issue: GTMIssue) {
+    func updateUIWith(issue: GTMIssueBase) {
         self.stateLabel.text = issue.state.rawValue
         self.titleLabel.text = issue.title
     }
@@ -60,6 +60,8 @@ class GTMCommentAuthorCell: GTMTableViewCell {
         self.contentView.addSubview(self.authorNameLabel)
         self.contentView.addSubview(self.createdTimeLabel)
         
+        self.setSeparatedLine(type: .upper, indent: 0)
+        self.setSeparatedLine(type: .lower, indent: 15)
         self.authorIcon.snp.makeConstraints { (make) in
             make.left.equalTo(15)
             make.width.height.equalTo(25)

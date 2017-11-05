@@ -11,16 +11,25 @@ import DTCoreText
 
 class GTMIssueDetailViewController: GTMRefreshableListViewController {
 
-    let issue : GTMIssue
+    let issue : GTMIssueBase
     let repo : GTMRepository
     var sectionModels = [GTMSectionModel]()
     var comments = [GTMComment]()
-    init(repo: GTMRepository, issue : GTMIssue) {
+    init(repo: GTMRepository, issue : GTMIssueBase) {
         self.repo = repo
         self.issue = issue
         super.init(pageEnabled: true)
         
-        sectionModels.append(GTMIssueSectionModel(issue: issue))
+        
+    }
+    
+    func prepareFirstSectionModel() {
+        if self.issue is GTMIssue {
+            sectionModels.append(GTMIssueSectionModel(issue: self.issue as! GTMIssue))
+        }
+        if self.issue is GTMPullRequest {
+            sectionModels.append(GTMPullRequestSectionModel(pullRequest: self.issue as! GTMPullRequest))
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -87,7 +96,7 @@ class GTMIssueDetailViewController: GTMRefreshableListViewController {
             }
             
             self.sectionModels.removeAll()
-            self.sectionModels.append(GTMIssueSectionModel(issue: self.issue))
+            self.prepareFirstSectionModel()
             for comment in self.comments {
                 let commentSectionModel = GTMCommentSectionModel(comment: comment)
                 self.sectionModels.append(commentSectionModel)

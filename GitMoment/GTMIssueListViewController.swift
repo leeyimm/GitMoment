@@ -8,12 +8,19 @@
 
 import UIKit
 
+enum GTMIssueType {
+    case issue
+    case pull_request
+}
+
 class GTMIssueListViewController: GTMRefreshableListViewController {
     let issueCellIdentifier = "issueCell"
     let repo : GTMRepository
-    var issues = [GTMIssue]()
-    init(repo: GTMRepository) {
+    var issues = [GTMIssueBase]()
+    var type : GTMIssueType
+    init(repo: GTMRepository, type: GTMIssueType) {
         self.repo = repo
+        self.type = type
         super.init(pageEnabled: true)
     }
     
@@ -54,20 +61,39 @@ class GTMIssueListViewController: GTMRefreshableListViewController {
 
     func fetchRepoIssues(page: Int) {
         self.showLoadingIndicator(toView: tableView)
-        GTMAPIManager.sharedInstance.fetchRepoIssues(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!, page: page)  { (result) in
-            self.dismissLoadingIndicator()
-            self.tableView.mj_header.endRefreshing()
-            self.tableView.mj_footer.endRefreshing()
-            guard result.error == nil else {
-                let error  = result.error! as! GTMAPIManagerError
-                self.processError(error: error)
-                return
+        switch self.type {
+        case .issue:
+            GTMAPIManager.sharedInstance.fetchRepoIssues(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!, page: page)  { (result) in
+                self.dismissLoadingIndicator()
+                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_footer.endRefreshing()
+                guard result.error == nil else {
+                    let error  = result.error! as! GTMAPIManagerError
+                    self.processError(error: error)
+                    return
+                }
+                
+                self.processData(list: &self.issues, fetchedList: result.value!.0, page: result.value!.1, expectedPageCount: GTMConstantValue.githubPerpageCount)
+                
+                self.tableView.reloadData()
+                
             }
-            
-            self.processData(list: &self.issues, fetchedResult: result.value!, expectedPageCount: GTMConstantValue.githubPerpageCount)
-            
-            self.tableView.reloadData()
-            
+        case .pull_request:
+            GTMAPIManager.sharedInstance.fetchRepoPullRequests(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!, page: page)  { (result) in
+                self.dismissLoadingIndicator()
+                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_footer.endRefreshing()
+                guard result.error == nil else {
+                    let error  = result.error! as! GTMAPIManagerError
+                    self.processError(error: error)
+                    return
+                }
+                
+                self.processData(list: &self.issues, fetchedList: result.value!.0, page: result.value!.1, expectedPageCount: GTMConstantValue.githubPerpageCount)
+                
+                self.tableView.reloadData()
+                
+            }
         }
     }
     /*
@@ -102,7 +128,9 @@ extension GTMIssueListViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let issue = self.issues[indexPath.row]
+
         let issueDetailController = GTMIssueDetailViewController(repo: self.repo, issue: issue)
         self.navigationController?.pushViewController(issueDetailController, animated: true)
+
     }
 }
