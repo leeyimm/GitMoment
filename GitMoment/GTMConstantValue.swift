@@ -270,4 +270,5 @@ class GTMConstantValue {
     static let authorInfoCellIdentifier = "authorCell"
     static let attributedContentCellIdentifier = "attributedContentCell"
     static let baseCellIdentifier = "baseCell"
+    static let updatedFileInfoCellIdentifier = "updatedFileInfoCell"
 }

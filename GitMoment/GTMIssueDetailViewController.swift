@@ -131,7 +131,7 @@ extension GTMIssueDetailViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let sectionModel = self.sectionModels[indexPath.section]
-        if let controller = sectionModel.nextViewController(forRow: indexPath.row) {
+        if let controller = sectionModel.nextViewController(forRow: indexPath.row, repo: self.repo) {
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

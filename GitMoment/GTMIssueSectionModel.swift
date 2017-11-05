@@ -17,7 +17,7 @@ protocol GTMSectionModel  {
     func numberOfRow() -> Int
     func heightForRow(at: Int) -> CGFloat
     var attributedContentCell: DTAttributedTextCell! { get set}
-    func nextViewController(forRow: Int) -> UIViewController?
+    func nextViewController(forRow: Int, repo: GTMRepository) -> UIViewController?
 }
 
 class GTMBaseSectionModel:NSObject, GTMSectionModel {
@@ -105,7 +105,7 @@ class GTMBaseSectionModel:NSObject, GTMSectionModel {
         }
     }
     
-    func nextViewController(forRow: Int) -> UIViewController? {
+    func nextViewController(forRow: Int, repo: GTMRepository) -> UIViewController? {
         return nil
     }
 }
@@ -194,9 +194,9 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
         case 0:
             return 50
         case 1:
-            return 50
-        case 2:
             return 40
+        case 2:
+            return 50
         case 3:
             return self.attributedContentCellHeight
         default:
@@ -214,13 +214,13 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
             cell.updateUIWith(issue: self.pullRequest)
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.authorInfoCellIdentifier, for: at) as! GTMCommentAuthorCell
-            cell.updateUIWith(author: self.pullRequest.user!, createTime: self.pullRequest.createdAt!)
-            return cell
-        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.baseCellIdentifier, for: at) as! GTMTableViewCell
             cell.baseTitleLabel.text = "check updated files"
-            cell.setSeparatedLine(type: .upper, indent: 15)
+            cell.setSeparatedLine(type: .lower, indent: 15)
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.authorInfoCellIdentifier, for: at) as! GTMCommentAuthorCell
+            cell.updateUIWith(author: self.pullRequest.user!, createTime: self.pullRequest.createdAt!)
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: GTMConstantValue.attributedContentCellIdentifier, for: at) as! DTAttributedTextCell
@@ -238,9 +238,9 @@ class GTMPullRequestSectionModel: GTMBaseSectionModel {
         }
     }
     
-    override func nextViewController(forRow: Int) -> UIViewController? {
-        if forRow == 2 {
-            return UIViewController()
+    override func nextViewController(forRow: Int, repo: GTMRepository) -> UIViewController? {
+        if forRow == 1 {
+            return GTMUpdatedFileListController(repo: repo, pullRequest: self.pullRequest)
         } else {
             return nil
         }

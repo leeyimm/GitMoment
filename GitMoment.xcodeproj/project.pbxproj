@@ -61,6 +61,8 @@
 		B2AF00771FA6858F00D319EA /* GTMBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */; };
 		B2CE1DDD1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CE1DDC1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift */; };
 		B2CE1DDF1F6CB8A3004997B7 /* GTMRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CE1DDE1F6CB8A3004997B7 /* GTMRepoCell.swift */; };
+		B2CFA8231FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFA8221FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift */; };
+		B2CFA8251FAF8467005C0571 /* GTMUpdatedFileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */; };
 		B2CFFEFE1F9991650009F980 /* GTMSearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFFEFD1F9991650009F980 /* GTMSearchUserViewController.swift */; };
 		B2CFFF001F99917D0009F980 /* GTMSearchRepoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFFEFF1F99917D0009F980 /* GTMSearchRepoViewController.swift */; };
 /* End PBXBuildFile section */
@@ -136,6 +138,8 @@
 		B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMBaseViewController.swift; sourceTree = "<group>"; };
 		B2CE1DDC1F6CAC37004997B7 /* GTMPopularRepoListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMPopularRepoListViewController.swift; sourceTree = "<group>"; };
 		B2CE1DDE1F6CB8A3004997B7 /* GTMRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepoCell.swift; sourceTree = "<group>"; };
+		B2CFA8221FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMUpdatedFileInfoCell.swift; sourceTree = "<group>"; };
+		B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMUpdatedFileListController.swift; sourceTree = "<group>"; };
 		B2CFFEFD1F9991650009F980 /* GTMSearchUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMSearchUserViewController.swift; sourceTree = "<group>"; };
 		B2CFFEFF1F99917D0009F980 /* GTMSearchRepoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMSearchRepoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,6 +190,7 @@
 				B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */,
 				B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */,
 				B262D2EC1FABF4220039DA3B /* GTMCommentCell.swift */,
+				B2CFA8221FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift */,
 				B256DE3B1FAD028B00972330 /* GTMIssueSectionModel.swift */,
 			);
 			name = View;
@@ -242,6 +247,7 @@
 				B295E5D21FA9333B00DD3884 /* GTMFileContentViewController.swift */,
 				B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */,
 				B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */,
+				B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */,
 				B23D00061FAC03C600FD5C40 /* GTMIssueDetailViewController.swift */,
 				B250D5031F3D3CEC005CD076 /* GTMAPIRouter.swift */,
 				B29123941F6B4F8C008F3AEA /* GTMAPIManager.swift */,
@@ -456,6 +462,7 @@
 				B250D4FC1F3D0275005CD076 /* GTMUserRankingListController.swift in Sources */,
 				B23B6CEB1FAA800700F2AE55 /* GTMIssueListViewController.swift in Sources */,
 				B250D4F81F3CEF9E005CD076 /* GTMNavigationController.swift in Sources */,
+				B2CFA8251FAF8467005C0571 /* GTMUpdatedFileListController.swift in Sources */,
 				B202582B1FA0247E00C0CDCA /* GTMUserReposListController.swift in Sources */,
 				B245B74C1FA0F97E00C103E2 /* GTMUserDetailViewController.swift in Sources */,
 				B250D4FA1F3D025D005CD076 /* GTMTrendingRepoListController.swift in Sources */,
@@ -477,6 +484,7 @@
 				B286ED4C1F9AC67C00CD7067 /* GTMUserSearchResultsViewController.swift in Sources */,
 				B20258271F9FF4F000C0CDCA /* GTMFollowUserCell.swift in Sources */,
 				B250D5001F3D02B8005CD076 /* GTMAccountViewController.swift in Sources */,
+				B2CFA8231FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift in Sources */,
 				B26069DA1FA526DE00EC6936 /* GTMRepoDetailViewController.swift in Sources */,
 				B23229781F788650000CE9C7 /* GTMDialogPresentationController.swift in Sources */,
 				B250D4DB1F3CEC5C005CD076 /* AppDelegate.swift in Sources */,

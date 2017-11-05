@@ -49,6 +49,7 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getRepoIssues(String, String)
     case getIssueComments(String, String, Int) //username, reponame, issueNumber
     case getRepoPullRequests(String, String)
+    case getPullRequestFiles(String, String, Int)
     
     //fileContent
     case getFileContent(String, String) //path, branch
@@ -140,6 +141,8 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
             case .getContents(let path, _):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
+            case .getPullRequestFiles(let ownername, let reponame, let pullNum):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/pulls/\(pullNum)/files")
         }
         
             let url = URL(string: urlString)!
