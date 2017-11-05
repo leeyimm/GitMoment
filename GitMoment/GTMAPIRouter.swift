@@ -52,7 +52,7 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getPullRequestFiles(String, String, Int)
     
     //fileContent
-    case getFileContent(String, String) //path, branch
+    case getFileContent(String) //filePath
     
     case getContents(String, String) //path , branch
     
@@ -137,8 +137,8 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/pulls")
             case .getIssueComments(let ownername, let reponame, let issueNum):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues/\(issueNum)/comments")
-            case .getFileContent(let path, _):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
+            case .getFileContent(let path):
+                urlString = path
             case .getContents(let path, _):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
             case .getPullRequestFiles(let ownername, let reponame, let pullNum):
@@ -155,8 +155,6 @@ enum GTMAPIRouter: URLRequestConvertible {
             switch self {
             case .getLanguagesList:
                 params["sort"] = "popularity"
-            case .getFileContent(_, let branch), .getContents(_, let branch):
-                params["ref"] = "refs/heads/" + branch
             case .getRepoIssues, .getRepoPullRequests:
                 params["state"] = "all"
             case .getTrendingRepos(let params):
@@ -182,7 +180,7 @@ enum GTMAPIRouter: URLRequestConvertible {
         
         switch self {
         case .getFileContent:
-            urlRequest.setValue("application/vnd.github.v3.html", forHTTPHeaderField: "Accept")
+            urlRequest.setValue("text/html,application/xhtml+xml,application/xml", forHTTPHeaderField: "Accept")
         default:
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         }

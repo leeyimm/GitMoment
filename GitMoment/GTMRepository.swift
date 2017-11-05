@@ -229,8 +229,9 @@ class GTMPullRequest : GTMIssueBase {
 class GTMUpdatedFileInfo : Mappable {
     enum GTMModifiedFileStatus : String {
         case added = "added"
-        case deleted = "deleted"
+        case removed = "removed"
         case modified = "modified"
+        case renamed = "renamed"
     }
     var filename : String?
     var status : GTMModifiedFileStatus!
@@ -238,7 +239,9 @@ class GTMUpdatedFileInfo : Mappable {
     var deletions: Int!
     var changes: Int!
     var contentsUrl : String?
+    var blobUrl : String!
     var patch : String?
+    var previousFilename : String?
     
     required init?(map: Map) {
         
@@ -250,8 +253,10 @@ class GTMUpdatedFileInfo : Mappable {
         additions               <- map["additions"]
         deletions               <- map["deletions"]
         changes             <- map["changes"]
+        blobUrl            <- map["blob_url"]
         contentsUrl            <- map["contents_url"]
         patch               <- map["patch"]
+        previousFilename    <- map["previous_filename"]        
     }
 }
 

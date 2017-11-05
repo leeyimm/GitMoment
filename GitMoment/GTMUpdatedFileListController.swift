@@ -97,10 +97,17 @@ extension GTMUpdatedFileListController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let file = self.files[indexPath.row]
-        var nextViewController : UIViewController?
-
+        var nextViewController : UIViewController!
+        switch file.status! {
+        case .modified:
+            nextViewController = GTMFilePatchViewController(fileInfo: file)
+            
+        default:
+            nextViewController = GTMFileContentViewController(filePath: file.blobUrl)
+        }
+        
         if nextViewController != nil {
-            self.navigationController?.pushViewController(nextViewController!, animated: true)
+            self.navigationController?.pushViewController(nextViewController, animated: true)
         }
     }
 }

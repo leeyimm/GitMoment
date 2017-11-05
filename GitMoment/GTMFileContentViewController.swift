@@ -7,17 +7,16 @@
 //
 
 import UIKit
+import SwiftSoup
 
 class GTMFileContentViewController: GTMBaseViewController {
     
     var filePath : String!
     var webView = UIWebView()
-    var branch : String!
     
-    init(filePath: String, branch: String) {
+    init(filePath: String) {
         super.init(nibName: nil, bundle: nil)
         self.filePath = filePath
-        self.branch = branch
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,17 +42,25 @@ class GTMFileContentViewController: GTMBaseViewController {
     }
     
     func fetchFile() {
-        GTMAPIManager.sharedInstance.fetchFileContent(path: filePath, branch: branch) { (result) in
+        GTMAPIManager.sharedInstance.fetchFileContent(path: filePath) { (result) in
             guard result.error == nil else {
                 return
             }
-            
+            var fileContentHtml : String!
+            let fileHTML = result.value!
+            do {
+                let doc: Document = try SwiftSoup.parse(fileHTML)
+                let file: Element = try doc.select("div.file").first()!
+                fileContentHtml = try? file.html()
+            } catch {
+                fileContentHtml = "No conent"
+            }
             let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
+
             let templateHTMLPath = Bundle.main.path(forResource: "fileTemplate", ofType: "html")
             let templateString  = try? String(contentsOfFile: templateHTMLPath!, encoding: String.Encoding.utf8)
-            let fileHTML = result.value!
             if let template = templateString {
-                let htmlString = template.replacingOccurrences(of: "file_content", with: fileHTML)
+                let htmlString = template.replacingOccurrences(of: "file_content", with: fileContentHtml)
                 self.webView.loadHTMLString(htmlString, baseURL: baseURL)
             }
             

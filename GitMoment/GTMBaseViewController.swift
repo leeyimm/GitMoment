@@ -82,6 +82,7 @@ class GTMBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.edgesForExtendedLayout = []
+        
         self.contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }

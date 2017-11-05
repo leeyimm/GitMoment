@@ -30,7 +30,6 @@ class GTMRefreshableListViewController: GTMBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.contentView.addSubview(self.tableView)
         // Do any additional setup after loading the view.
     }

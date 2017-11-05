@@ -88,7 +88,7 @@ extension GTMFileListViewController : UITableViewDelegate {
         var nextViewController : UIViewController?
         switch file.type {
         case .file:
-            nextViewController = GTMFileContentViewController(filePath: self.filePath + "/" + file.name!, branch: self.branch)
+            nextViewController = GTMFileContentViewController(filePath: file.htmlUrl!)
         case .dir:
             nextViewController = GTMFileListViewController(filePath: self.filePath + "/" + file.name!, branch: self.branch)
         default:

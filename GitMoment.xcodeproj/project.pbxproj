@@ -63,6 +63,7 @@
 		B2CE1DDF1F6CB8A3004997B7 /* GTMRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CE1DDE1F6CB8A3004997B7 /* GTMRepoCell.swift */; };
 		B2CFA8231FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFA8221FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift */; };
 		B2CFA8251FAF8467005C0571 /* GTMUpdatedFileListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */; };
+		B2CFA8271FAFAE96005C0571 /* GTMFilePatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFA8261FAFAE96005C0571 /* GTMFilePatchViewController.swift */; };
 		B2CFFEFE1F9991650009F980 /* GTMSearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFFEFD1F9991650009F980 /* GTMSearchUserViewController.swift */; };
 		B2CFFF001F99917D0009F980 /* GTMSearchRepoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CFFEFF1F99917D0009F980 /* GTMSearchRepoViewController.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +141,7 @@
 		B2CE1DDE1F6CB8A3004997B7 /* GTMRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepoCell.swift; sourceTree = "<group>"; };
 		B2CFA8221FAF776B005C0571 /* GTMUpdatedFileInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMUpdatedFileInfoCell.swift; sourceTree = "<group>"; };
 		B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMUpdatedFileListController.swift; sourceTree = "<group>"; };
+		B2CFA8261FAFAE96005C0571 /* GTMFilePatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMFilePatchViewController.swift; sourceTree = "<group>"; };
 		B2CFFEFD1F9991650009F980 /* GTMSearchUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMSearchUserViewController.swift; sourceTree = "<group>"; };
 		B2CFFEFF1F99917D0009F980 /* GTMSearchRepoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMSearchRepoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -249,6 +251,7 @@
 				B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */,
 				B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */,
 				B23D00061FAC03C600FD5C40 /* GTMIssueDetailViewController.swift */,
+				B2CFA8261FAFAE96005C0571 /* GTMFilePatchViewController.swift */,
 				B250D5031F3D3CEC005CD076 /* GTMAPIRouter.swift */,
 				B29123941F6B4F8C008F3AEA /* GTMAPIManager.swift */,
 				B29123961F6B5905008F3AEA /* GTMConstantValue.swift */,
@@ -469,6 +472,7 @@
 				B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */,
 				B262D2ED1FABF4220039DA3B /* GTMCommentCell.swift in Sources */,
 				B295E5D31FA9333B00DD3884 /* GTMFileContentViewController.swift in Sources */,
+				B2CFA8271FAFAE96005C0571 /* GTMFilePatchViewController.swift in Sources */,
 				B292AE5A1FA7F40F001940A5 /* GTMRefreshableListViewController.swift in Sources */,
 				B23229721F785C49000CE9C7 /* GTMUserRankingCell.swift in Sources */,
 				B26069DC1FA53CF200EC6936 /* GTMRepoInfoView.swift in Sources */,
