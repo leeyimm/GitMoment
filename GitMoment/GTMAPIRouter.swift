@@ -43,6 +43,7 @@ enum GTMAPIRouter: URLRequestConvertible {
     //repo
     case getRepoStargazers(String, String) //username, reponame
     case getRepoWatchers(String, String)
+    case getRepoContributers(String, String)
     case getRepoForks(String, String)
     
     //issue
@@ -129,6 +130,8 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/stargazers")
             case .getRepoWatchers(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/subscribers")
+            case .getRepoContributers(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/contributors")
             case .getRepoForks(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/forks")
             case .getRepoIssues(let ownername, let reponame):

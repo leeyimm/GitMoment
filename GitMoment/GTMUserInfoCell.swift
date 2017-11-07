@@ -104,7 +104,7 @@ class GTMInfoCell: GTMTableViewCell {
             label.text = "Source Code"
         case .contributer:
             iconImageView.image = UIImage(octiconsID: .organization, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
-            label.text = "Contributers"
+            label.text = "Contributors"
         case .issue:
             iconImageView.image = UIImage(octiconsID: .issueOpened, iconColor: UIColor(hex: "#4183C4"), size: iconSize)
             label.text = "Issues"

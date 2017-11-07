@@ -14,6 +14,7 @@ enum GTMRepoInterestedUserType {
     case watching
     case follower
     case following
+    case contributors
 }
 
 
@@ -56,6 +57,8 @@ class GTMInterestedUserListController: GTMRefreshableListViewController{
             self.navigationItem.title = "Stargazers"
         case .watching:
             self.navigationItem.title = "Watchers"
+        case .contributors:
+            self.navigationItem.title = "Contributors"
         }
         
         self.tableView.register(GTMFollowUserCell.self, forCellReuseIdentifier: interestedUserCellIdentifier)
@@ -92,7 +95,7 @@ class GTMInterestedUserListController: GTMRefreshableListViewController{
             GTMAPIManager.sharedInstance.fetchFollowUsers(type: self.interestedType, username: username, page: pageNo) { (result) in
                 self.processResult(result: result)
             }
-        case .starred, .watching:
+        case .starred, .watching, .contributors:
             GTMAPIManager.sharedInstance.fetchRepoInterestedUsers(type: self.interestedType, ownername: repoOwnerName, reponame: repoName, page: pageNo) { (result) in
                 self.processResult(result: result)
             }

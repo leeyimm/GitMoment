@@ -374,6 +374,8 @@ class GTMAPIManager {
             URLRequest = GTMAPIRouter.getRepoStargazers(ownername, reponame)
         case .watching:
             URLRequest = GTMAPIRouter.getRepoWatchers(ownername, reponame)
+        case .contributors:
+            URLRequest = GTMAPIRouter.getRepoContributers(ownername, reponame)
         default:
             return
         }

@@ -251,7 +251,7 @@ extension GTMUserDetailViewController : UITableViewDelegate {
             self.navigationController?.pushViewController(reposListController, animated: true)
         }
         if cell is GTMInfoCell {
-            var reposListController : GTMUserReposListController!
+            var reposListController : GTMUserReposListController?
             switch (cell as! GTMInfoCell).type! {
             case .repos:
                 reposListController = GTMUserReposListController(type: .userRepos, username: username, language: nil)
@@ -262,7 +262,9 @@ extension GTMUserDetailViewController : UITableViewDelegate {
             default:
                 break
             }
-            self.navigationController?.pushViewController(reposListController, animated: true)
+            if let nextViewController = reposListController {
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }
         }
     }
 }
