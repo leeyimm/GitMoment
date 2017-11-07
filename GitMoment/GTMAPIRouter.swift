@@ -52,7 +52,7 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getPullRequestFiles(String, String, Int)
     
     //fileContent
-    case getFileContent(String) //filePath
+    case getREADMEContent(String, String) //username, reponame
     
     case getContents(String, String) //path , branch
     
@@ -137,8 +137,8 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/pulls")
             case .getIssueComments(let ownername, let reponame, let issueNum):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues/\(issueNum)/comments")
-            case .getFileContent(let path):
-                urlString = path
+            case .getREADMEContent(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/readme")
             case .getContents(let path, _):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending(path)
             case .getPullRequestFiles(let ownername, let reponame, let pullNum):
@@ -179,8 +179,8 @@ enum GTMAPIRouter: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         
         switch self {
-        case .getFileContent:
-            urlRequest.setValue("text/html,application/xhtml+xml,application/xml", forHTTPHeaderField: "Accept")
+        case .getREADMEContent:
+            urlRequest.setValue("application/vnd.github.v3.html", forHTTPHeaderField: "Accept")
         default:
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         }

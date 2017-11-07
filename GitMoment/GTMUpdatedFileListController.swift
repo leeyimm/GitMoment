@@ -103,7 +103,8 @@ extension GTMUpdatedFileListController : UITableViewDelegate {
             nextViewController = GTMFilePatchViewController(fileInfo: file)
             
         default:
-            nextViewController = GTMFileContentViewController(filePath: file.blobUrl)
+            //nextViewController = GTMFileContentViewController(filePath: file.blobUrl)
+            break
         }
         
         if nextViewController != nil {

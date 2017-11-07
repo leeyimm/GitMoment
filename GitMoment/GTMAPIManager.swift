@@ -532,8 +532,8 @@ class GTMAPIManager {
         }
     }
     
-    func fetchFileContent(path: String, completionHandler: @escaping(Result<String>) -> Void) {
-        Alamofire.request(GTMAPIRouter.getFileContent(path)).responseString { (response) in
+    func fetchREADMEContent(ownername: String, reponame: String, completionHandler: @escaping(Result<String>) -> Void) {
+        Alamofire.request(GTMAPIRouter.getREADMEContent(ownername, reponame)).responseString { (response) in
             guard response.result.error == nil else {
                 print(response.result.error!)
                 completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))

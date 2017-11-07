@@ -1,5 +1,5 @@
 //
-//  GTMFileContentViewController.swift
+//  GTMREADMEViewController.swift
 //  GitMoment
 //
 //  Created by liying on 31/10/2017.
@@ -7,16 +7,16 @@
 //
 
 import UIKit
-import SwiftSoup
 
-class GTMFileContentViewController: GTMBaseViewController {
+class GTMREADMEViewController: GTMBaseViewController {
     
-    var filePath : String!
+    var repo : GTMRepository
     var webView = UIWebView()
     
-    init(filePath: String) {
+    init(repo: GTMRepository) {
+        self.repo = repo
         super.init(nibName: nil, bundle: nil)
-        self.filePath = filePath
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,25 +42,17 @@ class GTMFileContentViewController: GTMBaseViewController {
     }
     
     func fetchFile() {
-        GTMAPIManager.sharedInstance.fetchFileContent(path: filePath) { (result) in
+        GTMAPIManager.sharedInstance.fetchREADMEContent(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!) { (result) in
             guard result.error == nil else {
                 return
             }
-            var fileContentHtml : String!
             let fileHTML = result.value!
-            do {
-                let doc: Document = try SwiftSoup.parse(fileHTML)
-                let file: Element = try doc.select("div.file").first()!
-                fileContentHtml = try? file.html()
-            } catch {
-                fileContentHtml = "No conent"
-            }
             let baseURL = URL(fileURLWithPath: Bundle.main.bundlePath)
 
             let templateHTMLPath = Bundle.main.path(forResource: "fileTemplate", ofType: "html")
             let templateString  = try? String(contentsOfFile: templateHTMLPath!, encoding: String.Encoding.utf8)
             if let template = templateString {
-                let htmlString = template.replacingOccurrences(of: "file_content", with: fileContentHtml)
+                let htmlString = template.replacingOccurrences(of: "file_content", with: fileHTML)
                 self.webView.loadHTMLString(htmlString, baseURL: baseURL)
             }
             

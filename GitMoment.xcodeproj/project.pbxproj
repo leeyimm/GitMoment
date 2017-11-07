@@ -52,7 +52,7 @@
 		B29123991F6B6229008F3AEA /* GTMRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29123981F6B6229008F3AEA /* GTMRepository.swift */; };
 		B291239B1F6B6A4E008F3AEA /* GTMUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B291239A1F6B6A4E008F3AEA /* GTMUser.swift */; };
 		B292AE5A1FA7F40F001940A5 /* GTMRefreshableListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B292AE591FA7F40F001940A5 /* GTMRefreshableListViewController.swift */; };
-		B295E5D31FA9333B00DD3884 /* GTMFileContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B295E5D21FA9333B00DD3884 /* GTMFileContentViewController.swift */; };
+		B295E5D31FA9333B00DD3884 /* GTMREADMEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B295E5D21FA9333B00DD3884 /* GTMREADMEViewController.swift */; };
 		B295E5D61FA94F8A00DD3884 /* fileTemplate.html in Resources */ = {isa = PBXBuildFile; fileRef = B295E5D51FA94F8A00DD3884 /* fileTemplate.html */; };
 		B295E5DA1FA9502300DD3884 /* mobile-github.css in Resources */ = {isa = PBXBuildFile; fileRef = B295E5D91FA9502300DD3884 /* mobile-github.css */; };
 		B295E5DC1FA95DEF00DD3884 /* GTMFileListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */; };
@@ -130,7 +130,7 @@
 		B29123981F6B6229008F3AEA /* GTMRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRepository.swift; sourceTree = "<group>"; };
 		B291239A1F6B6A4E008F3AEA /* GTMUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMUser.swift; sourceTree = "<group>"; };
 		B292AE591FA7F40F001940A5 /* GTMRefreshableListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMRefreshableListViewController.swift; sourceTree = "<group>"; };
-		B295E5D21FA9333B00DD3884 /* GTMFileContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMFileContentViewController.swift; sourceTree = "<group>"; };
+		B295E5D21FA9333B00DD3884 /* GTMREADMEViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMREADMEViewController.swift; sourceTree = "<group>"; };
 		B295E5D51FA94F8A00DD3884 /* fileTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fileTemplate.html; sourceTree = "<group>"; };
 		B295E5D91FA9502300DD3884 /* mobile-github.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "mobile-github.css"; sourceTree = "<group>"; };
 		B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMFileListViewController.swift; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 				B202582A1FA0247E00C0CDCA /* GTMUserReposListController.swift */,
 				B23229771F788650000CE9C7 /* GTMDialogPresentationController.swift */,
 				B2818ECE1F9BFFB50082B7BC /* GTMLoginViewController.swift */,
-				B295E5D21FA9333B00DD3884 /* GTMFileContentViewController.swift */,
+				B295E5D21FA9333B00DD3884 /* GTMREADMEViewController.swift */,
 				B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */,
 				B23B6CEA1FAA800700F2AE55 /* GTMIssueListViewController.swift */,
 				B2CFA8241FAF8467005C0571 /* GTMUpdatedFileListController.swift */,
@@ -471,7 +471,7 @@
 				B250D4FA1F3D025D005CD076 /* GTMTrendingRepoListController.swift in Sources */,
 				B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */,
 				B262D2ED1FABF4220039DA3B /* GTMCommentCell.swift in Sources */,
-				B295E5D31FA9333B00DD3884 /* GTMFileContentViewController.swift in Sources */,
+				B295E5D31FA9333B00DD3884 /* GTMREADMEViewController.swift in Sources */,
 				B2CFA8271FAFAE96005C0571 /* GTMFilePatchViewController.swift in Sources */,
 				B292AE5A1FA7F40F001940A5 /* GTMRefreshableListViewController.swift in Sources */,
 				B23229721F785C49000CE9C7 /* GTMUserRankingCell.swift in Sources */,

@@ -168,8 +168,7 @@ extension GTMRepoDetailViewController : UITableViewDelegate {
             case .owner:
                 nextViewController = GTMUserDetailViewController(username: (self.repo.owner?.login)!)
             case .readme:
-                let reamePath = self.repo.htmlUrl! + "/blob/master/README.MD"
-                nextViewController = GTMFileContentViewController(filePath: reamePath)
+                nextViewController = GTMREADMEViewController(repo: self.repo)
             case .code:
                 let rootPath = "repos/" + (self.repo.owner?.login!)! + "/" + self.repo.name! + "/contents"
                 nextViewController = GTMFileListViewController(filePath: rootPath, branch: self.repo.defaultBranch!)
