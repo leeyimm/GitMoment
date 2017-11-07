@@ -181,7 +181,7 @@ extension GTMUserDetailViewController : UITableViewDataSource {
             switch (indexPath.section, indexPath.row) {
             case (0, 0):
                 if user.isOrganization {
-                    cell.setCellType(type: .repos, title: nil)
+                    cell.setCellType(type: .repos, title: nil, subTitle:"\(user.publicRepos!)")
                 } else {
                     cell.setCellType(type: .company, title: user.company)
                 }
@@ -194,7 +194,7 @@ extension GTMUserDetailViewController : UITableViewDataSource {
                 cell.setCellType(type: .email, title: user.email)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 3):
-                cell.setCellType(type: .link, title: user.url)
+                cell.setCellType(type: .link, title: user.blog)
                 cell.setSeparatedLine(type: .lower, indent: 15)
             case (0, 4):
                 cell.setCellType(type: .events, title: nil)

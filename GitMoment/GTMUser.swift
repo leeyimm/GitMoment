@@ -122,6 +122,7 @@ class GTMGithubUser : Mappable {
     var publicGist : Int?
     var followers : Int?
     var following : Int?
+    var blog : String?
     
     var isOrganization :  Bool { get {
         if let type = self.type {
@@ -158,5 +159,6 @@ class GTMGithubUser : Mappable {
         publicGist          <- map["public_gist"]
         followers           <- map["followers"]
         following           <- map["following"]
+        blog                <- map["blog"]
     }
 }
