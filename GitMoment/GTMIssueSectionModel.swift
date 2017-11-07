@@ -54,7 +54,7 @@ class GTMBaseSectionModel:NSObject, GTMSectionModel {
                 switch KingfisherManager.shared.cache.imageCachedType(forKey: (url?.cacheKey)!)  {
                 case .none:
                     KingfisherManager.shared.downloader.downloadImage(with: URL(string: imageUrl)! , retrieveImageTask: nil, options: nil, progressBlock: nil, completionHandler: { (image, error, url, date) in
-                        guard error == nil else {
+                        guard error != nil else {
                             return
                         }
                         KingfisherManager.shared.cache.store(image!, original: date, forKey: (url?.cacheKey)!)

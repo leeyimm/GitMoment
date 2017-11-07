@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class GTMUpdatedFileListController: GTMRefreshableListViewController {
     var repo : GTMRepository
@@ -104,7 +105,9 @@ extension GTMUpdatedFileListController : UITableViewDelegate {
             
         default:
             //nextViewController = GTMFileContentViewController(filePath: file.blobUrl)
-            break
+            let safariViewController = SFSafariViewController(url: URL(string: file.blobUrl!)!)
+            self.present(safariViewController, animated: true, completion: nil)
+            return
         }
         
         if nextViewController != nil {

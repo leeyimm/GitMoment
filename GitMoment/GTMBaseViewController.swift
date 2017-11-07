@@ -9,6 +9,7 @@
 import UIKit
 import MBProgressHUD
 import Toast_Swift
+import SafariServices
 
 enum GTMErrorViewType {
     case networkError

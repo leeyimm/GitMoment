@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class GTMFileListViewController: GTMRefreshableListViewController {
     
@@ -87,8 +88,10 @@ extension GTMFileListViewController : UITableViewDelegate {
         let file = self.files[indexPath.row]
         var nextViewController : UIViewController?
         switch file.type {
-       // case .file:
-           // nextViewController = GTMFileContentViewController(filePath: file.htmlUrl!)
+        case .file:
+            let safariViewController = SFSafariViewController(url: URL(string: file.htmlUrl!)!)
+            self.present(safariViewController, animated: true, completion: nil)
+            return
         case .dir:
             nextViewController = GTMFileListViewController(filePath: self.filePath + "/" + file.name!, branch: self.branch)
         default:
