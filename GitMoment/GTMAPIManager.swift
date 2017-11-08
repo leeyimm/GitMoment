@@ -563,5 +563,52 @@ class GTMAPIManager {
             completionHandler(.success(files))
         }
     }
+    func checkFollowing(type: GTMFollowingType, username: String, reponame: String!, completionHandler: @escaping (Bool?) -> Void) {
+        var urlRequest : URLRequestConvertible!
+        switch type {
+        case .following:
+            urlRequest = GTMAPIRouter.checkFollowing(username)
+        case .starring:
+            urlRequest = GTMAPIRouter.checkStarred(username, reponame)
+        case .watching:
+            urlRequest = GTMAPIRouter.checkWatching(username, reponame)
+        }
+        Alamofire.request(urlRequest).response(completionHandler: { (response) in
+            if response.response?.statusCode == 204 {
+                completionHandler(true)
+                return
+            }
+            if response.response?.statusCode == 404 {
+                completionHandler(false)
+                return
+            }
+            completionHandler(nil)
+        })
+    }
+    
+    func performFollowing(followingType: GTMFollowingType, type: GTMFollowType, username: String, reponame: String!, completionHandler: @escaping (Bool?) -> Void) {
+        var urlRequest : URLRequestConvertible!
+        switch (followingType,type) {
+        case (.following, .unfollow):
+            urlRequest = GTMAPIRouter.unfollowUser(username)
+        case (.following, .follow):
+            urlRequest = GTMAPIRouter.followUser(username)
+        case (.watching, .unfollow):
+            urlRequest = GTMAPIRouter.unwatchRepo(username, reponame)
+        case (.watching, .follow):
+            urlRequest = GTMAPIRouter.watchRepo(username, reponame)
+        case (.starring, .unfollow):
+            urlRequest = GTMAPIRouter.unstarRepo(username, reponame)
+        case (.starring, .follow):
+            urlRequest = GTMAPIRouter.starRepo(username, reponame)
+        }
+        Alamofire.request(urlRequest).response(completionHandler: { (response) in
+            if response.response?.statusCode == 204 {
+                completionHandler(true)
+                return
+            }
+            completionHandler(nil)
+        })
+    }
     
 }

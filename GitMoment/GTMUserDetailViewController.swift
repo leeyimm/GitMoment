@@ -20,11 +20,14 @@ class GTMUserDetailViewController: UIViewController {
     var user : GTMGithubUser?
     var userRankingInfo : GTMUserRankingInfo?
     var username : String!
+    var followButton : GTMFollowButton!
     
     init(username: String) {
         super.init(nibName: nil, bundle: nil)
         self.username = username
         self.userHeaderView = GTMUserHeaderView(delegate: self)
+        self.followButton = self.userHeaderView.followButton
+        self.followButton.addTarget(self, action: #selector(followButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,6 +96,9 @@ class GTMUserDetailViewController: UIViewController {
                 self.view.setNeedsUpdateConstraints()
                 self.userInfoTableView.reloadData()
             }
+            if !(self.user?.isOrganization)! {
+                self.fetchFollowingStatus()
+            }
         }
         
         GTMAPIManager.sharedInstance.fetchUserReposRanking(username: self.username) { (result) in
@@ -113,6 +119,35 @@ class GTMUserDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    func fetchFollowingStatus() {
+        GTMAPIManager.sharedInstance.checkFollowing(type: .following, username: (self.user?.login!)!, reponame: nil, completionHandler: { (result) in
+            if let status = result {
+                if status {
+                    self.followButton.type = .unfollow
+                } else {
+                    self.followButton.type = .follow
+                }
+                self.followButton.isHidden = false
+            }
+        })
+    }
+    
+    @objc func followButtonTapped() {
+        self.followButton.startLoading()
+        GTMAPIManager.sharedInstance.performFollowing(followingType: self.followButton.followingType, type: self.followButton.type, username: (self.user?.login!)!, reponame: nil, completionHandler: { (result) in
+            self.followButton.stopLoading()
+            if result != nil {
+                switch self.followButton.type {
+                case .follow:
+                    self.followButton.type = .unfollow
+                case .unfollow:
+                    self.followButton.type = .follow
+                }
+                self.followButton.isHidden = false
+            }
+        })
+    }
     
     /*
      // MARK: - Navigation

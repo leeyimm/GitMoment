@@ -13,45 +13,84 @@ import Kingfisher
 
 class GTMUserHeaderView: UIView {
     
-    var userInfo : GTMGithubUser?
-    var backgroundAvatarImageView = UIImageView()
-    var frontAvatarImageView = UIImageView()
-    var usernameLabel = UILabel()
+    let heightScale : CGFloat = 0.36
+    var upperBackgroundView = UIView()
+    var avatarImageView = UIImageView()
+    var usernameLabel = UILabel(boldFontSize: 22, textColor: UIColor.black, backgroundColor: UIColor.clear)
+    var loginLabel = UILabel()
+    var createdLabel = UILabel(fontSize: 13)
+    var updatedLabel = UILabel(fontSize: 13)
+    var typeLabel = UILabel(fontSize: 13)
+    var followButton = GTMFollowButton(followingType: .following)
     var threeButtonView : GTMThreeButtonView!
 
     
 
     init(delegate: GTMThreeButtonViewDelegate) {
         super.init(frame: CGRect.zero)
-        self.backgroundColor = UIColor.white
-        self.addSubview(backgroundAvatarImageView)
-        self.addSubview(frontAvatarImageView)
-        self.addSubview(usernameLabel)
+        self.backgroundColor = UIColor(hex: "f5f5f5")
+        self.upperBackgroundView.backgroundColor = UIColor.white
+        self.addSubview(self.upperBackgroundView)
+        self.upperBackgroundView.addSubview(avatarImageView)
+        self.upperBackgroundView.addSubview(usernameLabel)
+        self.upperBackgroundView.addSubview(loginLabel)
+        self.upperBackgroundView.addSubview(createdLabel)
+        self.upperBackgroundView.addSubview(updatedLabel)
+        self.upperBackgroundView.addSubview(typeLabel)
+        self.upperBackgroundView.addSubview(followButton)
+        self.followButton.isHidden = true
+        
         
         self.threeButtonView = GTMThreeButtonView(leftTitle: "followers", middleTitle: "repositories", rightTitle: "following")
         self.threeButtonView.delegate = delegate
         self.addSubview(self.threeButtonView)
         
-        backgroundAvatarImageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(UIScreen.main.bounds.width)
-            make.centerX.top.equalTo(self)
+        upperBackgroundView.snp.makeConstraints { (make) in
+            make.height.equalTo(UIScreen.main.bounds.width * heightScale + 16)
+            make.top.width.centerX.equalTo(self)
         }
         
-        frontAvatarImageView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(self).offset(-15)
-            make.size.equalTo(CGSize(width: 70, height: 70))
+        avatarImageView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(UIScreen.main.bounds.width * heightScale)
+            make.left.equalTo(upperBackgroundView).offset(8)
+            make.centerY.equalTo(upperBackgroundView)
+        }
+        
+        createdLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(10)
+            make.centerY.equalTo(upperBackgroundView).offset(4)
+        }
+        
+        loginLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(createdLabel)
+            make.bottom.equalTo(createdLabel.snp.top).offset(-6)
         }
         
         usernameLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self)
-            make.top.equalTo(self.frontAvatarImageView.snp.bottom).offset(8)
+            make.left.equalTo(createdLabel)
+            make.bottom.equalTo(loginLabel.snp.top).offset(-7)
+        }
+        
+        updatedLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(createdLabel)
+            make.top.equalTo(createdLabel.snp.bottom).offset(6)
+        }
+        
+        typeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(createdLabel)
+            make.top.equalTo(updatedLabel.snp.bottom).offset(10)
+        }
+        
+        followButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(typeLabel)
+            make.left.equalTo(typeLabel.snp.right).offset(8)
+            make.width.equalTo(55)
         }
         
         threeButtonView.snp.makeConstraints { (make) in
             make.width.equalTo(self)
             make.centerX.equalTo(self)
-            make.top.equalTo(backgroundAvatarImageView.snp.bottom)
+            make.bottom.equalTo(self)
             make.height.equalTo(60)
         }
     }
@@ -62,22 +101,22 @@ class GTMUserHeaderView: UIView {
     
     
     func setUserInfo(user: GTMGithubUser) {
-        self.userInfo = user
-        if let user = self.userInfo {
-            self.usernameLabel.text = user.name
-            self.backgroundAvatarImageView.kf.setImage(with: URL(string: user.avatarUrl!))
-            self.frontAvatarImageView.kf.setImage(with: URL(string: user.avatarUrl!))
-            self.threeButtonView.updateButtonsUpperTitle(left: "\(user.followers ?? 0)", middle: "\(user.publicRepos ?? 0)", right: "\(user.following ?? 0)")
-            self.invalidateIntrinsicContentSize()
-        }
-        self.setNeedsUpdateConstraints()
+        self.usernameLabel.text = user.name
+        self.avatarImageView.kf.setImage(with: URL(string: user.avatarUrl!))
+        self.loginLabel.text = user.login
+        self.createdLabel.text = "created: \(user.createdAt!)"
+        self.updatedLabel.text = "updated: \(user.updatedAt!)"
+        self.typeLabel.text = "type: \(user.type!)"
+        self.threeButtonView.updateButtonsUpperTitle(left: "\(user.followers ?? 0)", middle: "\(user.publicRepos ?? 0)", right: "\(user.following ?? 0)")
+        self.threeButtonView.isHidden = user.isOrganization
+        self.invalidateIntrinsicContentSize()
     }
     
     override var intrinsicContentSize: CGSize {
-        if (self.userInfo?.isOrganization ?? false) {
-            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+        if (self.threeButtonView.isHidden) {
+            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * heightScale + 16)
         }
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width + 60)
+        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * heightScale + 61  + 16)
     }
 
     /*

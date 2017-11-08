@@ -271,4 +271,13 @@ class GTMConstantValue {
     static let attributedContentCellIdentifier = "attributedContentCell"
     static let baseCellIdentifier = "baseCell"
     static let updatedFileInfoCellIdentifier = "updatedFileInfoCell"
+    
+
 }
+
+enum GTMFollowingType {
+    case following
+    case watching
+    case starring
+}
+

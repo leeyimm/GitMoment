@@ -123,6 +123,8 @@ class GTMGithubUser : Mappable {
     var followers : Int?
     var following : Int?
     var blog : String?
+    var createdAt : String?
+    var updatedAt : String?
     
     var isOrganization :  Bool { get {
         if let type = self.type {
@@ -160,5 +162,7 @@ class GTMGithubUser : Mappable {
         followers           <- map["followers"]
         following           <- map["following"]
         blog                <- map["blog"]
+        createdAt           <- map["created_at"]
+        updatedAt           <- map["updated_at"]
     }
 }
