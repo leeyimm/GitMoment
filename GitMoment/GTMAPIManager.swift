@@ -515,6 +515,38 @@ class GTMAPIManager {
         }
     }
     
+    func fetchRepoLanguages(ownername: String, reponame: String, completionHandler: @escaping (Result<([String: Any])>) ->Void ) {
+        Alamofire.request(GTMAPIRouter.getRepoLanguages(ownername, reponame)).responseJSON { (response) in
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))
+                return
+            }
+            guard let jsonDict = response.result.value as? [String: Any] else {
+                print("didn't get popular users object as JSON from API")
+                completionHandler(.failure(GTMAPIManagerError.objectSerialization(reason: "Didn't get JSON array")))
+                return
+            }
+            completionHandler(.success(jsonDict))
+        }
+    }
+    
+    func fetchRepoTopics(ownername: String, reponame: String, completionHandler: @escaping (Result<([String])>) ->Void ) {
+        Alamofire.request(GTMAPIRouter.getRepoTopics(ownername, reponame)).responseJSON { (response) in
+            guard response.result.error == nil else {
+                print(response.result.error!)
+                completionHandler(.failure(GTMAPIManagerError.network(error: response.result.error!)))
+                return
+            }
+            guard let jsonDict = response.result.value as? [String: Any], let jsonArray = jsonDict["names"] as? [String] else {
+                print("didn't get popular users object as JSON from API")
+                completionHandler(.failure(GTMAPIManagerError.objectSerialization(reason: "Didn't get JSON array")))
+                return
+            }
+            completionHandler(.success(jsonArray))
+        }
+    }
+    
     func fetchUserInfo(username: String?, completionHandler: @escaping (Result<GTMGithubUser>) -> Void) {
         Alamofire.request(GTMAPIRouter.getUserInfo(username)).responseJSON { (response) in
             guard response.result.error == nil else {

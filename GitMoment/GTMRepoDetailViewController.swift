@@ -72,6 +72,26 @@ class GTMRepoDetailViewController: UIViewController {
             make.bottom.equalTo(self.scrollView).offset(-15)
         }
         
+        GTMAPIManager.sharedInstance.fetchRepoTopics(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!) { (result) in
+            guard result.error == nil else {
+                return
+            }
+            let topic = result.value!
+            self.repoInfoView.topicsView.setTopics(topics: topic)
+        }
+        
+        GTMAPIManager.sharedInstance.fetchRepoLanguages(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!) { (result) in
+            guard result.error == nil else {
+                return
+            }
+            let languagesDict = result.value!
+            var languages = [String]()
+            for (language, number) in languagesDict {
+                languages.append(language)
+            }
+            self.repoInfoView.languagesView.setTopics(topics: languages)
+        }
+        
         // Do any additional setup after loading the view.
     }
     

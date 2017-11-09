@@ -75,11 +75,9 @@ class GTMAccountViewController: UIViewController {
             make.width.equalTo(self.contentView).offset(-40)
             make.bottom.equalTo(self.contentView).offset(-30)
         }
-        
         if GTMAPIManager.sharedInstance.hasOAuthToken() {
             self.loginSuccess()
         }
-
         // Do any additional setup after loading the view.
     }
     

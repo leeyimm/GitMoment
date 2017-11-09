@@ -46,6 +46,9 @@ enum GTMAPIRouter: URLRequestConvertible {
     case getRepoContributers(String, String)
     case getRepoForks(String, String)
     
+    case getRepoLanguages(String, String)
+    case getRepoTopics(String, String)
+    
     //issue
     case getRepoIssues(String, String)
     case getIssueComments(String, String, Int) //username, reponame, issueNumber
@@ -115,7 +118,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/starred")
                 }
             case .starRepo(let username, let repo), .unstarRepo(let username, let repo), .checkStarred(let username, let repo):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("users/starred/" + username + repo)
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/starred/" + username + repo)
             case .getUserWatchingRepos(let username):
                 if let name = username {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("users/" + name + "/subscriptions")
@@ -123,7 +126,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/subscriptions")
                 }
             case .watchRepo(let username, let repo), .unwatchRepo(let username, let repo), .checkWatching(let username, let repo):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("users/subscriptions/" + username + repo)
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/subscriptions/" + username + repo)
             case .followUser(let username), .unfollowUser(let username):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/following/" + username)
             case  .checkFollowing(let username):
@@ -140,6 +143,10 @@ enum GTMAPIRouter: URLRequestConvertible {
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues")
             case .getRepoPullRequests(let ownername, let reponame):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/pulls")
+            case .getRepoLanguages(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/languages")
+            case .getRepoTopics(let ownername, let reponame):
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/topics")
             case .getIssueComments(let ownername, let reponame, let issueNum):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("repos/" + ownername + "/" + reponame + "/issues/\(issueNum)/comments")
             case .getREADMEContent(let ownername, let reponame):
@@ -186,6 +193,8 @@ enum GTMAPIRouter: URLRequestConvertible {
         switch self {
         case .getREADMEContent:
             urlRequest.setValue("application/vnd.github.v3.html", forHTTPHeaderField: "Accept")
+        case .getRepoTopics:
+            urlRequest.setValue("application/vnd.github.mercy-preview+json", forHTTPHeaderField: "Accept")
         case .followUser:
             urlRequest.setValue("0", forHTTPHeaderField: "Content-Length")
             fallthrough
