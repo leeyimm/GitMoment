@@ -42,7 +42,7 @@ class GTMSearchRepoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
+        //self.edgesForExtendedLayout = []
         self.view.addSubview(scrollView)
         
         scrollView.snp.makeConstraints { (make) in

@@ -9,15 +9,57 @@
 import UIKit
 import WebKit
 
-class GTMRepoDescriptionView : UIView {
-    var descriptionLabel = UILabel(fontSize: 15, textColor: UIColor.black, backgroundColor: UIColor.white)
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+class GTMRepoInfoBaseView : UIView {
+    var backgroundView = UIView()
+    var titleLabel = UILabel(fontSize: 10, textColor: UIColor.white, backgroundColor: UIColor(hex: "#2196f3"))
+    var noContentLabel = UILabel(italicFontSize: 14, textColor: UIColor(hex: "#999999"), backgroundColor: UIColor.white)
+    init(title: String, noContentTitle: String) {
+        super.init(frame: CGRect.zero)
+        self.addSubview(backgroundView)
+        backgroundView.layer.borderWidth = 1.0
+        backgroundView.layer.borderColor = UIColor(hex: "29b6f5").cgColor
+        backgroundView.layer.cornerRadius = 4.0
+        self.backgroundView.snp.makeConstraints { (make) in
+            make.top.left.equalTo(15)
+            make.right.bottom.equalTo(-15)
+        }
+        
+        self.addSubview(titleLabel)
+        self.titleLabel.text = title
+        self.titleLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self)
+            make.bottom.equalTo(backgroundView.snp.top).offset(self.titleLabel.intrinsicContentSize.height / 2)
+        }
+        
+        self.addSubview(noContentLabel)
+        self.noContentLabel.text = noContentTitle
+        self.noContentLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(backgroundView)
+        }
+        self.noContentLabel.isHidden = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class GTMRepoDescriptionView : GTMRepoInfoBaseView {
+    private var descriptionLabel = UILabel(fontSize: 15, textColor: UIColor.black, backgroundColor: UIColor.white)
+    init() {
+        super.init(title: "Description", noContentTitle: "No Description")
         self.addSubview(descriptionLabel)
         self.descriptionLabel.numberOfLines = 0
         self.descriptionLabel.snp.makeConstraints { (make) in
-            make.top.left.equalTo(15)
-            make.right.bottom.equalTo(-15)
+            make.top.left.equalTo(self.backgroundView).offset(8)
+            make.right.bottom.equalTo(self.backgroundView).offset(-8)
+        }
+    }
+    func setDescription(desc: String?) {
+        if let description = desc, description != "" {
+            self.descriptionLabel.text = description
+        } else {
+            self.noContentLabel.isHidden = false
         }
     }
     required init?(coder aDecoder: NSCoder) {
@@ -25,35 +67,47 @@ class GTMRepoDescriptionView : UIView {
     }
 }
 
-class GTMRepoTopicsView : UIView {
+class GTMRepoTopicsView : GTMRepoInfoBaseView {
     var topics = [String]()
     var topicLabels = [UILabel]()
+    
+    init() {
+        super.init(title: "Topics", noContentTitle: "No Topics Information")
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setTopics(topics: [String]) {
-        self.topics = topics
-        self.topicLabels.removeAll()
-        for topic in topics {
-            let topicLabel = UILabel(fontSize: 12, textColor: UIColor.white, backgroundColor: UIColor(hex: "#03a9f4"))
-            topicLabel.text = topic
-            self.addSubview(topicLabel)
-            
-            topicLabel.snp.makeConstraints({ (make) in
-                make.centerY.equalTo(self)
-                if self.topicLabels.count == 0 { //firstLabel
-                    make.left.equalTo(20)
-                } else {
-                    make.left.equalTo(self.topicLabels.last!.snp.right).offset(25)
-                }
-            })
-            self.topicLabels.append(topicLabel)
+        if topics.count > 0 {
+            self.topics = topics
+            self.topicLabels.removeAll()
+            for topic in topics {
+                let topicLabel = UILabel(fontSize: 12, textColor: UIColor.white, backgroundColor: UIColor(hex: "#03a9f4"))
+                topicLabel.text = topic
+                self.addSubview(topicLabel)
+                
+                topicLabel.snp.makeConstraints({ (make) in
+                    make.centerY.equalTo(self)
+                    if self.topicLabels.count == 0 { //firstLabel
+                        make.left.equalTo(20)
+                    } else {
+                        make.left.equalTo(self.topicLabels.last!.snp.right).offset(25)
+                    }
+                })
+                self.topicLabels.append(topicLabel)
+            }
+        } else {
+            self.noContentLabel.isHidden = false
         }
         self.invalidateIntrinsicContentSize()
     }
     
     override var intrinsicContentSize: CGSize {
         if self.topicLabels.count == 0 {
-            return CGSize(width: UIScreen.main.bounds.width, height: 0)
-        } else {
             return CGSize(width: UIScreen.main.bounds.width, height: 60)
+        } else {
+            return CGSize(width: UIScreen.main.bounds.width, height: 90)
         }
     }
 }
@@ -81,23 +135,21 @@ class GTMRepoInfoView: UIView {
     func setupUI() {
         self.backgroundColor = UIColor.white
         
-        descriptionView.descriptionLabel.text = repo.description ?? "No description"
+        descriptionView.setDescription(desc: self.repo.description)
         self.addSubview(descriptionView)
         descriptionView.snp.makeConstraints { (make) in
-            make.top.equalTo(self)
-            make.left.equalTo(self).offset(8)
-            make.right.equalTo(self).offset(-8)
+            make.top.left.right.equalTo(self)
         }
         
         self.addSubview(topicsView)
         topicsView.snp.makeConstraints { (make) in
-            make.left.equalTo(self)
+            make.left.right.equalTo(self)
             make.top.equalTo(descriptionView.snp.bottom).offset(10)
         }
         
         self.addSubview(languagesView)
         languagesView.snp.makeConstraints { (make) in
-            make.left.equalTo(self)
+            make.left.right.equalTo(self)
             make.top.equalTo(topicsView.snp.bottom).offset(10)
         }
         

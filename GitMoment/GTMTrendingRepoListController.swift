@@ -22,7 +22,7 @@ class GTMTrendingRepoListController: GTMBaseViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.edgesForExtendedLayout = .top
         self.contentView.addSubview(self.periodSegmentControl)
         self.periodSegmentControl.addTarget(self, action: #selector(periodSegmentChange(sender:)), for: .valueChanged)
         self.periodSegmentControl.tintColor = UIColor(hex: "#239BE7")

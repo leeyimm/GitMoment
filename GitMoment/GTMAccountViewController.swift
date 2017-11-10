@@ -30,7 +30,7 @@ class GTMAccountViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = .top
+        //self.edgesForExtendedLayout = .top
         self.navigationItem.title = "Profile"
         loginButton.setTitle("Login Github", for: .normal)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)

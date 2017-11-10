@@ -17,7 +17,7 @@ class GTMReposListViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
+        //self.edgesForExtendedLayout = []
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Language", style: .plain, target: self, action: #selector(changeLanguage))
         

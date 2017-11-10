@@ -8,9 +8,8 @@
 
 import UIKit
 
-class GTMUserDetailViewController: UIViewController {
-    
-    var contentView = UIScrollView()
+class GTMUserDetailViewController: GTMBaseViewController {
+    var scrollView = UIScrollView()
     var userHeaderView : GTMUserHeaderView!
     var userInfoTableView = UITableView()
     var userInfoCellHeight = 45.0
@@ -36,12 +35,12 @@ class GTMUserDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = .top
+        //self.edgesForExtendedLayout = .top
         self.navigationItem.title = "Profile"
         
-        self.view.addSubview(contentView)
-        contentView.backgroundColor = UIColor(hex: "#f5f5f5")
-        contentView.snp.makeConstraints { (make) in
+        self.contentView.addSubview(scrollView)
+        scrollView.backgroundColor = UIColor(hex: "#f5f5f5")
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
@@ -49,19 +48,19 @@ class GTMUserDetailViewController: UIViewController {
         self.userInfoTableView.register(GTMLanguageReposCell.self, forCellReuseIdentifier: userLanguageReposCellIdentifier)
         self.userInfoTableView.dataSource = self
         self.userInfoTableView.delegate = self
-        self.contentView.addSubview(userHeaderView)
-        self.contentView.addSubview(userInfoTableView)
+        self.scrollView.addSubview(userHeaderView)
+        self.scrollView.addSubview(userInfoTableView)
         
         userHeaderView.snp.makeConstraints { (make) in
-            make.top.centerX.equalTo(self.contentView)
+            make.top.centerX.equalTo(self.scrollView)
             //make.height.equalTo(userHeaderView.intrinsicContentSize.height)
         }
         
         userInfoTableView.snp.makeConstraints { (make) in
             make.top.equalTo(userHeaderView.snp.bottom)
-            make.centerX.equalTo(self.contentView)
+            make.centerX.equalTo(self.scrollView)
             make.width.equalTo(userHeaderView)
-            make.bottom.equalTo(self.contentView).offset(-10)
+            make.bottom.equalTo(self.scrollView).offset(-10)
             make.height.equalTo(8 * userInfoCellHeight + 15 * 2)
         }
         

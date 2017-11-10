@@ -9,7 +9,7 @@
 import UIKit
 
 
-class GTMRepoDetailViewController: UIViewController {
+class GTMRepoDetailViewController: GTMBaseViewController {
     var repo : GTMRepository!
     var scrollView = UIScrollView()
     var threeButtonView : GTMThreeButtonView!
@@ -31,13 +31,13 @@ class GTMRepoDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
+        //self.edgesForExtendedLayout = []
         self.navigationItem.title = self.repo.name!
         
-        self.view.addSubview(self.scrollView)
+        self.contentView.addSubview(self.scrollView)
         self.scrollView.backgroundColor = UIColor(hex: "#f5f5f5")
         scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(self.contentView)
         }
         
         self.threeButtonView = GTMThreeButtonView(leftTitle: "watch", middleTitle: "star", rightTitle: "fork")

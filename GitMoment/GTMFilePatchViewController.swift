@@ -23,7 +23,7 @@ class GTMFilePatchViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = []
+        //self.edgesForExtendedLayout = []
         self.view.backgroundColor = UIColor.white
         
         self.view.addSubview(self.scrollView)

@@ -31,7 +31,11 @@ class GTMRefreshableListViewController: GTMBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.contentView.addSubview(self.tableView)
+        if #available(iOS 11, *) {
+            self.tableView.contentInsetAdjustmentBehavior = .never
+        }
         // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {

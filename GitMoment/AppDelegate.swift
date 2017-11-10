@@ -24,36 +24,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let repoImage = UIImage(octiconsID: .repo, backgroundColor: UIColor.clear, iconColor: UIColor.lightGray, iconScale: 1, size: CGSize(width: 25, height: 25))
         let repoHLImage = UIImage(octiconsID: .repo, backgroundColor: UIColor.clear, iconColor: UIColor(hex: "#239BE7"), iconScale: 1, size: CGSize(width: 25, height: 25))
         reposListNavigationController.tabBarItem = UITabBarItem(title: "repo", image: repoImage, selectedImage: repoHLImage)
-        reposListNavigationController.navigationBar.setBackgroundImage(UIImage(named: "navigationBar"), for: .default)
         reposListNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         reposListNavigationController.navigationBar.tintColor = UIColor.white
+        reposListNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
         
         let userRankingController = GTMUserRankingListController()
         let userRankingNavigationController = GTMNavigationController(rootViewController: userRankingController)
         let userImage = UIImage(octiconsID: .octoface, backgroundColor: UIColor.clear, iconColor: UIColor.lightGray, iconScale: 1, size: CGSize(width: 25, height: 25))
         let userHLImage = UIImage(octiconsID: .octoface, backgroundColor: UIColor.clear, iconColor: UIColor(hex: "#239BE7"), iconScale: 1, size: CGSize(width: 25, height: 25))
         userRankingNavigationController.tabBarItem = UITabBarItem(title: "user", image: userImage, selectedImage: userHLImage)
-        userRankingNavigationController.navigationBar.setBackgroundImage(UIImage(named: "navigationBar"), for: .default)
         userRankingNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         userRankingNavigationController.navigationBar.tintColor = UIColor.white
+        userRankingNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
         
         let searchViewController = GTMSearchViewController()
         let searchNavigationController = GTMNavigationController(rootViewController: searchViewController)
         let searchImage = UIImage(octiconsID: .search, backgroundColor: UIColor.clear, iconColor: UIColor.lightGray, iconScale: 1, size: CGSize(width: 25, height: 25))
         let searchHLImage = UIImage(octiconsID: .search, backgroundColor: UIColor.clear, iconColor: UIColor(hex: "#239BE7"), iconScale: 1, size: CGSize(width: 25, height: 25))
         searchNavigationController.tabBarItem = UITabBarItem(title: "search", image: searchImage, selectedImage: searchHLImage)
-        searchNavigationController.navigationBar.setBackgroundImage(UIImage(named: "navigationBar"), for: .default)
         searchNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         searchNavigationController.navigationBar.tintColor = UIColor.white
+        searchNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
         
         let accountViewController = GTMAccountViewController()
         let accountNavigationController = GTMNavigationController(rootViewController: accountViewController)
         let accountImage = UIImage(octiconsID: .person, backgroundColor: UIColor.clear, iconColor: UIColor.lightGray, iconScale: 1, size: CGSize(width: 25, height: 25))
         let accountHLImage = UIImage(octiconsID: .person, backgroundColor: UIColor.clear, iconColor: UIColor(hex: "#239BE7"), iconScale: 1, size: CGSize(width: 25, height: 25))
         accountNavigationController.tabBarItem = UITabBarItem(title: "account", image: accountImage, selectedImage: accountHLImage)
-        accountNavigationController.navigationBar.setBackgroundImage(UIImage(named: "navigationBar"), for: .default)
         accountNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         accountNavigationController.navigationBar.tintColor = UIColor.white
+        accountNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
         
         let rootTabBarController = GTMTabBarController()
         rootTabBarController.tabBar.tintColor = UIColor(hex: "#239BE7")

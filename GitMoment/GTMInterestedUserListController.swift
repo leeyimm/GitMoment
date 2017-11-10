@@ -47,7 +47,7 @@ class GTMInterestedUserListController: GTMRefreshableListViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.edgesForExtendedLayout = []
         switch self.interestedType! {
         case .follower:
             self.navigationItem.title = "Followers"
