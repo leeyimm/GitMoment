@@ -8,9 +8,9 @@
 
 import UIKit
 
-class GTMAccountViewController: UIViewController {
+class GTMAccountViewController: GTMBaseViewController {
     
-    var contentView = UIScrollView()
+    var scrollView = UIScrollView()
     var loginButton = UIButton(type: .system)
     var userHeaderView : GTMUserHeaderView!
     var userInfoTableView = UITableView()
@@ -39,30 +39,30 @@ class GTMAccountViewController: UIViewController {
             make.center.equalTo(self.view)
         }
         
-        self.view.addSubview(contentView)
-        contentView.backgroundColor = UIColor(hex: "#f5f5f5")
-        contentView.snp.makeConstraints { (make) in
+        self.contentView.addSubview(scrollView)
+        scrollView.backgroundColor = UIColor(hex: "#f5f5f5")
+        scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
         }
         
-        self.contentView.isHidden = true
+        self.scrollView.isHidden = true
         
         self.userInfoTableView.register(GTMInfoCell.self, forCellReuseIdentifier: userInfoCellIdentifier)
         self.userInfoTableView.dataSource = self
         self.userInfoTableView.delegate = self
         self.userInfoTableView.separatorStyle = .none
-        self.contentView.addSubview(userHeaderView)
-        self.contentView.addSubview(userInfoTableView)
-        self.contentView.addSubview(logoutButton)
+        self.scrollView.addSubview(userHeaderView)
+        self.scrollView.addSubview(userInfoTableView)
+        self.scrollView.addSubview(logoutButton)
         
         userHeaderView.snp.makeConstraints { (make) in
-            make.top.centerX.equalTo(self.contentView)
+            make.top.centerX.equalTo(self.scrollView)
             make.width.equalTo(UIScreen.main.bounds.width)
         }
         
         userInfoTableView.snp.makeConstraints { (make) in
             make.top.equalTo(userHeaderView.snp.bottom)
-            make.centerX.equalTo(self.contentView)
+            make.centerX.equalTo(self.scrollView)
             make.width.equalTo(userHeaderView)
             make.height.equalTo(8 * userInfoCellHeight + 15 * 2)
         }
@@ -71,9 +71,9 @@ class GTMAccountViewController: UIViewController {
         logoutButton.setBorder(width: 1, color: UIColor.red, cornerRadius: 3)
         logoutButton.snp.makeConstraints { (make) in
             make.top.equalTo(userInfoTableView.snp.bottom).offset(25)
-            make.centerX.equalTo(self.contentView)
-            make.width.equalTo(self.contentView).offset(-40)
-            make.bottom.equalTo(self.contentView).offset(-30)
+            make.centerX.equalTo(self.scrollView)
+            make.width.equalTo(self.scrollView).offset(-40)
+            make.bottom.equalTo(self.scrollView).offset(-30)
         }
         if GTMAPIManager.sharedInstance.hasOAuthToken() {
             self.loginSuccess()
@@ -100,7 +100,7 @@ class GTMAccountViewController: UIViewController {
     }
     
     func loginSuccess() {
-        self.contentView.isHidden = false
+        self.scrollView.isHidden = false
         self.loginButton.isHidden = true
         GTMAPIManager.sharedInstance.fetchUserInfo(username: nil) { (result) in
             guard result.error == nil else {
@@ -116,7 +116,7 @@ class GTMAccountViewController: UIViewController {
     
     @objc func logoutButtonTapped() {
         GTMAPIManager.sharedInstance.OAuthToken = nil
-        self.contentView.isHidden = true
+        self.scrollView.isHidden = true
         self.loginButton.isHidden = false
     }
 

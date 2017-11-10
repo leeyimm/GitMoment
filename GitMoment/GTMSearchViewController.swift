@@ -9,7 +9,7 @@
 import UIKit
 
 
-class GTMSearchViewController: UIViewController {
+class GTMSearchViewController: GTMBaseViewController {
     
     var scrollView = UIScrollView()
     var searchUserViewController = GTMSearchUserViewController()
@@ -18,8 +18,10 @@ class GTMSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.edgesForExtendedLayout = []
-        
+        self.edgesForExtendedLayout = []
+        if #available(iOS 11, *) {
+            self.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         let titleControlFrame = CGRect(x: 0, y: 0, width: 192.0 / 375.0 * UIScreen.main.bounds.width, height: 25)
         self.titleControl = GTMNavigationBarSwitchControl(frame: titleControlFrame, leftTitle: "User", rightTitle: "Repo")
         self.navigationItem.titleView = self.titleControl
@@ -42,7 +44,7 @@ class GTMSearchViewController: UIViewController {
     }
     
     func setupView() {
-        self.view.addSubview(self.scrollView)
+        self.contentView.addSubview(self.scrollView)
         self.scrollView.delegate = self
         self.scrollView.addSubview(self.searchUserViewController.view)
         self.scrollView.addSubview(self.searchRepoViewController.view)
@@ -52,7 +54,7 @@ class GTMSearchViewController: UIViewController {
         //self.scrollView.contentSize = CGSize(width: 2 * UIScreen.main.bounds.width, height: 455)
         
         self.scrollView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(self.contentView)
         }
         
         self.searchUserViewController.view.snp.makeConstraints { (make) in

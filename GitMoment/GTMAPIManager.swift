@@ -294,6 +294,7 @@ class GTMAPIManager {
     
     func searchUsers(searchString: String, sort: String?, page: Int, completionHandler: @escaping (Result<([GTMUser], Int)>) -> Void) {
         var params = [String: Any] ()
+        params["page"] = "\(page)"
         params["q"] = searchString
         if let sort = sort {
             params["sort"] = sort
@@ -318,6 +319,7 @@ class GTMAPIManager {
     
     func searchRepos(searchString: String, sort: String?, page: Int, completionHandler: @escaping (Result<([GTMRepository], Int)>) -> Void) {
         var params = [String: Any] ()
+        params["page"] = "\(page)"
         params["q"] = searchString
         if let sort = sort {
             params["sort"] = sort

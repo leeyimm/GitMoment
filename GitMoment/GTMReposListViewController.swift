@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GTMReposListViewController: UIViewController{
+class GTMReposListViewController: GTMBaseViewController{
     
     var scrollView = UIScrollView()
     var trendingReposListController = GTMTrendingRepoListController()
@@ -17,7 +17,10 @@ class GTMReposListViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.edgesForExtendedLayout = []
+        self.edgesForExtendedLayout = []
+        if #available(iOS 11, *) {
+            self.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Language", style: .plain, target: self, action: #selector(changeLanguage))
         
@@ -44,7 +47,7 @@ class GTMReposListViewController: UIViewController{
     }
     
     func setupView() {
-        self.view.addSubview(self.scrollView)
+        self.contentView.addSubview(self.scrollView)
         self.scrollView.delegate = self
         self.scrollView.addSubview(self.trendingReposListController.view)
         self.scrollView.addSubview(self.populerReposListController.view)

@@ -31,7 +31,7 @@ class GTMUserRankingListController: GTMRefreshableListViewController, GTMLocatio
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.navigationItem.title = "Popular"
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Language", style: .plain, target: self, action: #selector(changeLanguage))

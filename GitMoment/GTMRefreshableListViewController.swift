@@ -30,6 +30,7 @@ class GTMRefreshableListViewController: GTMBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.edgesForExtendedLayout = []
         self.contentView.addSubview(self.tableView)
         if #available(iOS 11, *) {
             self.tableView.contentInsetAdjustmentBehavior = .never

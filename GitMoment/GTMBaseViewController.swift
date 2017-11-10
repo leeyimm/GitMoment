@@ -83,7 +83,6 @@ class GTMBaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.extendedLayoutIncludesOpaqueBars = true
-
         self.contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
 //            if #available(iOS 11.0, *) {
