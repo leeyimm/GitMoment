@@ -57,6 +57,7 @@
 		B295E5DA1FA9502300DD3884 /* mobile-github.css in Resources */ = {isa = PBXBuildFile; fileRef = B295E5D91FA9502300DD3884 /* mobile-github.css */; };
 		B295E5DC1FA95DEF00DD3884 /* GTMFileListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */; };
 		B295E5DE1FA95ED600DD3884 /* GTMFileInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B295E5DD1FA95ED600DD3884 /* GTMFileInfoCell.swift */; };
+		B29C5E851FB65EC2005CB09B /* GTMRepoTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29C5E841FB65EC2005CB09B /* GTMRepoTagsView.swift */; };
 		B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29C8E3C1F6E209800CC84C8 /* GTMLanguageChosenController.swift */; };
 		B2AF00771FA6858F00D319EA /* GTMBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */; };
 		B2BC2B261FB212C0001D98C1 /* GTMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BC2B251FB212BF001D98C1 /* GTMEvent.swift */; };
@@ -137,6 +138,7 @@
 		B295E5D91FA9502300DD3884 /* mobile-github.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "mobile-github.css"; sourceTree = "<group>"; };
 		B295E5DB1FA95DEF00DD3884 /* GTMFileListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMFileListViewController.swift; sourceTree = "<group>"; };
 		B295E5DD1FA95ED600DD3884 /* GTMFileInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMFileInfoCell.swift; sourceTree = "<group>"; };
+		B29C5E841FB65EC2005CB09B /* GTMRepoTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMRepoTagsView.swift; sourceTree = "<group>"; };
 		B29C8E3C1F6E209800CC84C8 /* GTMLanguageChosenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMLanguageChosenController.swift; sourceTree = "<group>"; };
 		B2AF00761FA6858F00D319EA /* GTMBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GTMBaseViewController.swift; sourceTree = "<group>"; };
 		B2BC2B251FB212BF001D98C1 /* GTMEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTMEvent.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				B245B7491FA0E59900C103E2 /* GTMTableViewCell.swift */,
 				B23B6CE81FAA6F7600F2AE55 /* GTMIssueSummaryCell.swift */,
 				B26069DB1FA53CF200EC6936 /* GTMRepoInfoView.swift */,
+				B29C5E841FB65EC2005CB09B /* GTMRepoTagsView.swift */,
 				B245B74D1FA13D7600C103E2 /* GTMLanguageReposCell.swift */,
 				B25383451FA4158700B2AAB3 /* GTMNavigationBarSwitchControl.swift */,
 				B262D2EC1FABF4220039DA3B /* GTMCommentCell.swift */,
@@ -473,6 +476,7 @@
 				B2CFA8251FAF8467005C0571 /* GTMUpdatedFileListController.swift in Sources */,
 				B202582B1FA0247E00C0CDCA /* GTMUserReposListController.swift in Sources */,
 				B245B74C1FA0F97E00C103E2 /* GTMUserDetailViewController.swift in Sources */,
+				B29C5E851FB65EC2005CB09B /* GTMRepoTagsView.swift in Sources */,
 				B250D4FA1F3D025D005CD076 /* GTMTrendingRepoListController.swift in Sources */,
 				B29C8E3D1F6E209800CC84C8 /* GTMLanguageChosenController.swift in Sources */,
 				B262D2ED1FABF4220039DA3B /* GTMCommentCell.swift in Sources */,

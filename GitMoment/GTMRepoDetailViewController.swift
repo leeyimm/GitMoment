@@ -77,7 +77,7 @@ class GTMRepoDetailViewController: GTMBaseViewController {
                 return
             }
             let topic = result.value!
-            self.repoInfoView.topicsView.setTopics(topics: topic)
+            self.repoInfoView.topicsView.setTags(tags: topic)
         }
         
         GTMAPIManager.sharedInstance.fetchRepoLanguages(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!) { (result) in
@@ -89,7 +89,7 @@ class GTMRepoDetailViewController: GTMBaseViewController {
             for (language, number) in languagesDict {
                 languages.append(language)
             }
-            self.repoInfoView.languagesView.setTopics(topics: languages)
+            self.repoInfoView.languagesView.setTags(tags: languages)
         }
         
         // Do any additional setup after loading the view.

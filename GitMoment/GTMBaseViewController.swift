@@ -82,23 +82,12 @@ class GTMBaseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.extendedLayoutIncludesOpaqueBars = true
         self.contentView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
-//            if #available(iOS 11.0, *) {
-//                make.edges.equalTo(self.view.safeAreaInsets)
-//            } else {
-//                make.edges.equalTo(self.view)
-//            }
         }
         self.backgroundView.backgroundColor = UIColor(hex: "#f5f5f5")
         self.backgroundView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view)
-//            if #available(iOS 11.0, *) {
-//                make.edges.equalTo(self.view.safeAreaInsets)
-//            } else {
-//                make.edges.equalTo(self.view)
-//            }
         }
         // Do any additional setup after loading the view.
     }
@@ -162,15 +151,5 @@ class GTMBaseViewController: UIViewController {
         }
         self.showToast(text: error.descripiton)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
