@@ -35,7 +35,10 @@ class GTMUserDetailViewController: GTMBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.edgesForExtendedLayout = .top
+        self.edgesForExtendedLayout = []
+        if #available(iOS 11, *) {
+            self.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         self.navigationItem.title = "Profile"
         
         self.contentView.addSubview(scrollView)

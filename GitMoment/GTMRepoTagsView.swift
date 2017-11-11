@@ -57,6 +57,7 @@ class GTMRepoTagsView : GTMRepoInfoBaseView {
             make.height.equalTo(0)
             make.width.equalTo(UIScreen.main.bounds.width - 30)
         }
+        self.bringSubview(toFront: self.titleLabel)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

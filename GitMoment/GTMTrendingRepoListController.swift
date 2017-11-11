@@ -98,8 +98,9 @@ class GTMTrendingRepoListController: GTMBaseViewController{
             
             self.repos = result.value!
             if self.repos.count == 0 {
-                self.showNocontentViewWith(title: "No items")
+                self.showNocontentViewWith(title: "No items", onView: self.tableView)
             } else {
+                self.dismisNocontentView()
                 self.tableView.reloadData()
             }
             

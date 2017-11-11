@@ -31,7 +31,10 @@ class GTMRepoDetailViewController: GTMBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.edgesForExtendedLayout = []
+        self.edgesForExtendedLayout = []
+        if #available(iOS 11, *) {
+            self.scrollView.contentInsetAdjustmentBehavior = .never
+        }
         self.navigationItem.title = self.repo.name!
         
         self.contentView.addSubview(self.scrollView)
@@ -71,6 +74,7 @@ class GTMRepoDetailViewController: GTMBaseViewController {
             make.height.equalTo(45 * 6)
             make.bottom.equalTo(self.scrollView).offset(-15)
         }
+        self.infoTableView.isScrollEnabled = false
         
         GTMAPIManager.sharedInstance.fetchRepoTopics(ownername: (self.repo.owner?.login)!, reponame: self.repo.name!) { (result) in
             guard result.error == nil else {

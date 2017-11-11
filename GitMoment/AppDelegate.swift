@@ -26,7 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         reposListNavigationController.tabBarItem = UITabBarItem(title: "repo", image: repoImage, selectedImage: repoHLImage)
         reposListNavigationController.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         reposListNavigationController.navigationBar.tintColor = UIColor.white
-        reposListNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
+        //reposListNavigationController.navigationBar.barTintColor = UIColor(hex: "#239BE7")
+        reposListNavigationController.navigationBar.setBackgroundImage(UIImage(named: "navigationBar"), for: .default)
         
         let userRankingController = GTMUserRankingListController()
         let userRankingNavigationController = GTMNavigationController(rootViewController: userRankingController)

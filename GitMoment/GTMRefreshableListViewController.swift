@@ -48,8 +48,9 @@ class GTMRefreshableListViewController: GTMBaseViewController {
         self.page = page
         if page == 1 {
             if fetchedList.count == 0 {
-                self.showNocontentViewWith(title: "No items")
+                self.showNocontentViewWith(title: "No items", onView: self.tableView)
             } else {
+                self.dismisNocontentView()
                 list = fetchedList
                 if fetchedList.count < expectedPageCount {
                     self.tableView.mj_footer.removeFromSuperview()

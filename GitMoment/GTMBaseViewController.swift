@@ -86,9 +86,6 @@ class GTMBaseViewController: UIViewController {
             make.edges.equalTo(self.view)
         }
         self.backgroundView.backgroundColor = UIColor(hex: "#f5f5f5")
-        self.backgroundView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self.view)
-        }
         // Do any additional setup after loading the view.
     }
 
@@ -115,16 +112,27 @@ class GTMBaseViewController: UIViewController {
         }
     }
     
-    func showNocontentViewWith(title: String) {
+    func showNocontentViewWith(title: String, onView: UIView) {
         self.backgroundView.isHidden = false
         if let errorView = self.errorView {
             errorView.removeFromSuperview()
         }
+        self.backgroundView.snp.makeConstraints { (make) in
+            make.edges.equalTo(onView)
+        }
+        self.view.bringSubview(toFront: self.backgroundView)
         self.errorView = GTMErrorView(type: .nocontent)
         self.backgroundView.addSubview(self.errorView!)
         self.errorView!.snp.makeConstraints { (make) in
             make.center.equalTo(self.backgroundView)
         }
+    }
+    
+    func dismisNocontentView() {
+        self.backgroundView.snp.removeConstraints()
+        self.errorView?.removeFromSuperview()
+        self.errorView = nil
+        self.backgroundView.isHidden = true
     }
     
     func showLoadingIndicator(toView: UIView) {
