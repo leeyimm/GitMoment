@@ -45,6 +45,7 @@ class GTMFollowButton: UIButton {
     init(followingType: GTMFollowingType) {
         self.followingType = followingType
         super.init(frame: CGRect.zero)
+        self.backgroundColor = UIColor.white
         self.setTitleColor(UIColor(hex: "#42a5f5"), for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         self.setBorder(width: 1, color: UIColor(hex: "#42a5f5"), cornerRadius: 2)

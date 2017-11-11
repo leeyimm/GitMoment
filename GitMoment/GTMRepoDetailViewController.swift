@@ -15,6 +15,8 @@ class GTMRepoDetailViewController: GTMBaseViewController {
     var threeButtonView : GTMThreeButtonView!
     var repoInfoView : GTMRepoInfoView!
     //var readmeView : GTMRepoReadMeView!
+    let watchButton = GTMFollowButton(followingType: .watching)
+    let starButton = GTMFollowButton(followingType: .starring)
     
     var infoTableView = UITableView()
     var infoCellHeight = 45.0
@@ -61,6 +63,22 @@ class GTMRepoDetailViewController: GTMBaseViewController {
             make.left.equalTo(self.scrollView)
             make.width.equalTo(self.scrollView)
         }
+        self.scrollView.addSubview(self.watchButton)
+        self.watchButton.addTarget(self, action: #selector(followButtonTapped(sender:)), for: .touchUpInside)
+        self.watchButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.repoInfoView.snp.bottom).offset(8)
+            make.width.equalTo(self.contentView).dividedBy(4)
+            make.height.equalTo(30)
+            make.left.equalTo(self.scrollView).offset(self.view.frame.width / 8)
+        }
+        
+        self.scrollView.addSubview(self.starButton)
+        self.starButton.addTarget(self, action: #selector(followButtonTapped(sender:)), for: .touchUpInside)
+        self.starButton.snp.makeConstraints { (make) in
+            make.size.equalTo(self.watchButton)
+            make.centerY.equalTo(self.watchButton)
+            make.left.equalTo(self.watchButton.snp.right).offset(self.view.frame.width / 4)
+        }
         
         self.scrollView.addSubview(self.infoTableView)
         self.infoTableView.register(GTMInfoCell.self, forCellReuseIdentifier: infoCellIdentifier)
@@ -70,7 +88,7 @@ class GTMRepoDetailViewController: GTMBaseViewController {
         self.infoTableView.snp.makeConstraints { (make) in
             make.width.equalTo(self.scrollView)
             make.left.equalTo(self.scrollView)
-            make.top.equalTo(self.repoInfoView.snp.bottom).offset(8)
+            make.top.equalTo(self.watchButton.snp.bottom).offset(8)
             make.height.equalTo(45 * 6)
             make.bottom.equalTo(self.scrollView).offset(-15)
         }
@@ -96,6 +114,28 @@ class GTMRepoDetailViewController: GTMBaseViewController {
             self.repoInfoView.languagesView.setTags(tags: languages)
         }
         
+        GTMAPIManager.sharedInstance.checkFollowing(type: .watching, username: (self.repo.owner?.login)!, reponame: self.repo.name, completionHandler: { (result) in
+            if let status = result {
+                if status {
+                    self.watchButton.type = .unfollow
+                } else {
+                    self.watchButton.type = .follow
+                }
+                self.watchButton.isHidden = false
+            }
+        })
+        
+        GTMAPIManager.sharedInstance.checkFollowing(type: .starring, username: (self.repo.owner?.login)!, reponame: self.repo.name, completionHandler: { (result) in
+            if let status = result {
+                if status {
+                    self.starButton.type = .unfollow
+                } else {
+                    self.starButton.type = .follow
+                }
+                self.starButton.isHidden = false
+            }
+        })
+        
         // Do any additional setup after loading the view.
     }
     
@@ -109,7 +149,23 @@ class GTMRepoDetailViewController: GTMBaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    @objc func followButtonTapped(sender: UIButton) {
+        if let button = sender as? GTMFollowButton {
+            button.startLoading()
+            GTMAPIManager.sharedInstance.performFollowing(followingType: button.followingType, type: button.type, username: (self.repo.owner?.login)!, reponame: self.repo.name, completionHandler: { (result) in
+                button.stopLoading()
+                if result != nil {
+                    switch button.type {
+                    case .follow:
+                        button.type = .unfollow
+                    case .unfollow:
+                        button.type = .follow
+                    }
+                    button.isHidden = false
+                }
+            })
+        }
+    }
     
 
     /*

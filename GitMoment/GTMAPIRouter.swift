@@ -118,7 +118,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/starred")
                 }
             case .starRepo(let username, let repo), .unstarRepo(let username, let repo), .checkStarred(let username, let repo):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/starred/" + username + repo)
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/starred/" + username + "/" + repo)
             case .getUserWatchingRepos(let username):
                 if let name = username {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("users/" + name + "/subscriptions")
@@ -126,7 +126,7 @@ enum GTMAPIRouter: URLRequestConvertible {
                     urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/subscriptions")
                 }
             case .watchRepo(let username, let repo), .unwatchRepo(let username, let repo), .checkWatching(let username, let repo):
-                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/subscriptions/" + username + repo)
+                urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/subscriptions/" + username + "/" + repo)
             case .followUser(let username), .unfollowUser(let username):
                 urlString = GTMAPIRouter.gitHubAPIBaseURLString.appending("user/following/" + username)
             case  .checkFollowing(let username):

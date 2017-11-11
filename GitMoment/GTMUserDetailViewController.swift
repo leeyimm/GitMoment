@@ -51,6 +51,7 @@ class GTMUserDetailViewController: GTMBaseViewController {
         self.userInfoTableView.register(GTMLanguageReposCell.self, forCellReuseIdentifier: userLanguageReposCellIdentifier)
         self.userInfoTableView.dataSource = self
         self.userInfoTableView.delegate = self
+        self.userInfoTableView.isScrollEnabled = false
         self.scrollView.addSubview(userHeaderView)
         self.scrollView.addSubview(userInfoTableView)
         
