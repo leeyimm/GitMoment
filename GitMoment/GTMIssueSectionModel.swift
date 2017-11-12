@@ -41,7 +41,7 @@ class GTMBaseSectionModel:NSObject, GTMSectionModel {
             return try? self.htmlDocument.html()
         }
         do {
-            let bodyString = fromBody ?? "## *No content*"
+            let bodyString = (fromBody ?? "") == "" ? "## *No content*" : (fromBody ?? "") 
             let htmlString = try MMMarkdown.htmlString(withMarkdown: bodyString, extensions: [.gitHubFlavored])
             
             self.htmlDocument = try SwiftSoup.parse(htmlString)
