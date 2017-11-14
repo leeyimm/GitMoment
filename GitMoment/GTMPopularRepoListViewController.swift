@@ -28,6 +28,8 @@ class GTMPopularRepoListViewController: GTMRefreshableListViewController {
         super.viewDidLoad()
         
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = GTMRepoCell.estimatedHeight
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -110,10 +112,6 @@ extension GTMPopularRepoListViewController : UITableViewDataSource {
 }
 
 extension GTMPopularRepoListViewController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let repo = self.repos[indexPath.row]
-        return repo.heightForCell
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let repo = self.repos[indexPath.row]

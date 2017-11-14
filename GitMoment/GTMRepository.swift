@@ -33,22 +33,6 @@ class GTMRepository : Mappable {
     var score : Double?
     var source : GTMRepository?
     
-    var heightForCell : CGFloat {
-        get {
-            if let desc = description {
-                let descString = (desc as NSString)
-                let width = descString.boundingRect(with: CGSize(width:2000, height :20), options: [], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)], context: nil).width
-                if width > UIScreen.main.bounds.width - 20 {
-                    return GTMRepoCell.height + 10
-                } else {
-                    return GTMRepoCell.height
-                }
-            } else {
-                return GTMRepoCell.height - 15
-            }
-        }
-    }
-    
     required init?(map: Map) {
         
     }

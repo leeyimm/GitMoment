@@ -11,7 +11,7 @@ import OcticonsSwift
 import SnapKit
 
 class GTMRepoCell: GTMTableViewCell {
-    static let height : CGFloat = 90
+    static let estimatedHeight : CGFloat = 90
     
     var titleLabel : UILabel = UILabel(boldFontSize: 18, textColor: UIColor(hex: "#0d47a1"), backgroundColor: UIColor.clear)
     var descritionLabel : UILabel = UILabel(fontSize: 14)
@@ -55,11 +55,13 @@ class GTMRepoCell: GTMTableViewCell {
         self.titleLabel.snp.makeConstraints { (make) in
             make.bottom.equalTo(self.descritionLabel.snp.top).offset(-8)
             make.left.equalTo(self.contentView).offset(10)
+            make.top.equalTo(self.contentView).offset(8)
         }
         
         self.ownerIcon.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView).offset(10)
             make.top.equalTo(self.descritionLabel.snp.bottom).offset(8)
+            make.bottom.equalTo(self.contentView).offset(-8)
         }
         
         self.ownerLabel.snp.makeConstraints { (make) in

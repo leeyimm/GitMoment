@@ -50,6 +50,8 @@ class GTMUserReposListController: GTMRefreshableListViewController {
         self.navigationItem.title = self.username ?? "Repos"
         
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: repoCellIdentifier)
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = GTMRepoCell.estimatedHeight
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -144,10 +146,6 @@ extension GTMUserReposListController : UITableViewDataSource {
 }
 
 extension GTMUserReposListController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let repo = self.repos[indexPath.row]
-        return repo.heightForCell
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let repo = self.repos[indexPath.row]

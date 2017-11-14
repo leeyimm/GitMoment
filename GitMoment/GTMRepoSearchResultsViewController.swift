@@ -31,6 +31,8 @@ class GTMRepoSearchResultsViewController: GTMRefreshableListViewController {
         super.viewDidLoad()
         
         self.tableView.register(GTMRepoCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = GTMRepoCell.estimatedHeight
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -99,18 +101,12 @@ extension GTMRepoSearchResultsViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath) as! GTMRepoCell
         let repo = self.repos[indexPath.row]
-        cell.titleLabel.text = repo.name
-        cell.descritionLabel.text = repo.description
-        cell.ownerLabel.text = repo.owner?.login
+        cell.updateUIWithRepo(repo: repo)
         return cell
     }
 }
 
 extension GTMRepoSearchResultsViewController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let repo = self.repos[indexPath.row]
-        return repo.heightForCell
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let repo = self.repos[indexPath.row]
